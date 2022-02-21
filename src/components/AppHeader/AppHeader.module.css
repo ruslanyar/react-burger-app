@@ -1,0 +1,24 @@
+.header {
+	position: relative;
+}
+
+.logo {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.list {
+	display: flex;
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.link {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	color: inherit;
+}
