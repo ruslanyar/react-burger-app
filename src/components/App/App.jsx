@@ -1,5 +1,6 @@
 import React from 'react';
 import AppHeader from '../app-header/AppHeader';
+import BurgerIngredients from '../burger-ingredients/BurgerIngredients';
 
 const App = () => {
 
@@ -7,7 +8,7 @@ const App = () => {
 		<>
 			<AppHeader />
 			<main>
-				
+				<BurgerIngredients />
 			</main>
 		</>
 	)
