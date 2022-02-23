@@ -1,5 +1,9 @@
 .header {
-	position: relative;
+	width: 100%;
+}
+
+.menu {
+	width: 100%;
 }
 
 .logo {
@@ -11,6 +15,7 @@
 
 .list {
 	display: flex;
+	align-items: center;
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
