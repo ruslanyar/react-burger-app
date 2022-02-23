@@ -1,10 +1,11 @@
 import React from 'react';
+import listItemStyles from './MenuListItem.module.css';
 
-const MenuListItem = ({className, ...props}) => {
+const MenuListItem = (props) => {
 
 	return (
-		<li>
-			<a href={props.link} className={className.link}>
+		<li className={`${listItemStyles['list-item']} ${props.spacing}`}>
+			<a href={props.link} className={listItemStyles.link}>
 				{props.children}
 			</a>
 		</li>

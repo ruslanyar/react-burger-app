@@ -14,20 +14,32 @@ const AppHeader = () => {
 		<header className={headerStyles.header}>
 			<nav className={headerStyles.menu}>
 				<ul className={headerStyles.list}>
-					<MenuListItem className={headerStyles} link='#'>
+					<MenuListItem
+						spacing='mt-4 mb-4 mr-2 pt-4 pb-4 pl-5 pr-5'
+						link='#'
+					>
 						<BurgerIcon />
-						<p className='text text_type_main-default'>Конструктор</p>
+						<span className='text text_type_main-default ml-2'>Конструктор</span>
 					</MenuListItem>
-					<MenuListItem className={headerStyles} link='#'>
+					<MenuListItem
+						spacing='mt-4 mb-4 pt-4 pb-4 pl-5 pr-5'
+						link='#'
+					>
 						<ListIcon />
-						<p className='text text_type_main-default'>Лента заказов</p>
+						<span className='text text_type_main-default ml-2'>Лента заказов</span>
 					</MenuListItem>
-					<MenuListItem className={headerStyles} link='#'>
+					<MenuListItem
+						spacing=''
+						link='#'
+					>
 						<Logo />
 					</MenuListItem>
-					<MenuListItem className={headerStyles} link='#'>
+					<MenuListItem
+						spacing='mt-4 mb-4 pt-4 pb-4 pl-5 pr-5'
+						link='#'
+					>
 						<ProfileIcon />
-						<p className='text text_type_main-default'>Личный кабинет</p>
+						<span className='text text_type_main-default ml-2'>Личный кабинет</span>
 					</MenuListItem>
 				</ul>
 			</nav>
