@@ -1,0 +1,12 @@
+.item {
+	width: 272px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.currency {
+	display: flex;
+	align-items: center;
+}
