@@ -15,27 +15,27 @@ const BurgerIngredients = () => {
 	return (
 		<section className='pt-10'>
 			<h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
-			<div className={ingredientsStyles.tabs}>
+			<div className={`${ingredientsStyles.tabs} mb-10`}>
 				<Tab value='buns' active={current === 'buns'} onClick={setCurrent}>Булки</Tab>
 				<Tab value='sauces' active={current === 'sauces'} onClick={setCurrent}>Соусы</Tab>
 				<Tab value='main' active={current === 'main'} onClick={setCurrent}>Начинки</Tab>
 			</div>
 			<div className={`${ingredientsStyles.ingredients} custom-scroll`}>
-				<section>
-					<h2 className='text text_type_main-medium' id='bun'>Булки</h2>
-					<div className={ingredientsStyles['ingredients-item']}>
+				<section className='mb-10'>
+					<h2 className='text text_type_main-medium mb-6' id='bun'>Булки</h2>
+					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
 						{makeIngredientsList(data, 'bun')}
 					</div>
 				</section>
-				<section>
-					<h2 className='text text_type_main-medium' id='sauce'>Соусы</h2>
-					<div className={ingredientsStyles['ingredients-item']}>
+				<section className='mb-10'>
+					<h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
+					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
 						{makeIngredientsList(data, 'sauce')}
 					</div>
 				</section>
-				<section>
-					<h2 className='text text_type_main-medium' id='main'>Начинки</h2>
-					<div className={ingredientsStyles['ingredients-item']}>
+				<section className='mb-10'>
+					<h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
+					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
 						{makeIngredientsList(data, 'main')}
 					</div>
 				</section>
