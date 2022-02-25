@@ -1,0 +1,11 @@
+.constructor {
+	width: 600px;
+}
+
+.list {
+	height: calc(100vh - (88px + 100px + 80px + 16px + 40px + 64px + 52px));
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	overflow-y: scroll;
+}

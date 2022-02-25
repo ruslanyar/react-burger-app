@@ -5,7 +5,7 @@ import itemStyles from './BurgerIngredientsItem.module.css';
 const BurgerIngredientsItem = ({ingredient}) => {
 
 	return (
-		<div className={`${itemStyles.item} mb-8`}>
+		<li className={`${itemStyles.item} mb-8`}>
 			<Counter count={1} size="default" />
 			<img src={ingredient.image} alt={ingredient.name} className='ml-4 mr-4 mb-1' />
 			<div className={`${itemStyles.currency} mb-1`}>
@@ -13,7 +13,7 @@ const BurgerIngredientsItem = ({ingredient}) => {
 				<CurrencyIcon />
 			</div>
 			<p className='text text_type_main-default'>{ingredient.name}</p>
-		</div>
+		</li>
 	)
 }
 

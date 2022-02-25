@@ -1,7 +1,6 @@
 import React from 'react';
 import ingredientsStyles from './BurgerIngredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import data from '../../utils/data.json';
 import BurgerIngredientsItem from '../burger-ingredients-item/BurgerIngredientsItem';
 
 const makeIngredientsList = (array, type) => {
@@ -9,7 +8,7 @@ const makeIngredientsList = (array, type) => {
 		<BurgerIngredientsItem key={item._id} ingredient={item} />)
 }
 
-const BurgerIngredients = () => {
+const BurgerIngredients = ({ingredients}) => {
 	const [current, setCurrent] = React.useState('buns');
 	
 	return (
@@ -23,21 +22,21 @@ const BurgerIngredients = () => {
 			<div className={`${ingredientsStyles.ingredients} custom-scroll`}>
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='bun'>Булки</h2>
-					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(data, 'bun')}
-					</div>
+					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
+						{makeIngredientsList(ingredients, 'bun')}
+					</ul>
 				</section>
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
-					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(data, 'sauce')}
-					</div>
+					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
+						{makeIngredientsList(ingredients, 'sauce')}
+					</ul>
 				</section>
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
-					<div className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(data, 'main')}
-					</div>
+					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
+						{makeIngredientsList(ingredients, 'main')}
+					</ul>
 				</section>
 			</div>
 		</section>
