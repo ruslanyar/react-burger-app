@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ingredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 
-const makeIngredientsList = (array, type) => {
-	return array.map(item => item.type === type &&
-		<BurgerIngredientsItem key={item._id} ingredient={item} />)
+import ingredientsStyles from './burger-ingredients.module.css';
+
+const makeIngredientsList = (array) => {
+	return array.map(item => <BurgerIngredientsItem key={item._id} ingredient={item} />)
 }
 
 const ingredientPropType = PropTypes.shape({
@@ -26,6 +27,10 @@ const ingredientPropType = PropTypes.shape({
 
 const BurgerIngredients = ({ingredients}) => {
 	const [current, setCurrent] = React.useState('buns');
+
+	const buns = ingredients.filter(item => item.type === 'bun');
+	const sauces = ingredients.filter(item => item.type === 'sauce');
+	const main = ingredients.filter(item => item.type === 'main');
 	
 	return (
 		<section className='pt-10'>
@@ -39,19 +44,19 @@ const BurgerIngredients = ({ingredients}) => {
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='bun'>Булки</h2>
 					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(ingredients, 'bun')}
+						{makeIngredientsList(buns)}
 					</ul>
 				</section>
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
 					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(ingredients, 'sauce')}
+						{makeIngredientsList(sauces)}
 					</ul>
 				</section>
 				<section className='mb-10'>
 					<h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
 					<ul className={`${ingredientsStyles['ingredients-item']} pl-4 pr-4`}>
-						{makeIngredientsList(ingredients, 'main')}
+						{makeIngredientsList(main)}
 					</ul>
 				</section>
 			</div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import constructorStyles from './burger-constructor.module.css';
-import icon from '../../images/currency.svg';
 import { ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import icon from '../../images/currency.svg';
+import constructorStyles from './burger-constructor.module.css';
+
 const ingredientsList = (array) => {
-	return array.map(item => item.type !== 'bun' &&
-		(
+	return array.map(item => (
 			<li key={item._id} className={`${constructorStyles['list-item']} mb-4`}>
 				<DragIcon />
 				<ConstructorElement
@@ -35,6 +35,7 @@ const ingredientPropType = PropTypes.shape({
 });
 
 const BurgerConstructor = ({ingredients}) => {
+	const filteredIngredients = ingredients.filter(item => item.type !== 'bun');
 
 	return (
 		<section className={`${constructorStyles.constructor} pt-25`}>
@@ -48,7 +49,7 @@ const BurgerConstructor = ({ingredients}) => {
 				/>
 			</div>
 			<ul className={`${constructorStyles.list} mt-4 mb-4 custom-scroll`}>
-				{ingredientsList(ingredients)}
+				{ingredientsList(filteredIngredients)}
 			</ul>
 			<div className='ml-6 mb-10'>
 				<ConstructorElement

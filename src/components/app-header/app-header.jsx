@@ -1,12 +1,14 @@
 import React from 'react';
-import headerStyles from './app-header.module.css';
 import {
 	Logo,
 	BurgerIcon,
 	ListIcon,
 	ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
 import MenuListItem from '../menu-list-item/menu-list-item';
+
+import headerStyles from './app-header.module.css';
 
 const AppHeader = () => {
 
