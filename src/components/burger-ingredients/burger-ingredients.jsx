@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ingredientsStyles from './BurgerIngredients.module.css';
+import ingredientsStyles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import BurgerIngredientsItem from '../burger-ingredients-item/BurgerIngredientsItem';
+import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 
 const makeIngredientsList = (array, type) => {
 	return array.map(item => item.type === type &&

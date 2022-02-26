@@ -1,5 +1,5 @@
 import React from 'react';
-import listItemStyles from './MenuListItem.module.css';
+import listItemStyles from './menu-list-item.module.css';
 
 const MenuListItem = (props) => {
 

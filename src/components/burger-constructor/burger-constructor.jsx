@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import constructorStyles from './BurgerConstructor.module.css';
+import constructorStyles from './burger-constructor.module.css';
 import icon from '../../images/currency.svg';
-import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ingredientsList = (array) => {
 	return array.map(item => item.type !== 'bun' &&
