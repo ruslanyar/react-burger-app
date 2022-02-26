@@ -5,7 +5,7 @@ import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktiku
 const ingredientsList = (array) => {
 	return array.map(item => item.type !== 'bun' &&
 		(
-			<li>
+			<li key={item._id} className={`${constructorStyles['list-item']} mb-4`}>
 				<DragIcon />
 				<ConstructorElement
 					text={item.name}
@@ -21,26 +21,30 @@ const BurgerConstructor = ({ingredients}) => {
 
 	return (
 		<section className={`${constructorStyles.constructor} pt-25`}>
-			<ConstructorElement
-				type='top'
-				isLocked={true}
-				text={`${ingredients[0].name} (верх)`}
-				price={ingredients[0].price}
-				thumbnail={ingredients[0].image}
-			/>
-			<ul className={`${constructorStyles.list} custom-scroll`}>
+			<div className='ml-6'>
+				<ConstructorElement
+					type='top'
+					isLocked={true}
+					text={`${ingredients[0].name} (верх)`}
+					price={ingredients[0].price}
+					thumbnail={ingredients[0].image}
+				/>
+			</div>
+			<ul className={`${constructorStyles.list} mt-4 mb-4 custom-scroll`}>
 				{ingredientsList(ingredients)}
 			</ul>
-			<ConstructorElement
-				type='bottom'
-				isLocked={true}
-				text={`${ingredients[0].name} (низ)`}
-				price={ingredients[0].price}
-				thumbnail={ingredients[0].image}
-			/>
-			<div>
-				<div>
-					<span></span>
+			<div className='ml-6 mb-10'>
+				<ConstructorElement
+					type='bottom'
+					isLocked={true}
+					text={`${ingredients[0].name} (низ)`}
+					price={ingredients[0].price}
+					thumbnail={ingredients[0].image}
+				/>
+			</div>
+			<div className={`${constructorStyles.currency} mr-4`}>
+				<div className={`${constructorStyles.total} mr-10`}>
+					<span className='text text_type_digits-medium mr-2'>610</span>
 					<CurrencyIcon type="primary" />
 				</div>
 				<Button type="primary" size="large">Оформить заказ</Button>

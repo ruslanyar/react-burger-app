@@ -26,7 +26,7 @@ const AppHeader = () => {
 						link='#'
 					>
 						<ListIcon />
-						<span className='text text_type_main-default ml-2'>Лента заказов</span>
+						<span className='text text_type_main-default text_color_inactive ml-2'>Лента заказов</span>
 					</MenuListItem>
 					<MenuListItem
 						spacing=''
@@ -39,7 +39,7 @@ const AppHeader = () => {
 						link='#'
 					>
 						<ProfileIcon />
-						<span className='text text_type_main-default ml-2'>Личный кабинет</span>
+						<span className='text text_type_main-default text_color_inactive ml-2'>Личный кабинет</span>
 					</MenuListItem>
 				</ul>
 			</nav>
