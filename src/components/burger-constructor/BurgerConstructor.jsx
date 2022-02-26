@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import constructorStyles from './BurgerConstructor.module.css';
+import icon from '../../images/currency.svg';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const ingredientsList = (array) => {
@@ -14,8 +16,23 @@ const ingredientsList = (array) => {
 				/>
 			</li>
 		)
-	)
+	);
 }
+
+const ingredientPropType = PropTypes.shape({
+	_id: PropTypes.string.isRequired,
+	name: PropTypes.string.isRequired,
+	type: PropTypes.string.isRequired,
+	proteins: PropTypes.number,
+	fat: PropTypes.number,
+	carbonhydrates: PropTypes.number,
+	calories: PropTypes.number,
+	price: PropTypes.number,
+	image: PropTypes.string.isRequired,
+	image_mobile: PropTypes.string,
+	image_large: PropTypes.string,
+	__v: PropTypes.number
+});
 
 const BurgerConstructor = ({ingredients}) => {
 
@@ -45,12 +62,16 @@ const BurgerConstructor = ({ingredients}) => {
 			<div className={`${constructorStyles.currency} mr-4`}>
 				<div className={`${constructorStyles.total} mr-10`}>
 					<span className='text text_type_digits-medium mr-2'>610</span>
-					<CurrencyIcon type="primary" />
+					<img src={icon} alt="иконка цены" />
 				</div>
 				<Button type="primary" size="large">Оформить заказ</Button>
 			</div>
 		</section>
-	)
+	);
+}
+
+BurgerConstructor.propTypes = {
+	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
 }
 
 export default BurgerConstructor;
