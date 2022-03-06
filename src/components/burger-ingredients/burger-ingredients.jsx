@@ -6,17 +6,13 @@ import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients
 
 import ingredientsStyles from './burger-ingredients.module.css';
 
-const makeIngredientsList = (array) => {
-	return array.map(item => <BurgerIngredientsItem key={item._id} ingredient={item} />)
-}
-
 const ingredientPropType = PropTypes.shape({
 	_id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	type: PropTypes.string.isRequired,
 	proteins: PropTypes.number,
 	fat: PropTypes.number,
-	carbonhydrates: PropTypes.number,
+	carbohydrates: PropTypes.number,
 	calories: PropTypes.number,
 	price: PropTypes.number,
 	image: PropTypes.string.isRequired,
@@ -25,12 +21,20 @@ const ingredientPropType = PropTypes.shape({
 	__v: PropTypes.number
 });
 
-const BurgerIngredients = ({ingredients}) => {
+const BurgerIngredients = ({ingredients, openModal}) => {
 	const [current, setCurrent] = React.useState('buns');
 
 	const buns = ingredients.filter(item => item.type === 'bun');
 	const sauces = ingredients.filter(item => item.type === 'sauce');
 	const main = ingredients.filter(item => item.type === 'main');
+	const makeIngredientsList = (array) => {
+		return array.map(item => 
+			<BurgerIngredientsItem
+				key={item._id}
+				ingredient={item}
+				open={openModal}
+			/>);
+	}
 	
 	return (
 		<section className='pt-10'>

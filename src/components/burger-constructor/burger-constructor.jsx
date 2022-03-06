@@ -34,7 +34,7 @@ const ingredientPropType = PropTypes.shape({
 	__v: PropTypes.number
 });
 
-const BurgerConstructor = ({ingredients}) => {
+const BurgerConstructor = ({ingredients, openModal}) => {
 	const filteredIngredients = ingredients.filter(item => item.type !== 'bun');
 
 	return (
@@ -65,7 +65,9 @@ const BurgerConstructor = ({ingredients}) => {
 					<span className='text text_type_digits-medium mr-2'>610</span>
 					<img src={icon} alt="иконка цены" />
 				</div>
-				<Button type="primary" size="large">Оформить заказ</Button>
+				<div onClick={openModal}>
+					<Button type="primary" size="large">Оформить заказ</Button>
+				</div>
 			</div>
 		</section>
 	);
