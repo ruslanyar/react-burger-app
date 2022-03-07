@@ -1,5 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { ingredientPropType } from '../../utils/constants';
 
 import itemStyles from './burger-ingredients-item.module.css';
 
@@ -16,6 +19,11 @@ const BurgerIngredientsItem = ({ingredient, open}) => {
 			<p className='text text_type_main-default'>{ingredient.name}</p>
 		</li>
 	)
+}
+
+BurgerIngredientsItem.propTypes = {
+	ingredient: ingredientPropType.isRequired,
+	open: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredientsItem;

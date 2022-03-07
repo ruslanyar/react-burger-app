@@ -4,22 +4,9 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 
-import ingredientsStyles from './burger-ingredients.module.css';
+import { ingredientPropType } from '../../utils/constants';
 
-const ingredientPropType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
-	proteins: PropTypes.number,
-	fat: PropTypes.number,
-	carbohydrates: PropTypes.number,
-	calories: PropTypes.number,
-	price: PropTypes.number,
-	image: PropTypes.string.isRequired,
-	image_mobile: PropTypes.string,
-	image_large: PropTypes.string,
-	__v: PropTypes.number
-});
+import ingredientsStyles from './burger-ingredients.module.css';
 
 const BurgerIngredients = ({ingredients, openModal}) => {
 	const [current, setCurrent] = React.useState('buns');
@@ -69,7 +56,8 @@ const BurgerIngredients = ({ingredients, openModal}) => {
 }
 
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
+	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	openModal: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;
