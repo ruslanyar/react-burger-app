@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ConstructorElement, DragIcon, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { ingredientPropType } from '../../utils/constants';
 
-import icon from '../../images/currency.svg';
 import constructorStyles from './burger-constructor.module.css';
 
 const ingredientsList = (array) => {
@@ -49,8 +48,10 @@ const BurgerConstructor = ({ingredients, openModal}) => {
 			</div>
 			<div className={`${constructorStyles.currency} mr-4`}>
 				<div className={`${constructorStyles.total} mr-10`}>
-					<span className='text text_type_digits-medium mr-2'>610</span>
-					<img src={icon} alt="иконка цены" />
+					<span className='text text_type_digits-medium mr-4'>610</span>
+					<div className={constructorStyles.icon}>
+						<CurrencyIcon />
+					</div>
 				</div>
 				<div onClick={openModal}>
 					<Button type="primary" size="large">Оформить заказ</Button>

@@ -29,4 +29,11 @@
 	align-items: center;
 }
 
+.total {
+	display: flex;
+	align-items: center;
+}
 
+.icon {
+	transform: scale(1.5);
+}
