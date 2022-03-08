@@ -1,26 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-
-import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
+import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { ingredientPropType } from '../../utils/constants';
 
 import ingredientsStyles from './burger-ingredients.module.css';
 
 const BurgerIngredients = ({ingredients, openModal}) => {
+
 	const [current, setCurrent] = React.useState('buns');
 
 	const buns = ingredients.filter(item => item.type === 'bun');
 	const sauces = ingredients.filter(item => item.type === 'sauce');
 	const main = ingredients.filter(item => item.type === 'main');
+
 	const makeIngredientsList = (array) => {
-		return array.map(item => 
-			<BurgerIngredientsItem
-				key={item._id}
-				ingredient={item}
-				open={openModal}
-			/>);
+		return array.map(item => (
+			<li key={item._id} onClick={() => openModal(item)} className={`${ingredientsStyles.item} mb-8`}>
+				<Counter count={1} size="default" />
+				<img src={item.image} alt={item.name} className='ml-4 mr-4 mb-1' />
+				<div className={`${ingredientsStyles.currency} mb-1`}>
+					<span className='text text_type_digits-default mr-2'>{item.price}</span>
+					<CurrencyIcon />
+				</div>
+				<p className='text text_type_main-default'>{item.name}</p>
+			</li>
+		));
 	}
 	
 	return (
@@ -52,7 +57,7 @@ const BurgerIngredients = ({ingredients, openModal}) => {
 				</section>
 			</div>
 		</section>
-	)
+	);
 }
 
 BurgerIngredients.propTypes = {
