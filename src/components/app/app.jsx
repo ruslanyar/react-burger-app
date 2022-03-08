@@ -51,6 +51,7 @@ const App = () => {
 
 	const modalOrder = (
 		<Modal
+			title=''
 			closeModal={handleCloseModalOrder}
 		>
 			<OrderDetails />

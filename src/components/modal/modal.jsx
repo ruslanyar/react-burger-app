@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -35,6 +36,12 @@ const Modal = ({children, title, closeModal}) => {
 		),
 		document.querySelector('#modal')
 	);
+}
+
+Modal.propTypes = {
+	children: PropTypes.element,
+	title: PropTypes.string,
+	closeModal: PropTypes.func,
 }
 
 export default Modal;
