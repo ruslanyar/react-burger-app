@@ -15,7 +15,7 @@ const ModalOverlay = ({children, close}) => {
 		>
 			{children}
 		</div>
-	)
+	);
 }
 
 ModalOverlay.propTypes = {

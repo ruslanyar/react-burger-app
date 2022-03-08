@@ -40,7 +40,7 @@ const AppHeader = () => {
 				</ul>
 			</nav>
 		</header>
-	)
+	);
 }
 
 export default AppHeader;

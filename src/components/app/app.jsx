@@ -65,7 +65,7 @@ const App = () => {
 		>
 			<IngredientDetails ingredient={ingredient} />
 		</Modal>
-	)
+	);
 
 	return ingredientsData && (
 		<>

@@ -23,7 +23,7 @@ const OrderDetails = (props) => {
 				Дождитесь готовности на орбитальной станции
 			</p>
 		</div>
-	)
+	);
 }
 
 export default OrderDetails;

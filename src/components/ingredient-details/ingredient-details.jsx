@@ -27,7 +27,7 @@ const IngredientDetails = ({ingredient}) => {
 				</tbody>
 			</table>
 		</div>
-	)
+	);
 }
 
 IngredientDetails.propTypes = {
