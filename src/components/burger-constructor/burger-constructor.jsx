@@ -11,7 +11,7 @@ const BurgerConstructor = ({ingredients, openModal}) => {
 	const filteredIngredients = ingredients.filter(item => item.type !== 'bun');
 
 	return (
-		<section className={`${constructorStyles.constructor} pt-25`}>
+		<section className={`${constructorStyles.constructor} mb-10 pt-25`}>
 			<div className='ml-6'>
 				<ConstructorElement
 					type='top'

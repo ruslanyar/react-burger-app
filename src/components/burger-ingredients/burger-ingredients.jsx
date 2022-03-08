@@ -29,7 +29,7 @@ const BurgerIngredients = ({ingredients, openModal}) => {
 	}
 	
 	return (
-		<section className='pt-10'>
+		<section className='mb-10 pt-10'>
 			<h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
 			<div className={`${ingredientsStyles.tabs} mb-10`}>
 				<Tab value='buns' active={current === 'buns'} onClick={setCurrent}>Булки</Tab>
