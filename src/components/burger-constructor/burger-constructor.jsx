@@ -6,21 +6,8 @@ import { ingredientPropType } from '../../utils/constants';
 
 import constructorStyles from './burger-constructor.module.css';
 
-const ingredientsList = (array) => {
-	return array.map(item => (
-			<li key={item._id} className={`${constructorStyles['list-item']} mb-4`}>
-				<DragIcon />
-				<ConstructorElement
-					text={item.name}
-					price={item.price}
-					thumbnail={item.image}
-				/>
-			</li>
-		)
-	);
-}
-
 const BurgerConstructor = ({ingredients, openModal}) => {
+	
 	const filteredIngredients = ingredients.filter(item => item.type !== 'bun');
 
 	return (
@@ -35,7 +22,16 @@ const BurgerConstructor = ({ingredients, openModal}) => {
 				/>
 			</div>
 			<ul className={`${constructorStyles.list} mt-4 mb-4 custom-scroll`}>
-				{ingredientsList(filteredIngredients)}
+				{filteredIngredients.map(item => (
+					<li key={item._id} className={`${constructorStyles['list-item']} mb-4`}>
+						<DragIcon />
+						<ConstructorElement
+							text={item.name}
+							price={item.price}
+							thumbnail={item.image}
+						/>
+					</li>
+				))}
 			</ul>
 			<div className='ml-6 mb-10'>
 				<ConstructorElement
