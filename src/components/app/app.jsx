@@ -21,11 +21,18 @@ const App = () => {
 		const getIngredientsData = async () => {
 			try {
 				const res = await fetch(api);
-				const data = await res.json();
 
-				setIngredientsData(data.data);
+				if (res.ok) {
+					const data = await res.json();
+
+					setIngredientsData(data.data);
+
+					return;
+				}
+
+				await Promise.reject(res.status);
 			} catch (error) {
-				console.log(error);
+				console.log(`Ошибка ${error}`);
 			}
 		}
 
