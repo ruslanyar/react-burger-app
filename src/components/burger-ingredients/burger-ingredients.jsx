@@ -1,39 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
+import { ingredientPropType } from '../../utils/constants';
 
 import ingredientsStyles from './burger-ingredients.module.css';
 
-const makeIngredientsList = (array) => {
-	return array.map(item => <BurgerIngredientsItem key={item._id} ingredient={item} />)
-}
+const BurgerIngredients = ({ingredients, openModal}) => {
 
-const ingredientPropType = PropTypes.shape({
-	_id: PropTypes.string.isRequired,
-	name: PropTypes.string.isRequired,
-	type: PropTypes.string.isRequired,
-	proteins: PropTypes.number,
-	fat: PropTypes.number,
-	carbonhydrates: PropTypes.number,
-	calories: PropTypes.number,
-	price: PropTypes.number,
-	image: PropTypes.string.isRequired,
-	image_mobile: PropTypes.string,
-	image_large: PropTypes.string,
-	__v: PropTypes.number
-});
-
-const BurgerIngredients = ({ingredients}) => {
 	const [current, setCurrent] = React.useState('buns');
 
 	const buns = ingredients.filter(item => item.type === 'bun');
 	const sauces = ingredients.filter(item => item.type === 'sauce');
 	const main = ingredients.filter(item => item.type === 'main');
+
+	const makeIngredientsList = (array) => {
+		return array.map(item => (
+			<li key={item._id} onClick={() => openModal(item)} className={`${ingredientsStyles.item} mb-8`}>
+				<Counter count={1} size="default" />
+				<img src={item.image} alt={item.name} className='ml-4 mr-4 mb-1' />
+				<div className={`${ingredientsStyles.currency} mb-1`}>
+					<span className='text text_type_digits-default mr-2'>{item.price}</span>
+					<CurrencyIcon />
+				</div>
+				<p className='text text_type_main-default'>{item.name}</p>
+			</li>
+		));
+	}
 	
 	return (
-		<section className='pt-10'>
+		<section className='mb-10 pt-10'>
 			<h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
 			<div className={`${ingredientsStyles.tabs} mb-10`}>
 				<Tab value='buns' active={current === 'buns'} onClick={setCurrent}>Булки</Tab>
@@ -61,11 +57,12 @@ const BurgerIngredients = ({ingredients}) => {
 				</section>
 			</div>
 		</section>
-	)
+	);
 }
 
 BurgerIngredients.propTypes = {
-	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired
+	ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
+	openModal: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;

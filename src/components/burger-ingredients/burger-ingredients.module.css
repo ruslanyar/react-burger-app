@@ -4,7 +4,7 @@
 
 .ingredients {
 	width: 600px;
-	height: calc(100vh - (88px + 40px + 40px + 20px + 56px + 40px + 40px));
+	max-height: 650px;
 	overflow-y: scroll;
 }
 
@@ -12,6 +12,21 @@
 	display: -ms-grid;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
+	-ms-grid-columns: 1fr 1fr;
 	column-gap: 24px;
 	list-style-type: none;
+}
+
+.item {
+	width: 272px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-sizing: border-box;
+}
+
+.currency {
+	display: flex;
+	align-items: center;
 }
