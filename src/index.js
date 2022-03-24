@@ -6,8 +6,8 @@ import App from './components/app/app';
 import './index.css';
 
 ReactDOM.render(
-	(
-		<App />
-	),
-	document.querySelector('#root')
+  (
+    <App />
+  ),
+  document.querySelector('#root')
 );

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -7,90 +7,92 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
+import { IngredientsContextProvider } from '../../utils/ingredients-context';
+
 import { api } from '../../utils/constants';
 
 import appStyles from './app.module.css';
 
 const App = () => {
-	const [ingredientsData, setIngredientsData] = useState(null);
-	const [modalIngredientState, setModalIngredientState] = useState({visible: false});
-	const [modalOrderState, setModalOrderState] = useState({visible: false});
-	const [ingredient, setIngredient] = useState({});
+  const [modalIngredientState, setModalIngredientState] = useState({ visible: false });
+  const [modalOrderState, setModalOrderState] = useState({ visible: false });
+  const [ingredientModal, setIngredientModal] = useState({});
 
-	useEffect(() => {
-		const getIngredientsData = async () => {
-			try {
-				const res = await fetch(api);
+  const [ingredientsData, setIngredientsData] = useState(null);
 
-				if (res.ok) {
-					const data = await res.json();
+  useEffect(() => {
+    const getIngredientsData = async () => {
+      try {
+        const res = await fetch(api);
 
-					setIngredientsData(data.data);
+        if (res.ok) {
+          const data = await res.json();
 
-					return;
-				}
+          setIngredientsData(data.data);
 
-				await Promise.reject(res.status);
-			} catch (error) {
-				console.log(`Ошибка ${error}`);
-			}
-		}
+          return;
+        }
 
-		getIngredientsData();
-	}, []);
+        await Promise.reject(res.status);
+      } catch (error) {
+        console.log(`Ошибка ${error}`);
+      }
+    }
 
-	const handleOpenModalIngredient = (data) => {
-		setIngredient(data);
-		setModalIngredientState({visible: true});
-	}
+    getIngredientsData();
+  }, []);
 
-	const handleOpenModalOrder = () => {
-		setModalOrderState({visible: true});
-	}
+  const handleOpenModalIngredient = (data) => {
+    setIngredientModal(data);
+    setModalIngredientState({ visible: true });
+  }
 
-	const handleCloseModalIngredient = () => {
-		setModalIngredientState({visible: false});
-	}
+  const handleOpenModalOrder = () => {
+    setModalOrderState({ visible: true });
+  }
 
-	const handleCloseModalOrder = () => {
-		setModalOrderState({visible: false});
-	}
+  const handleCloseModalIngredient = () => {
+    setModalIngredientState({ visible: false });
+  }
 
-	const modalOrder = (
-		<Modal
-			title=''
-			closeModal={handleCloseModalOrder}
-		>
-			<OrderDetails />
-		</Modal>
-	);
+  const handleCloseModalOrder = () => {
+    setModalOrderState({ visible: false });
+  }
 
-	const modalIngredient = (
-		<Modal
-			title='Детали ингредиента'
-			closeModal={handleCloseModalIngredient}
-		>
-			<IngredientDetails ingredient={ingredient} />
-		</Modal>
-	);
+  const modalOrder = (
+    <Modal
+      title=''
+      closeModal={handleCloseModalOrder}
+    >
+      <OrderDetails />
+    </Modal>
+  );
 
-	return ingredientsData && (
-		<>
-			<AppHeader />
-			<main className={appStyles.main}>
-				<BurgerIngredients
-					ingredients={ingredientsData}
-					openModal={handleOpenModalIngredient}
-				/>
-				<BurgerConstructor
-					ingredients={ingredientsData}
-					openModal={handleOpenModalOrder}
-				/>
-			</main>
-			{modalIngredientState.visible && modalIngredient}
-			{modalOrderState.visible && modalOrder}
-		</>
-	)
+  const modalIngredient = (
+    <Modal
+      title='Детали ингредиента'
+      closeModal={handleCloseModalIngredient}
+    >
+      <IngredientDetails ingredient={ingredientModal} />
+    </Modal>
+  );
+
+  return ingredientsData && (
+    <IngredientsContextProvider ingredients={ingredientsData}>
+      <AppHeader />
+      <main className={appStyles.main}>
+        <BurgerIngredients
+          ingredients={ingredientsData}
+          openModal={handleOpenModalIngredient}
+        />
+        <BurgerConstructor
+          openModal={handleOpenModalOrder}
+        />
+      </main>
+      {modalIngredientState.visible && modalIngredient}
+      {modalOrderState.visible && modalOrder}
+    </IngredientsContextProvider>
+  )
 }
 
 export default App;
