@@ -87,7 +87,7 @@ const App = () => {
         />
         <BurgerConstructor
           openModal={handleOpenModalOrder}
-          orderDetails={setOrder}
+          setOrderDetails={setOrder}
         />
       </main>
       {modalIngredientState.visible && modalIngredient}

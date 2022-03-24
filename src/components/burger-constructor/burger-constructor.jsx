@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -7,10 +7,29 @@ import { orderFetch, checkResponse } from '../../utils/utils';
 
 import constructorStyles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ openModal, orderDetails }) => {
+const initialState = {
+  total: 0,
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+
+    case 'settotal':
+      return {
+        ...state,
+        total: action.payload
+      }
+
+    default:
+      throw new Error(`Неверный тип action: ${action.type}`);
+  }
+}
+
+const BurgerConstructor = ({ openModal, setOrderDetails }) => {
   const ingredients = useIngredients();
 
-  const [totalPrice, setTotalPrice] = useState(null);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
   const [bunIngredient, setBunIngredient] = useState(null);
   const [topingIngredients, setTopingIngredients] = useState(null);
   const [ingredientsIds, setingredientsIds] = useState(null);
@@ -27,19 +46,19 @@ const BurgerConstructor = ({ openModal, orderDetails }) => {
 
     setBunIngredient(bun);
     setTopingIngredients(topings);
-    setTotalPrice(total);
+    dispatch({ type: 'settotal', payload: total })
     setingredientsIds(ids)
   }, [ingredients]);
 
   function handleClick() {
     orderFetch(ingredientsIds)
       .then(checkResponse)
-      .then(orderDetails)
+      .then(setOrderDetails)
       .then(() => openModal())
       .catch(error => console.log(error));
   }
 
-  if (!bunIngredient && !topingIngredients && !totalPrice) return null;
+  if (!bunIngredient && !topingIngredients) return null;
 
   return (
     <section className={`${constructorStyles.constructor} mb-10 pt-25`}>
@@ -75,7 +94,7 @@ const BurgerConstructor = ({ openModal, orderDetails }) => {
       </div>
       <div className={`${constructorStyles.currency} mr-4`}>
         <div className={`${constructorStyles.total} mr-10`}>
-          <span className='text text_type_digits-medium mr-4'>{totalPrice}</span>
+          <span className='text text_type_digits-medium mr-4'>{state.total}</span>
           <div className={constructorStyles.icon}>
             <CurrencyIcon />
           </div>
@@ -90,7 +109,7 @@ const BurgerConstructor = ({ openModal, orderDetails }) => {
 
 BurgerConstructor.propTypes = {
   openModal: PropTypes.func.isRequired,
-  orderDetails: PropTypes.func,
+  setOrderDetails: PropTypes.func,
 }
 
 export default BurgerConstructor;
