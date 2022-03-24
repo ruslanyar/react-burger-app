@@ -3,15 +3,17 @@ import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useIngredients } from '../../utils/ingredients-context';
+import { orderFetch, checkResponse } from '../../utils/utils';
 
 import constructorStyles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ openModal }) => {
+const BurgerConstructor = ({ openModal, orderDetails }) => {
   const ingredients = useIngredients();
 
   const [totalPrice, setTotalPrice] = useState(null);
   const [bunIngredient, setBunIngredient] = useState(null);
   const [topingIngredients, setTopingIngredients] = useState(null);
+  const [ingredientsIds, setingredientsIds] = useState(null);
 
   useEffect(() => {
     const bun = ingredients.find(item => item.type === 'bun');
@@ -21,11 +23,21 @@ const BurgerConstructor = ({ openModal }) => {
       return acc + cur.price;
     }, 0);
     const total = bunPrice + topingsPrice;
+    const ids = [bun._id, ...topings.map(item => item._id)];
 
     setBunIngredient(bun);
     setTopingIngredients(topings);
     setTotalPrice(total);
+    setingredientsIds(ids)
   }, [ingredients]);
+
+  function handleClick() {
+    orderFetch(ingredientsIds)
+      .then(checkResponse)
+      .then(orderDetails)
+      .then(() => openModal())
+      .catch(error => console.log(error));
+  }
 
   if (!bunIngredient && !topingIngredients && !totalPrice) return null;
 
@@ -68,7 +80,7 @@ const BurgerConstructor = ({ openModal }) => {
             <CurrencyIcon />
           </div>
         </div>
-        <div onClick={openModal}>
+        <div onClick={handleClick}>
           <Button type="primary" size="large">Оформить заказ</Button>
         </div>
       </div>
@@ -78,6 +90,7 @@ const BurgerConstructor = ({ openModal }) => {
 
 BurgerConstructor.propTypes = {
   openModal: PropTypes.func.isRequired,
+  orderDetails: PropTypes.func,
 }
 
 export default BurgerConstructor;

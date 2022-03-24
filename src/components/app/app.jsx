@@ -9,7 +9,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { IngredientsContextProvider } from '../../utils/ingredients-context';
 
-import { api } from '../../utils/constants';
+import { baseUrl } from '../../utils/constants';
 
 import appStyles from './app.module.css';
 
@@ -17,13 +17,13 @@ const App = () => {
   const [modalIngredientState, setModalIngredientState] = useState({ visible: false });
   const [modalOrderState, setModalOrderState] = useState({ visible: false });
   const [ingredientModal, setIngredientModal] = useState({});
-
   const [ingredientsData, setIngredientsData] = useState(null);
+  const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    const getIngredientsData = async () => {
+    const getIngredientsData = async (url) => {
       try {
-        const res = await fetch(api);
+        const res = await fetch(`${baseUrl}${url}`);
 
         if (res.ok) {
           const data = await res.json();
@@ -33,13 +33,13 @@ const App = () => {
           return;
         }
 
-        await Promise.reject(res.status);
+        await Promise.reject(`Ошибка: ${res.status}`);
       } catch (error) {
         console.log(`Ошибка ${error}`);
       }
     }
 
-    getIngredientsData();
+    getIngredientsData('ingredients');
   }, []);
 
   const handleOpenModalIngredient = (data) => {
@@ -64,7 +64,7 @@ const App = () => {
       title=''
       closeModal={handleCloseModalOrder}
     >
-      <OrderDetails />
+      <OrderDetails orderDetails={order} />
     </Modal>
   );
 
@@ -87,6 +87,7 @@ const App = () => {
         />
         <BurgerConstructor
           openModal={handleOpenModalOrder}
+          orderDetails={setOrder}
         />
       </main>
       {modalIngredientState.visible && modalIngredient}
