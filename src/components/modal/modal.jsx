@@ -9,16 +9,17 @@ import { ESC_KEY } from '../../utils/constants';
 
 import modalStyles from './modal.module.css';
 
-const Modal = ({ children, title, closeModal }) => {
-  const handleEscClose = (evt) => {
-    if (evt.key === ESC_KEY) closeModal();
-  }
-
+const Modal = ({ children, title='', closeModal }) => {
+  
   useEffect(() => {
+    const handleEscClose = (evt) => {
+      if (evt.key === ESC_KEY) closeModal();
+    }
+
     document.addEventListener('keydown', handleEscClose);
 
     return () => document.removeEventListener('keydown', handleEscClose);
-  }, []);
+  }, [closeModal]);
 
   return createPortal(
     (

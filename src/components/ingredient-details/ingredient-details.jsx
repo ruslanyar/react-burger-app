@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ingredientPropType } from '../../utils/constants';
+import { ingredientPropType } from '../../utils/propTypes';
 
 import detailsStyles from './ingredient-details.module.css';
 
@@ -31,7 +31,7 @@ const IngredientDetails = ({ ingredient }) => {
 }
 
 IngredientDetails.propTypes = {
-  ingredient: ingredientPropType.isRequired,
+  ingredient: ingredientPropType,
 }
 
 export default IngredientDetails;

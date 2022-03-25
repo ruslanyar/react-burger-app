@@ -1,5 +1,7 @@
+import { BASE_URL } from "./constants";
+
 export function orderFetch(igredients) {
-  return fetch('https://norma.nomoreparties.space/api/orders', {
+  return fetch(`${BASE_URL}orders`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

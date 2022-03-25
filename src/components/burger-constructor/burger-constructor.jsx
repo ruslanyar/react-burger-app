@@ -1,64 +1,43 @@
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useIngredients } from '../../utils/ingredients-context';
+import { useIngredients } from '../../services/contexts/ingredients-context';
 import { orderFetch, checkResponse } from '../../utils/utils';
+import { constructorReducer, initialState } from '../../services/reducers/burger-constructor';
+import { SET_BUN, SET_IDS, SET_TOPINGS, SET_TOTAL_SUM } from '../../services/actions/burger-constructor';
 
 import constructorStyles from './burger-constructor.module.css';
-
-const initialState = {
-  total: 0,
-}
-
-function reducer(state, action) {
-  switch (action.type) {
-
-    case 'settotal':
-      return {
-        ...state,
-        total: action.payload
-      }
-
-    default:
-      throw new Error(`Неверный тип action: ${action.type}`);
-  }
-}
 
 const BurgerConstructor = ({ openModal, setOrderDetails }) => {
   const ingredients = useIngredients();
 
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const [bunIngredient, setBunIngredient] = useState(null);
-  const [topingIngredients, setTopingIngredients] = useState(null);
-  const [ingredientsIds, setingredientsIds] = useState(null);
+  const [state, dispatch] = useReducer(constructorReducer, initialState);
 
   useEffect(() => {
     const bun = ingredients.find(item => item.type === 'bun');
     const topings = ingredients.filter(item => item.type !== 'bun');
     const bunPrice = bun.price * 2;
-    const topingsPrice = topings.reduce((acc, cur) => {
+    const totalPrice = topings.reduce((acc, cur) => {
       return acc + cur.price;
-    }, 0);
-    const total = bunPrice + topingsPrice;
+    }, bunPrice);
     const ids = [bun._id, ...topings.map(item => item._id)];
 
-    setBunIngredient(bun);
-    setTopingIngredients(topings);
-    dispatch({ type: 'settotal', payload: total })
-    setingredientsIds(ids)
+    dispatch({ type: SET_BUN, payload: bun });
+    dispatch({ type: SET_TOPINGS, payload: topings });
+    dispatch({ type: SET_TOTAL_SUM, payload: totalPrice })
+    dispatch({ type: SET_IDS, payload: ids })
   }, [ingredients]);
 
   function handleClick() {
-    orderFetch(ingredientsIds)
+    orderFetch(state.ids)
       .then(checkResponse)
       .then(setOrderDetails)
-      .then(() => openModal())
+      .then(openModal)
       .catch(error => console.log(error));
   }
 
-  if (!bunIngredient && !topingIngredients) return null;
+  if (!state.bun && !state.topings) return null;
 
   return (
     <section className={`${constructorStyles.constructor} mb-10 pt-25`}>
@@ -66,14 +45,14 @@ const BurgerConstructor = ({ openModal, setOrderDetails }) => {
         <ConstructorElement
           type='top'
           isLocked={true}
-          text={`${bunIngredient.name} (верх)`}
-          price={bunIngredient.price}
-          thumbnail={bunIngredient.image}
+          text={`${state.bun.name} (верх)`}
+          price={state.bun.price}
+          thumbnail={state.bun.image}
         />
       </div>
       <ul className={`${constructorStyles.list} mt-4 mb-4 custom-scroll`}>
-        {topingIngredients.map(item => (
-          <li key={item._id} className={`${constructorStyles['list-item']} mb-4`}>
+        {state.topings.map(item => (
+          <li key={item._id} className={`${constructorStyles['list__item']} mb-4`}>
             <DragIcon />
             <ConstructorElement
               text={item.name}
@@ -87,9 +66,9 @@ const BurgerConstructor = ({ openModal, setOrderDetails }) => {
         <ConstructorElement
           type='bottom'
           isLocked={true}
-          text={`${bunIngredient.name} (низ)`}
-          price={bunIngredient.price}
-          thumbnail={bunIngredient.image}
+          text={`${state.bun.name} (низ)`}
+          price={state.bun.price}
+          thumbnail={state.bun.image}
         />
       </div>
       <div className={`${constructorStyles.currency} mr-4`}>
