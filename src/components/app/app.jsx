@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -7,90 +7,84 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { api } from '../../utils/constants';
+import { IngredientsContextProvider } from '../../services/contexts/ingredients-context';
+
+import { BASE_URL } from '../../utils/constants';
+import { checkResponse } from '../../utils/utils';
 
 import appStyles from './app.module.css';
 
 const App = () => {
-	const [ingredientsData, setIngredientsData] = useState(null);
-	const [modalIngredientState, setModalIngredientState] = useState({visible: false});
-	const [modalOrderState, setModalOrderState] = useState({visible: false});
-	const [ingredient, setIngredient] = useState({});
+  const [isIngredientModalShown, setIsIngredientModalShown] = useState(false);
+  const [isOrderModalShown, setIsOrderModalShown] = useState(false);
+  const [ingredientModal, setIngredientModal] = useState(null);
+  const [ingredientsData, setIngredientsData] = useState(null);
+  const [order, setOrder] = useState(null);
 
-	useEffect(() => {
-		const getIngredientsData = async () => {
-			try {
-				const res = await fetch(api);
+  useEffect(() => {
+    const getIngredientsData = async (url) => {
+      try {
+        const res = await fetch(`${BASE_URL}${url}`);
+        const data = await checkResponse(res);
 
-				if (res.ok) {
-					const data = await res.json();
+        setIngredientsData(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
 
-					setIngredientsData(data.data);
+    getIngredientsData('ingredients');
+  }, []);
 
-					return;
-				}
+  const handleOpenModalIngredient = (data) => {
+    setIngredientModal(data);
+    setIsIngredientModalShown(true);
+  }
 
-				await Promise.reject(res.status);
-			} catch (error) {
-				console.log(`Ошибка ${error}`);
-			}
-		}
+  const handleOpenModalOrder = () => {
+    setIsOrderModalShown(true);
+  }
 
-		getIngredientsData();
-	}, []);
+  const handleCloseModalIngredient = () => {
+    setIsIngredientModalShown(false);
+  }
 
-	const handleOpenModalIngredient = (data) => {
-		setIngredient(data);
-		setModalIngredientState({visible: true});
-	}
+  const handleCloseModalOrder = () => {
+    setIsOrderModalShown(false);
+  }
 
-	const handleOpenModalOrder = () => {
-		setModalOrderState({visible: true});
-	}
-
-	const handleCloseModalIngredient = () => {
-		setModalIngredientState({visible: false});
-	}
-
-	const handleCloseModalOrder = () => {
-		setModalOrderState({visible: false});
-	}
-
-	const modalOrder = (
-		<Modal
-			title=''
-			closeModal={handleCloseModalOrder}
-		>
-			<OrderDetails />
-		</Modal>
-	);
-
-	const modalIngredient = (
-		<Modal
-			title='Детали ингредиента'
-			closeModal={handleCloseModalIngredient}
-		>
-			<IngredientDetails ingredient={ingredient} />
-		</Modal>
-	);
-
-	return ingredientsData && (
-		<>
-			<AppHeader />
-			<main className={appStyles.main}>
-				<BurgerIngredients
-					ingredients={ingredientsData}
-					openModal={handleOpenModalIngredient}
-				/>
-				<BurgerConstructor
-					ingredients={ingredientsData}
-					openModal={handleOpenModalOrder}
-				/>
-			</main>
-			{modalIngredientState.visible && modalIngredient}
-			{modalOrderState.visible && modalOrder}
-		</>
-	)
+  return ingredientsData && (
+    <>
+      <AppHeader />
+      <main className={appStyles.main}>
+        <BurgerIngredients
+          ingredients={ingredientsData}
+          openModal={handleOpenModalIngredient}
+        />
+        <IngredientsContextProvider ingredients={ingredientsData}>
+          <BurgerConstructor
+            openModal={handleOpenModalOrder}
+            setOrderDetails={setOrder}
+          />
+        </IngredientsContextProvider>
+      </main>
+      {isIngredientModalShown && (
+        <Modal
+          title='Детали ингредиента'
+          closeModal={handleCloseModalIngredient}
+        >
+          <IngredientDetails ingredient={ingredientModal} />
+        </Modal>
+      )}
+      {isOrderModalShown && (
+        <Modal
+          closeModal={handleCloseModalOrder}
+        >
+          <OrderDetails orderDetails={order} />
+        </Modal>
+      )}
+    </>
+  )
 }
 
 export default App;
