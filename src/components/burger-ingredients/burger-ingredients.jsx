@@ -1,58 +1,67 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Tab, Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ingredientPropType } from '../../utils/propTypes';
+import BurgerConstructorItem from '../burger-ingredients-item/burger-ingredients-item';
+import Loader from '../../ui/loader/Loader';
 
-import ingredientsStyles from './burger-ingredients.module.css';
+import { getIngredients } from '../../services/actions/ingredientsActions';
+import { BUN, MAIN, SAUCE } from '../../utils/constants';
 
-const BurgerIngredients = ({ ingredients, openModal }) => {
+import styles from './burger-ingredients.module.css';
 
-  const [current, setCurrent] = useState('buns');
+const BurgerIngredients = ({ openModal }) => {
+  const { ingredients, request, failed } = useSelector(store => store.ingredients);
+  const [current, setCurrent] = useState(BUN);
+  const dispatch = useDispatch();
 
-  const buns = ingredients.filter(item => item.type === 'bun');
-  const sauces = ingredients.filter(item => item.type === 'sauce');
-  const main = ingredients.filter(item => item.type === 'main');
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
 
-  const makeIngredientsList = (array) => {
-    return array.map(item => (
-      <li key={item._id} onClick={() => openModal(item)} className={`${ingredientsStyles['list__item']} mb-8`}>
-        <Counter count={1} size="default" />
-        <img src={item.image} alt={item.name} className='ml-4 mr-4 mb-1' />
-        <div className={`${ingredientsStyles.currency} mb-1`}>
-          <span className='text text_type_digits-default mr-2'>{item.price}</span>
-          <CurrencyIcon />
-        </div>
-        <p className='text text_type_main-default'>{item.name}</p>
-      </li>
-    ));
-  }
+  const buns = useMemo(() => ingredients.filter(item => item.type === BUN), [ingredients]);
+  const sauces = useMemo(() => ingredients.filter(item => item.type === SAUCE), [ingredients]);
+  const main = useMemo(() => ingredients.filter(item => item.type === MAIN), [ingredients]);
+
+  if (request) return <Loader style={{margin: 'auto'}} />;
+  if (failed) return (
+    <p className='text text_type_main-medium'>
+      Произошла ошибка при загрузке данных с сервера
+    </p>
+  );
 
   return (
     <section className='mb-10 pt-10'>
       <h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
-      <div className={`${ingredientsStyles.tabs} mb-10`}>
-        <Tab value='buns' active={current === 'buns'} onClick={setCurrent}>Булки</Tab>
-        <Tab value='sauces' active={current === 'sauces'} onClick={setCurrent}>Соусы</Tab>
-        <Tab value='main' active={current === 'main'} onClick={setCurrent}>Начинки</Tab>
+      <div className={`${styles.tabs} mb-10`}>
+        <Tab value={BUN} active={current === BUN} onClick={setCurrent}>Булки</Tab>
+        <Tab value={SAUCE} active={current === SAUCE} onClick={setCurrent}>Соусы</Tab>
+        <Tab value={MAIN} active={current === MAIN} onClick={setCurrent}>Начинки</Tab>
       </div>
-      <div className={`${ingredientsStyles.ingredients} custom-scroll`}>
+      <div className={`${styles.ingredients} custom-scroll`}>
         <section className='mb-10'>
-          <h2 className='text text_type_main-medium mb-6' id='bun'>Булки</h2>
-          <ul className={`${ingredientsStyles.list} pl-4 pr-4`}>
-            {makeIngredientsList(buns)}
+          <h2 className='text text_type_main-medium mb-6' id={BUN}>Булки</h2>
+          <ul className={`${styles.list} pl-4 pr-4`}>
+            {buns.map(ingr => (
+              <BurgerConstructorItem key={ingr._id} data={ingr} />
+            ))}
           </ul>
         </section>
         <section className='mb-10'>
-          <h2 className='text text_type_main-medium mb-6' id='sauce'>Соусы</h2>
-          <ul className={`${ingredientsStyles.list} pl-4 pr-4`}>
-            {makeIngredientsList(sauces)}
+          <h2 className='text text_type_main-medium mb-6' id={SAUCE}>Соусы</h2>
+          <ul className={`${styles.list} pl-4 pr-4`}>
+            {sauces.map(ingr => (
+              <BurgerConstructorItem key={ingr._id} data={ingr} />
+            ))}
           </ul>
         </section>
         <section className='mb-10'>
-          <h2 className='text text_type_main-medium mb-6' id='main'>Начинки</h2>
-          <ul className={`${ingredientsStyles.list} pl-4 pr-4`}>
-            {makeIngredientsList(main)}
+          <h2 className='text text_type_main-medium mb-6' id={MAIN}>Начинки</h2>
+          <ul className={`${styles.list} pl-4 pr-4`}>
+            {main.map(ingr => (
+              <BurgerConstructorItem key={ingr._id} data={ingr} />
+            ))}
           </ul>
         </section>
       </div>
@@ -61,7 +70,6 @@ const BurgerIngredients = ({ ingredients, openModal }) => {
 }
 
 BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
   openModal: PropTypes.func.isRequired,
 }
 

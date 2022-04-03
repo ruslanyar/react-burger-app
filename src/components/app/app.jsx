@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -7,37 +9,13 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { IngredientsContextProvider } from '../../services/contexts/ingredients-context';
-
-import { BASE_URL } from '../../utils/constants';
-import { checkResponse } from '../../utils/utils';
-
-import appStyles from './app.module.css';
+import styles from './app.module.css';
 
 const App = () => {
   const [isIngredientModalShown, setIsIngredientModalShown] = useState(false);
   const [isOrderModalShown, setIsOrderModalShown] = useState(false);
-  const [ingredientModal, setIngredientModal] = useState(null);
-  const [ingredientsData, setIngredientsData] = useState(null);
-  const [order, setOrder] = useState(null);
-
-  useEffect(() => {
-    const getIngredientsData = async (url) => {
-      try {
-        const res = await fetch(`${BASE_URL}${url}`);
-        const data = await checkResponse(res);
-
-        setIngredientsData(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getIngredientsData('ingredients');
-  }, []);
 
   const handleOpenModalIngredient = (data) => {
-    setIngredientModal(data);
     setIsIngredientModalShown(true);
   }
 
@@ -53,34 +31,32 @@ const App = () => {
     setIsOrderModalShown(false);
   }
 
-  return ingredientsData && (
+  return (
     <>
       <AppHeader />
-      <main className={appStyles.main}>
-        <BurgerIngredients
-          ingredients={ingredientsData}
-          openModal={handleOpenModalIngredient}
-        />
-        <IngredientsContextProvider ingredients={ingredientsData}>
-          <BurgerConstructor
-            openModal={handleOpenModalOrder}
-            setOrderDetails={setOrder}
-          />
-        </IngredientsContextProvider>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+            <BurgerIngredients
+              openModal={handleOpenModalIngredient}
+            />
+            <BurgerConstructor
+              openModal={handleOpenModalOrder}
+            />
+        </main>
+      </DndProvider>
       {isIngredientModalShown && (
         <Modal
           title='Детали ингредиента'
           closeModal={handleCloseModalIngredient}
         >
-          <IngredientDetails ingredient={ingredientModal} />
+          <IngredientDetails />
         </Modal>
       )}
       {isOrderModalShown && (
         <Modal
           closeModal={handleCloseModalOrder}
         >
-          <OrderDetails orderDetails={order} />
+          <OrderDetails />
         </Modal>
       )}
     </>

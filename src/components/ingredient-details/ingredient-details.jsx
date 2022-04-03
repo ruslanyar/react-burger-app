@@ -2,12 +2,12 @@ import React from 'react';
 
 import { ingredientPropType } from '../../utils/propTypes';
 
-import detailsStyles from './ingredient-details.module.css';
+import styles from './ingredient-details.module.css';
 
 const IngredientDetails = ({ ingredient }) => {
 
   return (
-    <div className={detailsStyles.details}>
+    <div className={styles.details}>
       <img src={ingredient.image_large} alt={ingredient.name} className='mb-4' />
       <span className='text text_type_main-medium mb-8'>{ingredient.name}</span>
       <table width="516" align="center">

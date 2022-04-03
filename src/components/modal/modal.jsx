@@ -7,7 +7,7 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 
 import { ESC_KEY } from '../../utils/constants';
 
-import modalStyles from './modal.module.css';
+import styles from './modal.module.css';
 
 const Modal = ({ children, title='', closeModal }) => {
   
@@ -24,8 +24,8 @@ const Modal = ({ children, title='', closeModal }) => {
   return createPortal(
     (
       <ModalOverlay close={closeModal}>
-        <div className={`${modalStyles.container} pt-10 pb-15 pl-10 pr-10`}>
-          <div className={modalStyles.title}>
+        <div className={`${styles.container} pt-10 pb-15 pl-10 pr-10`}>
+          <div className={styles.title}>
             <h2 className='text text_type_main-large'>{title}</h2>
             <div onClick={closeModal}>
               <CloseIcon />

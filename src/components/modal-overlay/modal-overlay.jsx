@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import overlayStyles from './modal-overlay.module.css';
+import styles from './modal-overlay.module.css';
 
 const ModalOverlay = ({ children, close }) => {
   const handleClose = (e) => {
@@ -10,7 +10,7 @@ const ModalOverlay = ({ children, close }) => {
 
   return (
     <div
-      className={overlayStyles.overlay}
+      className={styles.overlay}
       onClick={handleClose}
     >
       {children}

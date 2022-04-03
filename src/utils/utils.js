@@ -1,6 +1,6 @@
 import { BASE_URL } from "./constants";
 
-export function orderFetch(igredients) {
+export function orderFetch(ids) {
   return fetch(`${BASE_URL}orders`, {
     method: 'POST',
     headers: {
@@ -8,7 +8,7 @@ export function orderFetch(igredients) {
     },
     body: JSON.stringify(
       {
-        ingredients: igredients
+        ingredients: ids
       }
     )
   });
