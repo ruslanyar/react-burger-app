@@ -2,8 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import styles from './order-details.module.css';
 import Loader from '../../ui/loader/Loader';
+
+import styles from './order-details.module.css'
 
 const OrderDetails = () => {
   const { order, request, failed, isEmpty } = useSelector(store => store.order);

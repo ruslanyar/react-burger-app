@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -9,53 +10,30 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
+import { INGREDIENT_MODAL_ID, ORDER_MODAL_ID } from '../../utils/constants';
+
 import styles from './app.module.css';
 
 const App = () => {
-  const [isIngredientModalShown, setIsIngredientModalShown] = useState(false);
-  const [isOrderModalShown, setIsOrderModalShown] = useState(false);
-
-  const handleOpenModalIngredient = (data) => {
-    setIsIngredientModalShown(true);
-  }
-
-  const handleOpenModalOrder = () => {
-    setIsOrderModalShown(true);
-  }
-
-  const handleCloseModalIngredient = () => {
-    setIsIngredientModalShown(false);
-  }
-
-  const handleCloseModalOrder = () => {
-    setIsOrderModalShown(false);
-  }
+  const isIngredientModalShown = useSelector(store => store.details.isOpen);
+  const isOrderModalShown = useSelector(store => store.order.isOpen);
 
   return (
     <>
       <AppHeader />
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
-            <BurgerIngredients
-              openModal={handleOpenModalIngredient}
-            />
-            <BurgerConstructor
-              openModal={handleOpenModalOrder}
-            />
+            <BurgerIngredients />
+            <BurgerConstructor />
         </main>
       </DndProvider>
       {isIngredientModalShown && (
-        <Modal
-          title='Детали ингредиента'
-          closeModal={handleCloseModalIngredient}
-        >
+        <Modal title='Детали ингредиента' modalId={INGREDIENT_MODAL_ID}>
           <IngredientDetails />
         </Modal>
       )}
       {isOrderModalShown && (
-        <Modal
-          closeModal={handleCloseModalOrder}
-        >
+        <Modal modalId={ORDER_MODAL_ID}>
           <OrderDetails />
         </Modal>
       )}

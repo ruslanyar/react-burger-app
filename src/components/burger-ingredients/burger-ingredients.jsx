@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerConstructorItem from '../burger-ingredients-item/burger-ingredients-item';
@@ -11,7 +10,7 @@ import { BUN, MAIN, SAUCE } from '../../utils/constants';
 
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = ({ openModal }) => {
+const BurgerIngredients = () => {
   const { ingredients, request, failed } = useSelector(store => store.ingredients);
   const [current, setCurrent] = useState(BUN);
   const dispatch = useDispatch();
@@ -26,7 +25,7 @@ const BurgerIngredients = ({ openModal }) => {
 
   if (request) return <Loader style={{margin: 'auto'}} />;
   if (failed) return (
-    <p className='text text_type_main-medium'>
+    <p className='text text_type_main-default'>
       Произошла ошибка при загрузке данных с сервера
     </p>
   );
@@ -67,10 +66,6 @@ const BurgerIngredients = ({ openModal }) => {
       </div>
     </section>
   );
-}
-
-BurgerIngredients.propTypes = {
-  openModal: PropTypes.func.isRequired,
 }
 
 export default BurgerIngredients;

@@ -1,7 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { ADD_INGREDIENT } from '../../services/actions/constructorActions';
@@ -9,7 +8,7 @@ import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = ({ openModal }) => {
+const BurgerConstructor = () => {
   const { ingredients } = useSelector(store => store.burger);
   const { bun, main, sauce } = ingredients;
   const dispatch = useDispatch();
@@ -18,14 +17,10 @@ const BurgerConstructor = ({ openModal }) => {
     return [...main, ...sauce];
   }, [main, sauce]);
 
-  const onDropHandler = (item) => {
-    dispatch({type: ADD_INGREDIENT, ingredient: item})
-  }
-
   const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      onDropHandler(item);
+      dispatch({type: ADD_INGREDIENT, ingredient: item});
     },
 
   });
@@ -47,10 +42,9 @@ const BurgerConstructor = ({ openModal }) => {
     ]
   }, [bun, ingredientsWithOutBuns]);
 
-  function handleClick() {
-    dispatch(sendOrder(ids))
-    openModal();
-  }
+  const onClickHandler = useCallback(() => {
+    dispatch(sendOrder(ids));
+  }, [dispatch, ids]);
 
   return (
     <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
@@ -95,16 +89,12 @@ const BurgerConstructor = ({ openModal }) => {
             <CurrencyIcon />
           </div>
         </div>
-        <div onClick={handleClick}>
+        <div onClick={onClickHandler}>
           <Button type="primary" size="large">Оформить заказ</Button>
         </div>
       </div>
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func.isRequired,
 }
 
 export default BurgerConstructor;

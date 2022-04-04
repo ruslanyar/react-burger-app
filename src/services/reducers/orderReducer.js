@@ -3,13 +3,15 @@ import {
   SEND_ORDER_FAILED,
   SEND_ORDER_REQUEST,
   SEND_ORDER_SUCCESS,
+  CLOSE_ORDER_DETAILS,
 } from '../actions/orderActions';
 
 const initialState = {
   order: {},
   request: false,
   failed: false,
-  isEmpty: false,
+  isEmpty: true,
+  isOpen: false,
 }
 
 export const orderReducer = (state = initialState, { type, payload }) => {
@@ -20,6 +22,7 @@ export const orderReducer = (state = initialState, { type, payload }) => {
         request: true,
         failed: false,
         isEmpty: false,
+        isOpen: true,
       }
 
     case SEND_ORDER_SUCCESS:
@@ -41,6 +44,13 @@ export const orderReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         isEmpty: true,
+        isOpen: true,
+      }
+
+    case CLOSE_ORDER_DETAILS:
+      return {
+        ...state,
+        isOpen: false,
       }
 
     default:

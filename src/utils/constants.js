@@ -5,3 +5,5 @@ export const ESC_KEY = 'Escape';
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
+export const INGREDIENT_MODAL_ID = 'INGREDIENT_MODAL_ID';
+export const ORDER_MODAL_ID = 'ORDER_MODAL_ID';
