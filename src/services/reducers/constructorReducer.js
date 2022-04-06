@@ -10,7 +10,7 @@ const initialState = {
   isEmpty: true,
 }
 
-export function constructorReducer(state = initialState, { type, ingredient, uuid }) {
+export function constructorReducer(state = initialState, { type, ingredient }) {
   switch (type) {
     case ADD_INGREDIENT:
       return {
@@ -26,8 +26,7 @@ export function constructorReducer(state = initialState, { type, ingredient, uui
         },
         isEmpty: false,
       }
-      
-  
+
     default:
       return state;
   }
