@@ -1,7 +1,9 @@
+import { BUN } from '../../utils/constants';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
-  GET_INGREDIENTS_FAILED 
+  GET_INGREDIENTS_FAILED, 
+  INCREASE_INGREDIENT_COUNT
 } from '../actions/ingredientsActions';
 
 
@@ -11,7 +13,7 @@ const initialState = {
   failed: false,
 }
 
-export const ingredientsReducer = (state = initialState, { type, ingredients }) => {
+export const ingredientsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_INGREDIENTS_REQUEST:
       return {
@@ -23,7 +25,7 @@ export const ingredientsReducer = (state = initialState, { type, ingredients }) 
     case GET_INGREDIENTS_SUCCESS:
       return {
         ...state,
-        ingredients,
+        ingredients: payload,
         request: false,
       }
 
@@ -32,6 +34,16 @@ export const ingredientsReducer = (state = initialState, { type, ingredients }) 
         ...state,
         failed: true,
         request: false,
+      }
+
+    case INCREASE_INGREDIENT_COUNT:
+      return {
+        ...state,
+        ingredients: [...state.ingredients].map(i => {
+          if (i._id === payload._id && payload.type === BUN && i.__v > 0) return i;
+          if (i._id === payload._id) return {...i, __v: i.__v + 1};
+          return i;
+        }),
       }
 
     default:

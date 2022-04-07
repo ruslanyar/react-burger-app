@@ -4,6 +4,7 @@ import { useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { ADD_INGREDIENT } from '../../services/actions/constructorActions';
+import { INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
 import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
@@ -20,9 +21,9 @@ const BurgerConstructor = () => {
   const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      dispatch({type: ADD_INGREDIENT, ingredient: item});
+      dispatch({ type: ADD_INGREDIENT, ingredient: item });
+      dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: item });
     },
-
   });
 
   const totalPrice = useMemo(() => {
@@ -46,6 +47,10 @@ const BurgerConstructor = () => {
     dispatch(sendOrder(ids));
   }, [dispatch, ids]);
 
+  const handleClose = () => {
+    console.log('sdlfsdf');
+  }
+
   return (
     <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
       {bun.length !== 0 && (
@@ -67,6 +72,7 @@ const BurgerConstructor = () => {
               text={item.name}
               price={item.price}
               thumbnail={item.image}
+              handleClose={handleClose}
             />
           </li>
         ))}

@@ -16,7 +16,7 @@ function BurgerConstructorItem({ data }) {
 
   const onClickHandler = useCallback((item) => {
     dispatch(openIngredientDetails(item));
-  }, [dispatch])
+  }, [dispatch]);
 
   return (
     <li
@@ -25,7 +25,7 @@ function BurgerConstructorItem({ data }) {
       className={`${styles['list__item']} mb-8`}
       ref={dragRef}
     >
-      <Counter count={1} size="default" />
+      <Counter count={data.__v} size="default" />
       <img src={data.image} alt={data.name} className='ml-4 mr-4 mb-1'  />
       <div className={`${styles.currency} mb-1`}>
         <span className='text text_type_digits-default mr-2'>{data.price}</span>

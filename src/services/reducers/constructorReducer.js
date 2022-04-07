@@ -20,9 +20,9 @@ export function constructorReducer(state = initialState, { type, ingredient }) {
           [ingredient.type]: ingredient.type === BUN
             ? [ingredient]
             : [
-              ...state.ingredients[ingredient.type],
-              ingredient,
-            ]
+                ...state.ingredients[ingredient.type],
+                ingredient,
+              ]
         },
         isEmpty: false,
       }
