@@ -3,52 +3,49 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ADD_INGREDIENT } from '../../services/actions/constructorActions';
-import { INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
+import { addIngredient, DELETE_INGREDIENT } from '../../services/actions/constructorActions';
+import { DECREASE_INGREDIENT_COUNT, INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
 import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
   const { ingredients } = useSelector(store => store.burger);
-  const { bun, main, sauce } = ingredients;
+  const { bun, other } = ingredients;
   const dispatch = useDispatch();
-
-  const ingredientsWithOutBuns = useMemo(() => {
-    return [...main, ...sauce];
-  }, [main, sauce]);
 
   const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      dispatch({ type: ADD_INGREDIENT, ingredient: item });
+      dispatch(addIngredient(item));
       dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: item });
     },
   });
 
   const totalPrice = useMemo(() => {
-    const bunPrice = bun.length ? bun[0].price * 2 : 0;
-    const ingredientsWithOutBunsPrice = ingredientsWithOutBuns
+    const bunPrice = bun?.length ? bun[0].price * 2 : 0;
+    const otherPrice = other
       .reduce((acc, cur) => {
         return acc + cur.price;
       }, 0);
-    const result = bunPrice + ingredientsWithOutBunsPrice;
+    const result = bunPrice + otherPrice;
     return result;
-  }, [bun, ingredientsWithOutBuns]);
+  }, [bun, other]);
 
   const ids = useMemo(() => {
     return [
       ...bun.map(item => item._id),
-      ...ingredientsWithOutBuns.map(item => item._id),
+      ...other.map(item => item._id),
     ]
-  }, [bun, ingredientsWithOutBuns]);
+  }, [bun, other]);
 
   const onClickHandler = useCallback(() => {
     dispatch(sendOrder(ids));
   }, [dispatch, ids]);
 
-  const handleClose = () => {
-    console.log('sdlfsdf');
+  const handleClose = (item) => {
+    dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: item });
+    dispatch({ type: DELETE_INGREDIENT, ingredient: item });
   }
 
   return (
@@ -65,14 +62,14 @@ const BurgerConstructor = () => {
         </div>
       )}
       <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
-        {ingredientsWithOutBuns && ingredientsWithOutBuns.map(item => (
-          <li key={item._id} className={`${styles['list__item']} mb-4`}>
+        {other && other.map(item => (
+          <li key={item.keyId} className={`${styles['list__item']} mb-4`}>
             <DragIcon />
             <ConstructorElement
               text={item.name}
               price={item.price}
               thumbnail={item.image}
-              handleClose={handleClose}
+              handleClose={() => handleClose(item)}
             />
           </li>
         ))}

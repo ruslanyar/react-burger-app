@@ -31,9 +31,9 @@ const BurgerIngredients = () => {
     const sauceTitlePos = Math.abs(sauceTitleRef.current.offsetTop - currentScroll);
     const mainTitlePos = Math.abs(mainTitleRef.current.offsetTop - currentScroll);
 
-    if (bunTitlePos < sauceTitlePos && bunTitlePos < mainTitlePos) setCurrent(BUN);
+    if (bunTitlePos < sauceTitlePos) setCurrent(BUN);
     if (sauceTitlePos < bunTitlePos && sauceTitlePos < mainTitlePos) setCurrent(SAUCE);
-    if (mainTitlePos < bunTitlePos && mainTitlePos < sauceTitlePos) setCurrent(MAIN);
+    if (mainTitlePos < sauceTitlePos) setCurrent(MAIN);
   }
 
   const throttledOnScrollHandler = throttle(onScrollHandler, 50);

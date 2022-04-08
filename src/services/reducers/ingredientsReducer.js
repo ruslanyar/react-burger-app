@@ -3,7 +3,8 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED, 
-  INCREASE_INGREDIENT_COUNT
+  INCREASE_INGREDIENT_COUNT,
+  DECREASE_INGREDIENT_COUNT,
 } from '../actions/ingredientsActions';
 
 
@@ -39,9 +40,19 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
     case INCREASE_INGREDIENT_COUNT:
       return {
         ...state,
-        ingredients: [...state.ingredients].map(i => {
-          if (i._id === payload._id && payload.type === BUN && i.__v > 0) return i;
-          if (i._id === payload._id) return {...i, __v: i.__v + 1};
+        ingredients: state.ingredients.map(i => {
+          if (i._id === payload._id && payload.type === BUN && i.count > 0) return i;
+          if (i._id !== payload._id && payload.type === BUN && i.count > 0) return { ...i, count: i.count - 1 };
+          if (i._id === payload._id) return { ...i, count: i.count + 1 };
+          return i;
+        }),
+      }
+
+    case DECREASE_INGREDIENT_COUNT: 
+      return {
+        ...state,
+        ingredients: state.ingredients.map(i => {
+          if (i._id === payload._id) return {...i, count: i.count - 1};
           return i;
         }),
       }

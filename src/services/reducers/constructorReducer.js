@@ -1,11 +1,10 @@
 import { BUN } from '../../utils/constants';
-import { ADD_INGREDIENT } from '../actions/constructorActions';
+import { ADD_INGREDIENT, DELETE_INGREDIENT } from '../actions/constructorActions';
 
 const initialState = {
   ingredients: {
     bun: [],
-    main: [],
-    sauce: [],
+    other: [],
   },
   isEmpty: true,
 }
@@ -17,14 +16,26 @@ export function constructorReducer(state = initialState, { type, ingredient }) {
         ...state,
         ingredients: {
           ...state.ingredients,
-          [ingredient.type]: ingredient.type === BUN
+          [ingredient.type === BUN ? ingredient.type : 'other']: ingredient.type === BUN
             ? [ingredient]
             : [
-                ...state.ingredients[ingredient.type],
+                ...state.ingredients.other,
                 ingredient,
               ]
         },
         isEmpty: false,
+      }
+
+    case DELETE_INGREDIENT: 
+      return {
+        ...state.ingredients,
+        ingredients: {
+          ...state.ingredients,
+          other: state.ingredients.other.filter(i => i.keyId !== ingredient.keyId)
+        },
+        isEmpty: state.ingredients.bun.length || state.ingredients.other.length
+          ? false
+          : true
       }
 
     default:
