@@ -1,0 +1,10 @@
+.list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: grab;
+}
+
+.list-item:last-child {
+  margin-bottom: 0;
+}

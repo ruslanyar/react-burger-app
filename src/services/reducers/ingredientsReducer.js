@@ -41,8 +41,8 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         ingredients: state.ingredients.map(i => {
-          if (i._id === payload._id && payload.type === BUN && i.count > 0) return i;
-          if (i._id !== payload._id && payload.type === BUN && i.count > 0) return { ...i, count: i.count - 1 };
+          if (payload.type === BUN && i._id === payload._id && i.count > 0) return i;
+          if (payload.type === BUN && i._id !== payload._id && i.count > 0) return { ...i, count: i.count - 1 };
           if (i._id === payload._id) return { ...i, count: i.count + 1 };
           return i;
         }),

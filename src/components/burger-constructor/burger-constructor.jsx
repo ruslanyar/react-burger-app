@@ -1,17 +1,18 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { addIngredient, DELETE_INGREDIENT } from '../../services/actions/constructorActions';
-import { DECREASE_INGREDIENT_COUNT, INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
+
+import { addIngredient } from '../../services/actions/constructorActions';
+import { INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
 import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
-  const { ingredients } = useSelector(store => store.burger);
-  const { bun, other } = ingredients;
+  const { bun, other } = useSelector(store => store.burger.ingredients);
   const dispatch = useDispatch();
 
   const [, dropTargetRef] = useDrop({
@@ -43,11 +44,6 @@ const BurgerConstructor = () => {
     dispatch(sendOrder(ids));
   }, [dispatch, ids]);
 
-  const handleClose = (item) => {
-    dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: item });
-    dispatch({ type: DELETE_INGREDIENT, ingredient: item });
-  }
-
   return (
     <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
       {bun.length !== 0 && (
@@ -62,16 +58,8 @@ const BurgerConstructor = () => {
         </div>
       )}
       <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
-        {other && other.map(item => (
-          <li key={item.keyId} className={`${styles['list__item']} mb-4`}>
-            <DragIcon />
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-              handleClose={() => handleClose(item)}
-            />
-          </li>
+        {other && other.map((item, index) => (
+          <BurgerConstructorItem key={item.keyId} item={item} index={index} />
         ))}
       </ul>
       {bun.length !== 0 && (

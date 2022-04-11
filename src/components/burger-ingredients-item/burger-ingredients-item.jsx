@@ -7,12 +7,12 @@ import { openIngredientDetails } from '../../services/actions/ingredientDetailsA
 
 import styles from './burger-ingredients-item.module.css';
 
-function BurgerConstructorItem({ data }) {
+function BurgerIngredientsItem({ data }) {
   const dispatch = useDispatch();
   const [, dragRef] = useDrag({
     type: 'ingredient',
     item: {...data},
-  });
+  }, [data]);
 
   const onClickHandler = useCallback((item) => {
     dispatch(openIngredientDetails(item));
@@ -36,4 +36,4 @@ function BurgerConstructorItem({ data }) {
   );
 }
 
-export default BurgerConstructorItem;
+export default BurgerIngredientsItem;

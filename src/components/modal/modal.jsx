@@ -38,7 +38,7 @@ const Modal = ({ children, title='', modalId }) => {
         <div className={`${styles.container} pt-10 pb-15 pl-10 pr-10`}>
           <div className={styles.title}>
             <h2 className='text text_type_main-large'>{title}</h2>
-            <div onClick={onClickHandler}>
+            <div onClick={onClickHandler} className={styles.close}>
               <CloseIcon />
             </div>
           </div>

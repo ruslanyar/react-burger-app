@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import BurgerConstructorItem from '../burger-ingredients-item/burger-ingredients-item';
+import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 import Loader from '../../ui/loader/Loader';
 
 import { throttle } from '../../utils/utils';
@@ -62,7 +62,7 @@ const BurgerIngredients = () => {
           <h2 ref={bunTitleRef} className='text text_type_main-medium mb-6' id={BUN}>Булки</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
             {buns.map(ingr => (
-              <BurgerConstructorItem key={ingr._id} data={ingr} />
+              <BurgerIngredientsItem key={ingr._id} data={ingr} />
             ))}
           </ul>
         </section>
@@ -70,7 +70,7 @@ const BurgerIngredients = () => {
           <h2 ref={sauceTitleRef} className='text text_type_main-medium mb-6' id={SAUCE}>Соусы</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
             {sauces.map(ingr => (
-              <BurgerConstructorItem key={ingr._id} data={ingr} />
+              <BurgerIngredientsItem key={ingr._id} data={ingr} />
             ))}
           </ul>
         </section>
@@ -78,7 +78,7 @@ const BurgerIngredients = () => {
           <h2 ref={mainTitleRef} className='text text_type_main-medium mb-6' id={MAIN}>Начинки</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
             {main.map(ingr => (
-              <BurgerConstructorItem key={ingr._id} data={ingr} />
+              <BurgerIngredientsItem key={ingr._id} data={ingr} />
             ))}
           </ul>
         </section>
