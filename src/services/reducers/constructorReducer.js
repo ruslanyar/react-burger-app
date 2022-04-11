@@ -1,4 +1,3 @@
-import { BUN } from '../../utils/constants';
 import { ADD_INGREDIENT, DELETE_INGREDIENT, SORT_INGREDIENTS } from '../actions/constructorActions';
 
 const initialState = {
@@ -14,15 +13,7 @@ export function constructorReducer(state = initialState, { type, payload }) {
     case ADD_INGREDIENT:
       return {
         ...state,
-        ingredients: {
-          ...state.ingredients,
-          [payload.type === BUN ? payload.type : 'other']: payload.type === BUN
-            ? [payload]
-            : [
-                ...state.ingredients.other,
-                payload,
-              ]
-        },
+        ingredients: payload,
         isEmpty: false,
       }
 
@@ -31,7 +22,7 @@ export function constructorReducer(state = initialState, { type, payload }) {
         ...state,
         ingredients: {
           ...state.ingredients,
-          other: state.ingredients.other.filter(i => i.keyId !== payload.keyId)
+          other: payload,
         },
         isEmpty: state.ingredients.bun.length || state.ingredients.other.length
           ? false

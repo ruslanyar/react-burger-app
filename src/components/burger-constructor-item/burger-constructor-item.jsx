@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { DECREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
-import { DELETE_INGREDIENT, sortIngredients } from '../../services/actions/constructorActions';
+import { decreaseIngredientCount } from '../../services/actions/ingredientsActions';
+import { deleteIngredient, sortIngredients } from '../../services/actions/constructorActions';
 
 import styles from './burger-constructor-item.module.css';
 
@@ -29,9 +29,9 @@ function BurgerConstructorItem ({ item, index }) {
 
   drop(drag(constructorElementRef));
 
-  const handleClose = (item) => {
-    dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: item });
-    dispatch({ type: DELETE_INGREDIENT, payload: item });
+  const handleClose = (keyId, id) => {
+    dispatch(decreaseIngredientCount(id));
+    dispatch(deleteIngredient(keyId));
   }
 
   return ( 
@@ -41,7 +41,7 @@ function BurgerConstructorItem ({ item, index }) {
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => handleClose(item)}
+        handleClose={() => handleClose(item.keyId, item._id)}
       />
     </li>
    );

@@ -1,4 +1,3 @@
-import { BUN } from '../../utils/constants';
 import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
@@ -40,21 +39,13 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
     case INCREASE_INGREDIENT_COUNT:
       return {
         ...state,
-        ingredients: state.ingredients.map(i => {
-          if (payload.type === BUN && i._id === payload._id && i.count > 0) return i;
-          if (payload.type === BUN && i._id !== payload._id && i.count > 0) return { ...i, count: i.count - 1 };
-          if (i._id === payload._id) return { ...i, count: i.count + 1 };
-          return i;
-        }),
+        ingredients: payload,
       }
 
     case DECREASE_INGREDIENT_COUNT: 
       return {
         ...state,
-        ingredients: state.ingredients.map(i => {
-          if (i._id === payload._id) return {...i, count: i.count - 1};
-          return i;
-        }),
+        ingredients: payload,
       }
 
     default:

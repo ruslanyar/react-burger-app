@@ -11,7 +11,7 @@ function BurgerIngredientsItem({ data }) {
   const dispatch = useDispatch();
   const [, dragRef] = useDrag({
     type: 'ingredient',
-    item: {...data},
+    item: { id: data._id },
   }, [data]);
 
   const onClickHandler = useCallback((item) => {

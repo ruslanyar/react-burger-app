@@ -6,7 +6,7 @@ import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-de
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 import { addIngredient } from '../../services/actions/constructorActions';
-import { INCREASE_INGREDIENT_COUNT } from '../../services/actions/ingredientsActions';
+import { increaseIngredientCount } from '../../services/actions/ingredientsActions';
 import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
@@ -17,9 +17,9 @@ const BurgerConstructor = () => {
 
   const [, dropTargetRef] = useDrop({
     accept: 'ingredient',
-    drop(item) {
-      dispatch(addIngredient(item));
-      dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: item });
+    drop({ id }) {
+      dispatch(addIngredient(id));
+      dispatch(increaseIngredientCount(id));
     },
   });
 
