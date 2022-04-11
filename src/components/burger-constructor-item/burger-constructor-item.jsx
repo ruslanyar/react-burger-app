@@ -1,10 +1,12 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
+import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { decreaseIngredientCount } from '../../services/actions/ingredientsActions';
 import { deleteIngredient, sortIngredients } from '../../services/actions/constructorActions';
+import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';
 
@@ -29,10 +31,10 @@ function BurgerConstructorItem ({ item, index }) {
 
   drop(drag(constructorElementRef));
 
-  const handleClose = (keyId, id) => {
+  const handleClose = useCallback((keyId, id) => {
     dispatch(decreaseIngredientCount(id));
     dispatch(deleteIngredient(keyId));
-  }
+  }, [dispatch]);
 
   return ( 
     <li className={`${styles['list__item']} mb-4`} ref={constructorElementRef}>
@@ -47,5 +49,9 @@ function BurgerConstructorItem ({ item, index }) {
    );
 }
 
+BurgerConstructorItem.propTypes = {
+  item: ingredientPropType,
+  index: PropTypes.number,
+}
 
 export default BurgerConstructorItem;

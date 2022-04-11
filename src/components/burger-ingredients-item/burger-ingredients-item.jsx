@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { openIngredientDetails } from '../../services/actions/ingredientDetailsActions';
+import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-ingredients-item.module.css';
 
@@ -34,6 +35,10 @@ function BurgerIngredientsItem({ data }) {
       <p className='text text_type_main-default'>{data.name}</p>
     </li>
   );
+}
+
+BurgerIngredientsItem.propTypes = {
+  data: ingredientPropType,
 }
 
 export default BurgerIngredientsItem;

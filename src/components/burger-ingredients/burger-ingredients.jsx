@@ -61,24 +61,24 @@ const BurgerIngredients = () => {
         <section className='mb-10'>
           <h2 ref={bunTitleRef} className='text text_type_main-medium mb-6' id={BUN}>Булки</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
-            {buns.map(ingr => (
-              <BurgerIngredientsItem key={ingr._id} data={ingr} />
+            {buns.map(item => (
+              <BurgerIngredientsItem key={item._id} data={item} />
             ))}
           </ul>
         </section>
         <section className='mb-10'>
           <h2 ref={sauceTitleRef} className='text text_type_main-medium mb-6' id={SAUCE}>Соусы</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
-            {sauces.map(ingr => (
-              <BurgerIngredientsItem key={ingr._id} data={ingr} />
+            {sauces.map(item => (
+              <BurgerIngredientsItem key={item._id} data={item} />
             ))}
           </ul>
         </section>
         <section className='mb-10'>
           <h2 ref={mainTitleRef} className='text text_type_main-medium mb-6' id={MAIN}>Начинки</h2>
           <ul className={`${styles.list} pl-4 pr-4`}>
-            {main.map(ingr => (
-              <BurgerIngredientsItem key={ingr._id} data={ingr} />
+            {main.map(item => (
+              <BurgerIngredientsItem key={item._id} data={item} />
             ))}
           </ul>
         </section>
