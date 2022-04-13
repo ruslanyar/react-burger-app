@@ -27,11 +27,16 @@ export function getIngredients() {
 
 export function increaseIngredientCount(itemId) {
   return (dispatch, getState) => {
-    const list = [...getState().ingredients.ingredients]
+    const { ingredients } = getState().ingredients;
+    const increasedIngredient = ingredients.find(i => i._id === itemId);
+    const list = ingredients
       .map(i => {
         if (i._id === itemId && i.type === BUN && i.count > 0) return i;
-        if (i._id !== itemId && i.type === BUN && i.count > 0) return { ...i, count: i.count - 1 };
+        if (increasedIngredient.type === BUN && i._id !== itemId && i.type === BUN) {
+          return { ...i, count: 0 };
+        };
         if (i._id === itemId) return { ...i, count: i.count + 1 };
+
         return i;
       });
 

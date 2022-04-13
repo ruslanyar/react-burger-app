@@ -10,7 +10,7 @@ import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';
 
-function BurgerConstructorItem ({ item, index }) {
+function BurgerConstructorItem ({ ingredient, index }) {
   const dispatch = useDispatch();
   const constructorElementRef = useRef(null);
 
@@ -26,7 +26,7 @@ function BurgerConstructorItem ({ item, index }) {
 
   const [, drag] = useDrag({
     type: 'constructor',
-    item: { id: item.keyId, index }
+    item: { id: ingredient.keyId, index }
   });
 
   drop(drag(constructorElementRef));
@@ -40,17 +40,17 @@ function BurgerConstructorItem ({ item, index }) {
     <li className={`${styles['list__item']} mb-4`} ref={constructorElementRef}>
       <DragIcon />
       <ConstructorElement
-        text={item.name}
-        price={item.price}
-        thumbnail={item.image}
-        handleClose={() => handleClose(item.keyId, item._id)}
+        text={ingredient.name}
+        price={ingredient.price}
+        thumbnail={ingredient.image}
+        handleClose={() => handleClose(ingredient.keyId, ingredient._id)}
       />
     </li>
    );
 }
 
 BurgerConstructorItem.propTypes = {
-  item: ingredientPropType,
+  ingredient: ingredientPropType.isRequired,
   index: PropTypes.number,
 }
 

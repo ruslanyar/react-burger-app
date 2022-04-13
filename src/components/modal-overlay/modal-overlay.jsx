@@ -1,27 +1,13 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
-
-import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetailsActions';
-import { INGREDIENT_MODAL_ID, ORDER_MODAL_ID } from '../../utils/constants';
-import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
 
 import styles from './modal-overlay.module.css';
 
-const ModalOverlay = ({ children, modalId }) => {
-  const dispatch = useDispatch();
-
-  const onClickHandler = useCallback((evt) => {
-    if (evt.target === evt.currentTarget) {
-      if (modalId === INGREDIENT_MODAL_ID) dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-      if (modalId === ORDER_MODAL_ID) dispatch({ type: CLOSE_ORDER_DETAILS });
-    }
-  }, [dispatch, modalId]);
-
+const ModalOverlay = ({ children, close }) => {
   return (
     <div
       className={styles.overlay}
-      onClick={onClickHandler}
+      onClick={close}
     >
       {children}
     </div>
@@ -30,7 +16,7 @@ const ModalOverlay = ({ children, modalId }) => {
 
 ModalOverlay.propTypes = {
   children: PropTypes.node,
-  modalId: PropTypes.string.isRequired,
+  close: PropTypes.func.isRequired,
 }
 
 export default ModalOverlay;

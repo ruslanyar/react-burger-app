@@ -1,12 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 import Loader from '../../ui/loader/Loader';
 
 import { throttle } from '../../utils/utils';
-import { getIngredients } from '../../services/actions/ingredientsActions';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
 
 import styles from './burger-ingredients.module.css';
@@ -14,16 +13,11 @@ import styles from './burger-ingredients.module.css';
 const BurgerIngredients = () => {
   const { ingredients, request, failed } = useSelector(store => store.ingredients);
   const [current, setCurrent] = useState(BUN);
-  const dispatch = useDispatch();
 
   const scrollContainerRef = useRef(null);
   const bunTitleRef = useRef(null);
   const sauceTitleRef = useRef(null);
   const mainTitleRef = useRef(null);
-
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
 
   const onScrollHandler = () => {
     const currentScroll = scrollContainerRef.current.scrollTop;

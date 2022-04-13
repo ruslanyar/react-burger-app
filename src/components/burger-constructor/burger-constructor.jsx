@@ -33,16 +33,14 @@ const BurgerConstructor = () => {
     return result;
   }, [bun, other]);
 
-  const ids = useMemo(() => {
-    return [
-      ...bun.map(item => item._id),
-      ...other.map(item => item._id),
-    ]
-  }, [bun, other]);
-
   const onClickHandler = useCallback(() => {
+    const ids = [
+        ...bun.map(item => item._id),
+        ...other.map(item => item._id),
+      ];
+      
     dispatch(sendOrder(ids));
-  }, [dispatch, ids]);
+  }, [bun, other, dispatch]);
 
   return (
     <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
@@ -59,7 +57,7 @@ const BurgerConstructor = () => {
       )}
       <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
         {other && other.map((item, index) => (
-          <BurgerConstructorItem key={item.keyId} item={item} index={index} />
+          <BurgerConstructorItem key={item.keyId} ingredient={item} index={index} />
         ))}
       </ul>
       {bun.length !== 0 && (

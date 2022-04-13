@@ -4,6 +4,7 @@ import { BUN } from '../../utils/constants';
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
+export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 
 export const addIngredient = (itemId) => {
   return (dispatch, getState) => {
