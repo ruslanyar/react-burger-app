@@ -18,8 +18,8 @@ import styles from './app.module.css';
 import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
 
 const App = () => {
-  const isIngredientModalShown = useSelector(store => store.details.isOpen);
-  const isOrderModalShown = useSelector(store => store.order.isOpen);
+  const isIngredientModalShown = useSelector(store => store.ingredientDetails.isOpen);
+  const isOrderModalShown = useSelector(store => store.orderDetails.isOpen);
   const dispatch = useDispatch();
 
   const closeDetailsHandler = useCallback(() => {

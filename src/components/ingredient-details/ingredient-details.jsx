@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import styles from './ingredient-details.module.css';
 
 const IngredientDetails = () => {
-  const { ingredient } = useSelector(store => store.details);
+  const { details } = useSelector(store => store.ingredientDetails);
 
   return (
     <div className={styles.details}>
-      <img src={ingredient.image_large} alt={ingredient.name} className='mb-4' />
-      <span className='text text_type_main-medium mb-8'>{ingredient.name}</span>
+      <img src={details.image_large} alt={details.name} className='mb-4' />
+      <span className='text text_type_main-medium mb-8'>{details.name}</span>
       <table width="516" align="center">
         <tbody>
           <tr align="center" className='text text_type_main-default text_color_inactive'>
@@ -19,10 +19,10 @@ const IngredientDetails = () => {
             <td>Углеводы, г</td>
           </tr>
           <tr align="center" className='text text_type_digits-default text_color_inactive'>
-            <td>{ingredient.calories}</td>
-            <td>{ingredient.proteins}</td>
-            <td>{ingredient.fat}</td>
-            <td>{ingredient.carbohydrates}</td>
+            <td>{details.calories}</td>
+            <td>{details.proteins}</td>
+            <td>{details.fat}</td>
+            <td>{details.carbohydrates}</td>
           </tr>
         </tbody>
       </table>

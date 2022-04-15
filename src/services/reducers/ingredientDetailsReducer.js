@@ -4,7 +4,7 @@ import {
 } from '../actions/ingredientDetailsActions';
 
 const initialState = {
-  ingredient: {},
+  details: {},
   isOpen: false,
 }
 
@@ -13,13 +13,15 @@ export const ingredientDetailsReducer = (state = initialState, { type, payload }
     case SET_INGREDIENT_DETAILS:
       return {
         ...state,
-        ingredient: payload,
+        details: payload,
         isOpen: true,
       }
 
       case CLOSE_INGREDIENT_DETAILS:
         return {
-          ...initialState,
+          ...state,
+          details: {},
+          isOpen: false,
         };
 
     default:

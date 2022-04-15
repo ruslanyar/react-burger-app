@@ -7,8 +7,8 @@ export const IS_EMPTY = 'IS_EMPTY';
 export const CLOSE_ORDER_DETAILS = 'CLOSE_ORDER_DETAILS';
 
 export function sendOrder(ids) {
-  if (!ids.length) return { type: IS_EMPTY }
   return function(dispatch) {
+    if (!ids.length) return dispatch({ type: IS_EMPTY });
     dispatch({ type: SEND_ORDER_REQUEST });
     orderFetch(ids)
       .then(checkResponse)

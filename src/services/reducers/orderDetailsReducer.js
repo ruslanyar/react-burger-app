@@ -14,7 +14,7 @@ const initialState = {
   isOpen: false,
 }
 
-export const orderReducer = (state = initialState, { type, payload }) => {
+export const orderDetailsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case SEND_ORDER_REQUEST:
       return {
@@ -36,6 +36,7 @@ export const orderReducer = (state = initialState, { type, payload }) => {
     case SEND_ORDER_FAILED:
       return {
         ...state,
+        order: {},
         failed: true,
         request: false,
       }
@@ -50,6 +51,8 @@ export const orderReducer = (state = initialState, { type, payload }) => {
     case CLOSE_ORDER_DETAILS:
       return {
         ...state,
+        order: {},
+        isEmpty: true,
         isOpen: false,
       }
 

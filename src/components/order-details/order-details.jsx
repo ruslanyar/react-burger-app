@@ -7,7 +7,7 @@ import Loader from '../../ui/loader/Loader';
 import styles from './order-details.module.css'
 
 const OrderDetails = () => {
-  const { order, request, failed, isEmpty } = useSelector(store => store.order);
+  const { order, request, failed, isEmpty } = useSelector(store => store.orderDetails);
   const number = order.order?.number;
 
   return (
