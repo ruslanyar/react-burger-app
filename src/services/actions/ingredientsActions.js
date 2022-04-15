@@ -6,6 +6,7 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 export const INCREASE_INGREDIENT_COUNT = 'INCREASE_INGREDIENT_COUNT';
 export const DECREASE_INGREDIENT_COUNT = 'DECREASE_INGREDIENT_COUNT';
+export const RESET_INGREDIENTS_COUNT = 'RESET_INGREDIENTS_COUNT';
 
 function addCountInIngredient(data) {
   data.forEach(i => i.count = 0);
@@ -53,5 +54,16 @@ export function decreaseIngredientCount(itemId) {
       });
 
     dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: list });
+  }
+}
+
+export function resetIngredientsCount() {
+  return (dispatch, getState) => {
+    const list = [...getState().ingredients.ingredients]
+      .map(i => {
+        return { ...i, count: 0 }
+      });
+
+    dispatch({ type: RESET_INGREDIENTS_COUNT, payload: list })
   }
 }

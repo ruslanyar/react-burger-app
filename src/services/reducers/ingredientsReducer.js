@@ -4,6 +4,7 @@ import {
   GET_INGREDIENTS_FAILED, 
   INCREASE_INGREDIENT_COUNT,
   DECREASE_INGREDIENT_COUNT,
+  RESET_INGREDIENTS_COUNT,
 } from '../actions/ingredientsActions';
 
 
@@ -44,6 +45,12 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
       }
 
     case DECREASE_INGREDIENT_COUNT: 
+      return {
+        ...state,
+        ingredients: payload,
+      }
+
+    case RESET_INGREDIENTS_COUNT:
       return {
         ...state,
         ingredients: payload,

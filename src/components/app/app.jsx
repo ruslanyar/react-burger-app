@@ -10,7 +10,7 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { getIngredients } from '../../services/actions/ingredientsActions';
+import { getIngredients, resetIngredientsCount } from '../../services/actions/ingredientsActions';
 import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetailsActions';
 import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
 import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
@@ -29,6 +29,7 @@ const App = () => {
   const closeOrderHandler = useCallback(() => {
     dispatch({ type: CLOSE_ORDER_DETAILS });
     dispatch({ type: CLEAR_CONSTRUCTOR });
+    dispatch(resetIngredientsCount());
   }, [dispatch]);
 
   useEffect(() => {
