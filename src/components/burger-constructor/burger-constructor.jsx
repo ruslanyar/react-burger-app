@@ -1,94 +1,89 @@
-import React, { useEffect, useReducer } from 'react';
-import PropTypes from 'prop-types';
-import { ConstructorElement, DragIcon, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import React, { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useIngredients } from '../../services/contexts/ingredients-context';
-import { orderFetch, checkResponse } from '../../utils/utils';
-import { constructorReducer, initialState } from '../../services/reducers/burger-constructor';
-import { SET_BUN, SET_IDS, SET_TOPINGS, SET_TOTAL_SUM } from '../../services/actions/burger-constructor';
+import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import constructorStyles from './burger-constructor.module.css';
+import { addIngredient } from '../../services/actions/constructorActions';
+import { increaseIngredientCount } from '../../services/actions/ingredientsActions';
+import { sendOrder } from '../../services/actions/orderActions';
 
-const BurgerConstructor = ({ openModal, setOrderDetails }) => {
-  const ingredients = useIngredients();
+import styles from './burger-constructor.module.css';
 
-  const [state, dispatch] = useReducer(constructorReducer, initialState);
+const BurgerConstructor = () => {
+  const { bun, other } = useSelector(store => store.burger.ingredients);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const bun = ingredients.find(item => item.type === 'bun');
-    const topings = ingredients.filter(item => item.type !== 'bun');
-    const bunPrice = bun.price * 2;
-    const totalPrice = topings.reduce((acc, cur) => {
-      return acc + cur.price;
-    }, bunPrice);
-    const ids = [bun._id, ...topings.map(item => item._id)];
+  const [, dropTargetRef] = useDrop({
+    accept: 'ingredient',
+    drop({ id }) {
+      dispatch(addIngredient(id));
+      dispatch(increaseIngredientCount(id));
+    },
+  });
 
-    dispatch({ type: SET_BUN, payload: bun });
-    dispatch({ type: SET_TOPINGS, payload: topings });
-    dispatch({ type: SET_TOTAL_SUM, payload: totalPrice })
-    dispatch({ type: SET_IDS, payload: ids })
-  }, [ingredients]);
+  const totalPrice = useMemo(() => {
+    const bunPrice = bun?.length ? bun[0].price * 2 : 0;
+    const otherPrice = other
+      .reduce((acc, cur) => {
+        return acc + cur.price;
+      }, 0);
+    const result = bunPrice + otherPrice;
+    return result;
+  }, [bun, other]);
 
-  function handleClick() {
-    orderFetch(state.ids)
-      .then(checkResponse)
-      .then(setOrderDetails)
-      .then(openModal)
-      .catch(error => console.log(error));
-  }
-
-  if (!state.bun && !state.topings) return null;
+  const onClickHandler = useCallback(() => {
+    const ids = [
+        ...bun.map(item => item._id),
+        ...other.map(item => item._id),
+      ];
+      
+    dispatch(sendOrder(ids));
+  }, [bun, other, dispatch]);
 
   return (
-    <section className={`${constructorStyles.constructor} mb-10 pt-25`}>
-      <div className='ml-6'>
-        <ConstructorElement
-          type='top'
-          isLocked={true}
-          text={`${state.bun.name} (верх)`}
-          price={state.bun.price}
-          thumbnail={state.bun.image}
-        />
-      </div>
-      <ul className={`${constructorStyles.list} mt-4 mb-4 custom-scroll`}>
-        {state.topings.map(item => (
-          <li key={item._id} className={`${constructorStyles['list__item']} mb-4`}>
-            <DragIcon />
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-            />
-          </li>
+    <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
+      {bun.length !== 0 && (
+        <div className='ml-6'>
+          <ConstructorElement
+            type='top'
+            isLocked={true}
+            text={`${bun[0].name} (верх)`}
+            price={bun[0].price}
+            thumbnail={bun[0].image}
+          />
+        </div>
+      )}
+      <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
+        {other && other.map((item, index) => (
+          <BurgerConstructorItem key={item.keyId} ingredient={item} index={index} />
         ))}
       </ul>
-      <div className='ml-6 mb-10'>
-        <ConstructorElement
-          type='bottom'
-          isLocked={true}
-          text={`${state.bun.name} (низ)`}
-          price={state.bun.price}
-          thumbnail={state.bun.image}
-        />
-      </div>
-      <div className={`${constructorStyles.currency} mr-4`}>
-        <div className={`${constructorStyles.total} mr-10`}>
-          <span className='text text_type_digits-medium mr-4'>{state.total}</span>
-          <div className={constructorStyles.icon}>
+      {bun.length !== 0 && (
+        <div className='ml-6 mb-10'>
+          <ConstructorElement
+            type='bottom'
+            isLocked={true}
+            text={`${bun[0].name} (низ)`}
+            price={bun[0].price}
+            thumbnail={bun[0].image}
+          />
+        </div>
+      )}
+      <div className={`${styles.currency} mr-4`}>
+        <div className={`${styles.total} mr-10`}>
+          <span className='text text_type_digits-medium mr-4'>{totalPrice}</span>
+          <div className={styles.icon}>
             <CurrencyIcon />
           </div>
         </div>
-        <div onClick={handleClick}>
+        <div onClick={onClickHandler}>
           <Button type="primary" size="large">Оформить заказ</Button>
         </div>
       </div>
     </section>
   );
-}
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func.isRequired,
-  setOrderDetails: PropTypes.func,
 }
 
 export default BurgerConstructor;

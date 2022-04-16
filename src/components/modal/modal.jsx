@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,27 +7,28 @@ import ModalOverlay from '../modal-overlay/modal-overlay';
 
 import { ESC_KEY } from '../../utils/constants';
 
-import modalStyles from './modal.module.css';
+import styles from './modal.module.css';
 
-const Modal = ({ children, title='', closeModal }) => {
+const Modal = ({ children, title='', close }) => {
+  const handleEscClose = useCallback((evt) => {
+    if (evt.key === ESC_KEY) {
+      close();
+    }
+  }, [close]);
   
   useEffect(() => {
-    const handleEscClose = (evt) => {
-      if (evt.key === ESC_KEY) closeModal();
-    }
-
     document.addEventListener('keydown', handleEscClose);
 
     return () => document.removeEventListener('keydown', handleEscClose);
-  }, [closeModal]);
+  }, [handleEscClose]);
 
   return createPortal(
     (
-      <ModalOverlay close={closeModal}>
-        <div className={`${modalStyles.container} pt-10 pb-15 pl-10 pr-10`}>
-          <div className={modalStyles.title}>
+      <ModalOverlay close={close}>
+        <div className={`${styles.container} pt-10 pb-15 pl-10 pr-10`}>
+          <div className={styles.title}>
             <h2 className='text text_type_main-large'>{title}</h2>
-            <div onClick={closeModal}>
+            <div onClick={close} className={styles.close}>
               <CloseIcon />
             </div>
           </div>
@@ -40,9 +41,9 @@ const Modal = ({ children, title='', closeModal }) => {
 }
 
 Modal.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
   title: PropTypes.string,
-  closeModal: PropTypes.func,
+  close: PropTypes.func.isRequired,
 }
 
 export default Modal;

@@ -1,6 +1,6 @@
 import { BASE_URL } from "./constants";
 
-export function orderFetch(igredients) {
+export function orderFetch(ids) {
   return fetch(`${BASE_URL}orders`, {
     method: 'POST',
     headers: {
@@ -8,7 +8,7 @@ export function orderFetch(igredients) {
     },
     body: JSON.stringify(
       {
-        ingredients: igredients
+        ingredients: ids
       }
     )
   });
@@ -19,4 +19,20 @@ export function checkResponse(res) {
     return res.json();
   }
   return Promise.reject(`Ошибка: ${res.status}`);
+}
+
+
+export function throttle(callee, timeout) {
+  let timer = null;
+
+  return function perform(...args) {
+    if (timer) return;
+
+    timer = setTimeout(() => {
+      callee(...args);
+
+      clearTimeout(timer);
+      timer = null;
+    }, timeout);
+  }
 }

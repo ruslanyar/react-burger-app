@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
@@ -7,80 +10,49 @@ import Modal from '../modal/modal';
 import OrderDetails from '../order-details/order-details';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
-import { IngredientsContextProvider } from '../../services/contexts/ingredients-context';
+import { getIngredients, resetIngredientsCount } from '../../services/actions/ingredientsActions';
+import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetailsActions';
+import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
+import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
 
-import { BASE_URL } from '../../utils/constants';
-import { checkResponse } from '../../utils/utils';
-
-import appStyles from './app.module.css';
+import styles from './app.module.css';
 
 const App = () => {
-  const [isIngredientModalShown, setIsIngredientModalShown] = useState(false);
-  const [isOrderModalShown, setIsOrderModalShown] = useState(false);
-  const [ingredientModal, setIngredientModal] = useState(null);
-  const [ingredientsData, setIngredientsData] = useState(null);
-  const [order, setOrder] = useState(null);
+  const isIngredientModalShown = useSelector(store => store.ingredientDetails.isOpen);
+  const isOrderModalShown = useSelector(store => store.orderDetails.isOpen);
+  const dispatch = useDispatch();
+
+  const closeDetailsHandler = useCallback(() => {
+    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
+  }, [dispatch]);
+
+  const closeOrderHandler = useCallback(() => {
+    dispatch({ type: CLOSE_ORDER_DETAILS });
+    dispatch({ type: CLEAR_CONSTRUCTOR });
+    dispatch(resetIngredientsCount());
+  }, [dispatch]);
 
   useEffect(() => {
-    const getIngredientsData = async (url) => {
-      try {
-        const res = await fetch(`${BASE_URL}${url}`);
-        const data = await checkResponse(res);
-
-        setIngredientsData(data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-
-    getIngredientsData('ingredients');
+    dispatch(getIngredients());
   }, []);
 
-  const handleOpenModalIngredient = (data) => {
-    setIngredientModal(data);
-    setIsIngredientModalShown(true);
-  }
-
-  const handleOpenModalOrder = () => {
-    setIsOrderModalShown(true);
-  }
-
-  const handleCloseModalIngredient = () => {
-    setIsIngredientModalShown(false);
-  }
-
-  const handleCloseModalOrder = () => {
-    setIsOrderModalShown(false);
-  }
-
-  return ingredientsData && (
+  return (
     <>
       <AppHeader />
-      <main className={appStyles.main}>
-        <BurgerIngredients
-          ingredients={ingredientsData}
-          openModal={handleOpenModalIngredient}
-        />
-        <IngredientsContextProvider ingredients={ingredientsData}>
-          <BurgerConstructor
-            openModal={handleOpenModalOrder}
-            setOrderDetails={setOrder}
-          />
-        </IngredientsContextProvider>
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={styles.main}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+        </main>
+      </DndProvider>
       {isIngredientModalShown && (
-        <Modal
-          title='Детали ингредиента'
-          closeModal={handleCloseModalIngredient}
-        >
-          <IngredientDetails ingredient={ingredientModal} />
+        <Modal title='Детали ингредиента' close={closeDetailsHandler}>
+          <IngredientDetails />
         </Modal>
       )}
       {isOrderModalShown && (
-        <Modal
-          closeModal={handleCloseModalOrder}
-        >
-          <OrderDetails orderDetails={order} />
+        <Modal close={closeOrderHandler}>
+          <OrderDetails />
         </Modal>
       )}
     </>

@@ -1,26 +1,19 @@
 .constructor {
   width: 600px;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
 }
 
 .list {
   width: 100%;
+  min-height: 60%;
   max-height: 464px;
   padding: 0;
   list-style-type: none;
   overflow-y: scroll;
-}
-
-.list__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.list-item:last-child {
-  margin-bottom: 0;
 }
 
 .currency {
