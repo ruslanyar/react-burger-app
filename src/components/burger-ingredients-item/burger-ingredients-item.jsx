@@ -10,20 +10,25 @@ import styles from './burger-ingredients-item.module.css';
 
 function BurgerIngredientsItem({ data }) {
   const dispatch = useDispatch();
-  const [, dragRef] = useDrag({
+  const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
     item: { id: data._id },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    })
   }, [data]);
 
   const onClickHandler = useCallback((item) => {
     dispatch(openIngredientDetails(item));
   }, [dispatch]);
 
+  const onDragStyle = isDragging ? styles['list__item_isDragging'] : '';
+
   return (
     <li
       key={data._id}
       onClick={() => onClickHandler(data)}
-      className={`${styles['list__item']} mb-8`}
+      className={`${styles['list__item']} ${onDragStyle} mb-8`}
       ref={dragRef}
     >
       <Counter count={data.count} size="default" />

@@ -7,6 +7,18 @@
   align-items: center;
 }
 
+.canDrop {
+  background-color: #26262a;
+  border: 1px solid #7920bd;
+  border-radius: 50px;
+}
+
+.isActive {
+  background-color: #131316;
+  border: 1px solid #7920bd;
+  border-radius: 50px;
+}
+
 .list {
   width: 100%;
   min-height: 60%;
