@@ -9,8 +9,10 @@ export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
 export const addIngredient = (itemId) => {
   return (dispatch, getState) => {
     const constructorIngredients = getState().burger.ingredients;
-    const item = {...getState().ingredients.ingredients.find(i => i._id === itemId)};
-    item.keyId = uuidv4();
+    const item = {
+      ...getState().ingredients.ingredients.find(i => i._id === itemId),
+      keyId: uuidv4(),
+    };
     const payload = {
       ...constructorIngredients,
       [item.type === BUN ? item.type : 'other']: item.type === BUN
@@ -27,7 +29,7 @@ export const addIngredient = (itemId) => {
 
 export const deleteIngredient = (itemId) => {
   return (dispatch, getState) => {
-    const list = [...getState().burger.ingredients.other]
+    const list = getState().burger.ingredients.other
       .filter(i => i.keyId !== itemId);
 
     dispatch({ type: DELETE_INGREDIENT, payload: list });
