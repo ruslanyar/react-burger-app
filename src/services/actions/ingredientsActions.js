@@ -47,7 +47,7 @@ export function increaseIngredientCount(itemId) {
 
 export function decreaseIngredientCount(itemId) {
   return (dispatch, getState) => {
-    const list = [...getState().ingredients.ingredients]
+    const list = getState().ingredients.ingredients
       .map(i => {
         if (i._id === itemId) return {...i, count: i.count - 1};
         return i;

@@ -8,6 +8,10 @@
   cursor: grab;
 }
 
+.list__item_isDragging {
+  opacity: .5;
+}
+
 .currency {
   display: flex;
   align-items: center;

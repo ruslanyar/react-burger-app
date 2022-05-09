@@ -15,12 +15,16 @@ const BurgerConstructor = () => {
   const { bun, other } = useSelector(store => store.burger.ingredients);
   const dispatch = useDispatch();
 
-  const [, dropTargetRef] = useDrop({
+  const [{ isHover, canDrop }, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop({ id }) {
       dispatch(addIngredient(id));
       dispatch(increaseIngredientCount(id));
     },
+    collect: monitor => ({
+      isHover: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    })
   });
 
   const totalPrice = useMemo(() => {
@@ -42,8 +46,12 @@ const BurgerConstructor = () => {
     dispatch(sendOrder(ids));
   }, [bun, other, dispatch]);
 
+  const isActive = canDrop && isHover;
+  const dropStyle = isActive ? styles.isActive : canDrop ? styles.canDrop : '';
+
   return (
-    <section className={`${styles.constructor} mb-10 pt-25`} ref={dropTargetRef}>
+    <section className={`${styles.constructor} mb-10 mt-25`} ref={dropTargetRef}>
+      <div style={{width: '100%', height: '100%'}} className={dropStyle}>
       {bun.length !== 0 && (
         <div className='ml-6'>
           <ConstructorElement
@@ -71,6 +79,7 @@ const BurgerConstructor = () => {
           />
         </div>
       )}
+      </div>
       <div className={`${styles.currency} mr-4`}>
         <div className={`${styles.total} mr-10`}>
           <span className='text text_type_digits-medium mr-4'>{totalPrice}</span>

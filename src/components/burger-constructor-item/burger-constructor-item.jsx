@@ -14,30 +14,49 @@ function BurgerConstructorItem ({ ingredient, index }) {
   const dispatch = useDispatch();
   const constructorElementRef = useRef(null);
 
-  const [, drop] = useDrop({
+  const [, dropRef] = useDrop({
     accept: 'constructor',
-    drop(item) {
+    hover(item, monitor) {
+      if (!constructorElementRef.current) return;
+
       const dragIndex = item.index;
-      const dropIndex = index;
-      if (dragIndex === dropIndex) return;
-      dispatch(sortIngredients(dragIndex, dropIndex));
-    }
+      const hoverIndex = index;
+      if (dragIndex === hoverIndex) return;
+
+      const hoverBoundingRect = constructorElementRef.current?.getBoundingClientRect();
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+
+      dispatch(sortIngredients(dragIndex, hoverIndex));
+      item.index = hoverIndex;
+    },
   });
 
-  const [, drag] = useDrag({
+  const [{ opacity }, dragRef] = useDrag({
     type: 'constructor',
-    item: { id: ingredient.keyId, index }
-  });
+    item: { id: ingredient.keyId, index },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0 : 1,
+    })
+  }, [ingredient, index]);
 
-  drop(drag(constructorElementRef));
+  dropRef(dragRef(constructorElementRef));
 
   const handleClose = useCallback((keyId, id) => {
     dispatch(decreaseIngredientCount(id));
     dispatch(deleteIngredient(keyId));
   }, [dispatch]);
 
-  return ( 
-    <li className={`${styles['list__item']} mb-4`} ref={constructorElementRef}>
+  return (
+    <li style={{opacity}} className={`${styles['list__item']} mb-4`} ref={constructorElementRef}>
       <DragIcon />
       <ConstructorElement
         text={ingredient.name}
