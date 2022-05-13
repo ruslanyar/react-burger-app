@@ -6,20 +6,18 @@ import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-de
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
 import { addIngredient } from '../../services/actions/constructorActions';
-import { increaseIngredientCount } from '../../services/actions/ingredientsActions';
 import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor = () => {
-  const { bun, other } = useSelector(store => store.burger.ingredients);
+  const { bun, topings } = useSelector(store => store.burger.ingredients);
   const dispatch = useDispatch();
 
   const [{ isHover, canDrop }, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop({ id }) {
       dispatch(addIngredient(id));
-      dispatch(increaseIngredientCount(id));
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
@@ -29,22 +27,22 @@ const BurgerConstructor = () => {
 
   const totalPrice = useMemo(() => {
     const bunPrice = bun?.length ? bun[0].price * 2 : 0;
-    const otherPrice = other
+    const otherPrice = topings
       .reduce((acc, cur) => {
         return acc + cur.price;
       }, 0);
     const result = bunPrice + otherPrice;
     return result;
-  }, [bun, other]);
+  }, [bun, topings]);
 
   const onClickHandler = useCallback(() => {
     const ids = [
         ...bun.map(item => item._id),
-        ...other.map(item => item._id),
+        ...topings.map(item => item._id),
       ];
       
     dispatch(sendOrder(ids));
-  }, [bun, other, dispatch]);
+  }, [bun, topings, dispatch]);
 
   const isActive = canDrop && isHover;
   const dropStyle = isActive ? styles.isActive : canDrop ? styles.canDrop : '';
@@ -64,7 +62,7 @@ const BurgerConstructor = () => {
         </div>
       )}
       <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
-        {other && other.map((item, index) => (
+        {topings && topings.map((item, index) => (
           <BurgerConstructorItem key={item.keyId} ingredient={item} index={index} />
         ))}
       </ul>

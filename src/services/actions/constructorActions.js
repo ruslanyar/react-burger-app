@@ -15,10 +15,10 @@ export const addIngredient = (itemId) => {
     };
     const payload = {
       ...constructorIngredients,
-      [item.type === BUN ? item.type : 'other']: item.type === BUN
+      [item.type === BUN ? item.type : 'topings']: item.type === BUN
         ? [item]
         : [
-            ...constructorIngredients.other,
+            ...constructorIngredients.topings,
             item,
           ]
     };
@@ -29,7 +29,7 @@ export const addIngredient = (itemId) => {
 
 export const deleteIngredient = (itemId) => {
   return (dispatch, getState) => {
-    const list = getState().burger.ingredients.other
+    const list = getState().burger.ingredients.topings
       .filter(i => i.keyId !== itemId);
 
     dispatch({ type: DELETE_INGREDIENT, payload: list });
@@ -38,7 +38,7 @@ export const deleteIngredient = (itemId) => {
 
 export const sortIngredients = (dragIndex, dropIndex) => {
   return (dispatch, getState) => {
-    const sortableIngredients = getState().burger.ingredients.other;
+    const sortableIngredients = getState().burger.ingredients.topings;
     sortableIngredients.splice(dropIndex, 0, ...sortableIngredients.splice(dragIndex, 1));
     dispatch({ type: SORT_INGREDIENTS, payload: sortableIngredients });
   }
