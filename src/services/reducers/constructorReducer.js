@@ -7,7 +7,7 @@ import {
 const initialState = {
   ingredients: {
     bun: [],
-    other: [],
+    topings: [],
   },
   isEmpty: true,
 }
@@ -26,9 +26,9 @@ export function constructorReducer(state = initialState, { type, payload }) {
         ...state,
         ingredients: {
           ...state.ingredients,
-          other: payload,
+          topings: payload,
         },
-        isEmpty: state.ingredients.bun.length || state.ingredients.other.length
+        isEmpty: state.ingredients.bun.length || state.ingredients.topings.length
           ? false
           : true
       }
@@ -38,7 +38,7 @@ export function constructorReducer(state = initialState, { type, payload }) {
         ...state,
         ingredients: {
           ...state.ingredients,
-          other: payload,
+          topings: payload,
         }
       }
 

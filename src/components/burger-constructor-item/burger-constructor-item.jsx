@@ -4,7 +4,6 @@ import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { decreaseIngredientCount } from '../../services/actions/ingredientsActions';
 import { deleteIngredient, sortIngredients } from '../../services/actions/constructorActions';
 import { ingredientPropType } from '../../utils/propTypes';
 
@@ -50,8 +49,7 @@ function BurgerConstructorItem ({ ingredient, index }) {
 
   dropRef(dragRef(constructorElementRef));
 
-  const handleClose = useCallback((keyId, id) => {
-    dispatch(decreaseIngredientCount(id));
+  const handleClose = useCallback((keyId) => {
     dispatch(deleteIngredient(keyId));
   }, [dispatch]);
 
@@ -62,7 +60,7 @@ function BurgerConstructorItem ({ ingredient, index }) {
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => handleClose(ingredient.keyId, ingredient._id)}
+        handleClose={() => handleClose(ingredient.keyId)}
       />
     </li>
    );

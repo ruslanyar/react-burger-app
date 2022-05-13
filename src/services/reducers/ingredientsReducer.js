@@ -2,9 +2,6 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
   GET_INGREDIENTS_FAILED, 
-  INCREASE_INGREDIENT_COUNT,
-  DECREASE_INGREDIENT_COUNT,
-  RESET_INGREDIENTS_COUNT,
 } from '../actions/ingredientsActions';
 
 
@@ -36,24 +33,6 @@ export const ingredientsReducer = (state = initialState, { type, payload }) => {
         ingredients: [],
         failed: true,
         request: false,
-      }
-
-    case INCREASE_INGREDIENT_COUNT:
-      return {
-        ...state,
-        ingredients: payload,
-      }
-
-    case DECREASE_INGREDIENT_COUNT: 
-      return {
-        ...state,
-        ingredients: payload,
-      }
-
-    case RESET_INGREDIENTS_COUNT:
-      return {
-        ...state,
-        ingredients: payload,
       }
 
     default:
