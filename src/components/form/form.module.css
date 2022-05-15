@@ -1,0 +1,18 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form__button {
+  align-self: center;
+}
+
+.form-container {
+  width: 480px;
+  margin-top: 180px;
+}
+
+.form-title,
+.form-text {
+  text-align: center;
+}

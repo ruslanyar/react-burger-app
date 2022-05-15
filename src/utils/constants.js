@@ -5,3 +5,7 @@ export const ESC_KEY = 'Escape';
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
+export const PASSWORD = 'password';
+export const TEXT = 'text';
+export const SHOW_ICON = 'ShowIcon';
+export const HIDE_ICON = 'HideIcon';

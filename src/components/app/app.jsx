@@ -1,61 +1,70 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
-import IngredientDetails from '../ingredient-details/ingredient-details';
+import {
+  Layout,
+  Home,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+} from '../../pages';
+
+// import Modal from "../modal/modal";
+// import OrderDetails from "../order-details/order-details";
+// import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
-import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetailsActions';
-import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
-import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
-
-import styles from './app.module.css';
+// import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredientDetailsActions";
+// import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
+// import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
 
 const App = () => {
-  const isIngredientModalShown = useSelector(store => store.ingredientDetails.isOpen);
-  const isOrderModalShown = useSelector(store => store.orderDetails.isOpen);
   const dispatch = useDispatch();
 
-  const closeDetailsHandler = useCallback(() => {
-    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  }, [dispatch]);
+  // const isIngredientModalShown = useSelector(
+  //   (store) => store.ingredientDetails.isOpen;
+  // );
+  // const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
 
-  const closeOrderHandler = useCallback(() => {
-    dispatch({ type: CLOSE_ORDER_DETAILS });
-    dispatch({ type: CLEAR_CONSTRUCTOR });
-  }, [dispatch]);
+  // const closeDetailsHandler = useCallback(() => {
+  //   dispatch({ type: CLOSE_INGREDIENT_DETAILS });
+  // }, [dispatch]);
+
+  // const closeOrderHandler = useCallback(() => {
+  //   dispatch({ type: CLOSE_ORDER_DETAILS });
+  //   dispatch({ type: CLEAR_CONSTRUCTOR });
+  // }, [dispatch]);
 
   useEffect(() => {
     dispatch(getIngredients());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-        </main>
-      </DndProvider>
-      {isIngredientModalShown && (
-        <Modal title='Детали ингредиента' close={closeDetailsHandler}>
-          <IngredientDetails />
-        </Modal>
-      )}
-      {isOrderModalShown && (
-        <Modal close={closeOrderHandler}>
-          <OrderDetails />
-        </Modal>
-      )}
-    </>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+        </Route>
+      </Routes>
+      {/* {isIngredientModalShown && (
+          <Modal title="Детали ингредиента" close={closeDetailsHandler}>
+            <IngredientDetails />
+          </Modal>
+        )}
+        {isOrderModalShown && (
+          <Modal close={closeOrderHandler}>
+            <OrderDetails />
+          </Modal>
+        )} */}
+    </Router>
+  );
+};
 
 export default App;
