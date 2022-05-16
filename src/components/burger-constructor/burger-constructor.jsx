@@ -10,7 +10,7 @@ import { sendOrder } from '../../services/actions/orderActions';
 
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor = () => {
+export default function BurgerConstructor() {
   const { bun, topings } = useSelector(store => store.burger.ingredients);
   const dispatch = useDispatch();
 
@@ -92,5 +92,3 @@ const BurgerConstructor = () => {
     </section>
   );
 }
-
-export default BurgerConstructor;

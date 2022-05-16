@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import styles from './modal-overlay.module.css';
 
-const ModalOverlay = ({ children, close }) => {
+export default function ModalOverlay({ children, close }) {
   return (
     <div
       className={styles.overlay}
@@ -18,5 +18,3 @@ ModalOverlay.propTypes = {
   children: PropTypes.node,
   close: PropTypes.func.isRequired,
 }
-
-export default ModalOverlay;

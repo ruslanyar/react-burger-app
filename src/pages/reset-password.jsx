@@ -10,7 +10,7 @@ export function ResetPassword() {
     <Form
       title="Восстановление пароля"
       buttonText="Сохранить"
-      text_1="Вспомнили пароль? Войти"
+      text="Вспомнили пароль? Войти"
     >
       <FormInput type={PASSWORD} placeholder='Введите новый пароль' icon={SHOW_ICON} />
       <FormInput type={TEXT} placeholder='Введите код из письма' />

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import {
   Layout,
@@ -20,7 +20,7 @@ import { getIngredients } from '../../services/actions/ingredientsActions';
 // import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
 // import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
 
-const App = () => {
+export default function App() {
   const dispatch = useDispatch();
 
   // const isIngredientModalShown = useSelector(
@@ -43,7 +43,7 @@ const App = () => {
   }, []);
 
   return (
-    <Router>
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -63,8 +63,6 @@ const App = () => {
             <OrderDetails />
           </Modal>
         )} */}
-    </Router>
+    </>
   );
 };
-
-export default App;

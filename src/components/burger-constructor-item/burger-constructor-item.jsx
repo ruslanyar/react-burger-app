@@ -9,7 +9,7 @@ import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';
 
-function BurgerConstructorItem ({ ingredient, index }) {
+export default function BurgerConstructorItem ({ ingredient, index }) {
   const dispatch = useDispatch();
   const constructorElementRef = useRef(null);
 
@@ -70,5 +70,3 @@ BurgerConstructorItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
   index: PropTypes.number.isRequired,
 }
-
-export default BurgerConstructorItem;

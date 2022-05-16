@@ -10,7 +10,9 @@ export function Register() {
     <Form
       title="Регистрация"
       buttonText="Зарегистрироваться"
-      text_1="Уже зарегистрированы? Войти"
+      text="Уже зарегистрированы? "
+      link="/login"
+      linkText="Войти"
     >
       <FormInput type={TEXT} placeholder='Имя' />
       <FormInput type="email" placeholder="E-mail" />

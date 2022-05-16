@@ -9,7 +9,7 @@ import { ESC_KEY } from '../../utils/constants';
 
 import styles from './modal.module.css';
 
-const Modal = ({ children, title='', close }) => {
+export default function Modal({ children, title='', close }) {
   const handleEscClose = useCallback((evt) => {
     if (evt.key === ESC_KEY) {
       close();
@@ -45,5 +45,3 @@ Modal.propTypes = {
   title: PropTypes.string,
   close: PropTypes.func.isRequired,
 }
-
-export default Modal;

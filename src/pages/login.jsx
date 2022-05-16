@@ -10,7 +10,9 @@ export function Login() {
     <Form
       title="Вход"
       buttonText="Войти"
-      text_1="Вы — новый пользователь? Зарегистрироваться"
+      text="Вы — новый пользователь? "
+      link="/register"
+      linkText="Зарегистрироваться"
       text_2={true}
     >
       <FormInput type="email" placeholder="E-mail" />

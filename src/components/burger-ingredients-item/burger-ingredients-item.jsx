@@ -8,7 +8,7 @@ import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-ingredients-item.module.css';
 
-function BurgerIngredientsItem({ ingredient }) {
+export default function BurgerIngredientsItem({ ingredient }) {
   const { bun, topings } = useSelector(store => store.burger.ingredients);
   const dispatch = useDispatch();
   const [{ isDragging }, dragRef] = useDrag({
@@ -61,5 +61,3 @@ function BurgerIngredientsItem({ ingredient }) {
 BurgerIngredientsItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
 }
-
-export default BurgerIngredientsItem;

@@ -8,7 +8,7 @@ import {
 
 import styles from './app-header.module.css';
 
-const AppHeader = () => {
+export default function AppHeader() {
 
   return (
     <header className={styles.header}>
@@ -42,5 +42,3 @@ const AppHeader = () => {
     </header>
   );
 }
-
-export default AppHeader;

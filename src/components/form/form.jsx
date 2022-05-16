@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -15,7 +16,9 @@ export default function Form({
   children,
   title,
   buttonText,
-  text_1,
+  text,
+  link,
+  linkText,
   text_2 = false,
 }) {
   return (
@@ -31,7 +34,8 @@ export default function Form({
       </form>
       <div>
         <p className={clsx('text text_type_main-default', styles['form-text'])}>
-          {text_1}
+          {text}
+          <Link to={link}>{linkText}</Link>
         </p>
         {text_2 && (
           <p
@@ -42,6 +46,7 @@ export default function Form({
           >
             Забыли пароль? Восстановить пароль
           </p>
+
         )}
       </div>
     </div>

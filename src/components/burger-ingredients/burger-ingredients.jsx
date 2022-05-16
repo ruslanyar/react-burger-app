@@ -10,7 +10,7 @@ import { BUN, MAIN, SAUCE } from '../../utils/constants';
 
 import styles from './burger-ingredients.module.css';
 
-const BurgerIngredients = () => {
+export default function BurgerIngredients() {
   const { ingredients, request, failed } = useSelector(store => store.ingredients);
   const [current, setCurrent] = useState(BUN);
 
@@ -80,5 +80,3 @@ const BurgerIngredients = () => {
     </section>
   );
 }
-
-export default BurgerIngredients;
