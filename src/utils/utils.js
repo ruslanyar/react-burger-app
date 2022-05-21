@@ -1,4 +1,4 @@
-import { BASE_URL, HIDE_ICON, PASSWORD, SHOW_ICON, TEXT } from "./constants";
+import { BASE_URL } from "./constants";
 
 export function orderFetch(ids) {
   return fetch(`${BASE_URL}orders`, {
@@ -35,24 +35,4 @@ export function throttle(callee, timeout) {
       timer = null;
     }, timeout);
   }
-}
-
-export function onIconClickHandler(setFn) {
-  setFn((prev) => {
-    if (prev.type === PASSWORD) {
-      return {
-        icon: HIDE_ICON,
-        type: TEXT,
-      };
-    } else {
-      return {
-        icon: SHOW_ICON,
-        type: PASSWORD,
-      };
-    }
-  });
-}
-
-export function inputOnChangeHandler(e, setFn) {
-  setFn(e.target.value);
 }
