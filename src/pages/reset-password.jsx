@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/form-input/form-input';
 import Form from '../components/form/form';
 
 import { PASSWORD, TEXT } from '../utils/constants';
-import { checkResponse } from '../utils/utils';
+import { resetPasswordRequest } from '../utils/api';
 
 export function ResetPassword() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const [passwordValue, setPasswordValue] = useState('');
   const [codeValue, setCodeValue] = useState('');
 
+  const from = location.state?.from?.pathname;
+
+  useEffect(() => {
+    if (from !== '/forgot-password') {
+      navigate('/forgot-password', { replace: true });
+    }
+  }, []);
+
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
-    fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then(checkResponse)
-      .then(data => {
-        console.log(data);
+
+    resetPasswordRequest(body)
+      .then((data) => {
         if (data.success) {
-          navigate('/login');
+          navigate('/login', { replace: true });
         }
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   };
 
   return (

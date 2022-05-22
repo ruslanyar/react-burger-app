@@ -39,7 +39,7 @@ export default function AppHeader() {
           <li
             className={`${styles['list-item']} mt-4 mb-4 pt-4 pb-4 pl-5 pr-5`}
           >
-            <NavLink to="/login" className={styles.link}>
+            <NavLink to="/" className={styles.link}>
               {({ isActive }) => (
                 <>
                   <ListIcon />

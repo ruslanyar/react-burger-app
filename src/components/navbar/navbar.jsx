@@ -6,7 +6,7 @@ import styles from './navbar.module.css';
 
 export default function Navbar() {
   const location = useLocation();
-  console.log(location);
+  
   return (
     <aside className={clsx(styles.aside, 'mr-15')}>
       <nav className='mb-20'>

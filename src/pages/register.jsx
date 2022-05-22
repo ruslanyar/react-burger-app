@@ -1,34 +1,35 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
 import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
-import { checkResponse } from '../utils/utils';
+import { registerRequest } from '../utils/api';
+import { USER_REGISTRATION } from '../services/actions/userActions';
 
 export function Register() {
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
+  const dispatch = useDispatch();
 
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
-    fetch('https://norma.nomoreparties.space/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then(checkResponse)
-      .then((data) => console.log(data))
-      .catch(err => console.log(err))
+
+    registerRequest(body)
+      .then((data) => {
+        if (data.success) {
+          dispatch({ type: USER_REGISTRATION, payload: data.user });
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <Form
       title="Регистрация"
-      body={{ "email": emailValue, "password": passwordValue, "name": nameValue }}
+      body={{ email: emailValue, password: passwordValue, name: nameValue }}
       buttonText="Зарегистрироваться"
       onSubmit={onSubmitHandler}
       text="Уже зарегистрированы?"

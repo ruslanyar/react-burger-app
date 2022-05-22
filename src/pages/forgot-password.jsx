@@ -1,33 +1,28 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/form-input/form-input';
 import Form from '../components/form/form';
+
 import { EMAIL } from '../utils/constants';
-import { checkResponse } from '../utils/utils';
+import { forgotPasswordRequest } from '../utils/api';
 
 export function ForgotPassword() {
   const navigate = useNavigate();
+  const location = useLocation();
+  
   const [emailValue, setEmailValue] = useState('');
 
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
-    fetch('https://norma.nomoreparties.space/api/password-reset', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then(checkResponse)
+
+    forgotPasswordRequest(body)
       .then((data) => {
         if (data.success) {
-          navigate('/reset-password');
+          navigate('/reset-password', { state: { from: location } });
         }
       })
-      .catch(err => {
-        console.log(err);
-      })
+      .catch((err) => console.log(err));
   };
 
   return (

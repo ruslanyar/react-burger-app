@@ -18,6 +18,7 @@ import {
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
 import ProfileForm from '../profile-form/profile-form';
+import ProtectedRoute from '../protected-route/protected-route';
 // import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredientDetailsActions";
 // import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
 // import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
@@ -48,12 +49,54 @@ export default function App() {
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-          <Route path="reset-password" element={<ResetPassword />} />
-          <Route path="profile" element={<Profile />}>
+          <Route
+            index
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <ProtectedRoute anonymous>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <ProtectedRoute anonymous>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="forgot-password"
+            element={
+              <ProtectedRoute anonymous>
+                <ForgotPassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="reset-password"
+            element={
+              <ProtectedRoute anonymous>
+                <ResetPassword />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<ProfileForm />} />
           </Route>
         </Route>
@@ -70,4 +113,4 @@ export default function App() {
         )} */}
     </>
   );
-};
+}

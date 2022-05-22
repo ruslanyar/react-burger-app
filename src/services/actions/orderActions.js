@@ -1,4 +1,4 @@
-import { checkResponse, orderFetch } from '../../utils/utils';
+import { orderFetch } from '../../utils/api';
 
 export const SEND_ORDER_REQUEST = 'SEND_ORDER_REQUEST';
 export const SEND_ORDER_SUCCESS = 'SEND_ORDER_SUCCESS';
@@ -11,7 +11,6 @@ export function sendOrder(ids) {
     if (!ids.length) return dispatch({ type: IS_EMPTY });
     dispatch({ type: SEND_ORDER_REQUEST });
     orderFetch(ids)
-      .then(checkResponse)
       .then(data => dispatch({ type: SEND_ORDER_SUCCESS, payload: data }))
       .catch(err => {
         console.log(err);
