@@ -16,20 +16,21 @@ export function Register() {
     fetch('https://norma.nomoreparties.space/api/auth/register', {
       method: 'POST',
       headers: {
-        'Content-Type': 'aplication/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     })
       .then(checkResponse)
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .catch(err => console.log(err))
   };
 
   return (
     <Form
       title="Регистрация"
-      body={{ email: emailValue, password: passwordValue, name: nameValue }}
+      body={{ "email": emailValue, "password": passwordValue, "name": nameValue }}
       buttonText="Зарегистрироваться"
-      onClick={onSubmitHandler}
+      onSubmit={onSubmitHandler}
       text="Уже зарегистрированы?"
       link="/login"
       linkText="Войти"

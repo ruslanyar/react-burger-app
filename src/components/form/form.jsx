@@ -18,7 +18,7 @@ export default function Form({
   title,
   body,
   buttonText,
-  onClick,
+  onSubmit,
   text,
   link,
   linkText,
@@ -27,10 +27,10 @@ export default function Form({
   return (
     <div className={styles['form-container']}>
       <h2 className={titleStyle}>{title}</h2>
-      <form className={styles.form}>
+      <form className={styles.form} onSubmit={(e) => onSubmit(e, body)}>
         {children}
         <div className={clsx(styles['form__button'], 'mb-20')}>
-          <Button type="primary" size="medium" onClick={(e) => onClick(e, body)}>
+          <Button type="primary" size="medium">
             {buttonText}
           </Button>
         </div>
@@ -68,7 +68,7 @@ Form.propTypes ={
   title: PropTypes.string,
   body: PropTypes.object.isRequired,
   buttonText: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   text: PropTypes.string,
   link: PropTypes.string.isRequired,
   linkText: PropTypes.string,

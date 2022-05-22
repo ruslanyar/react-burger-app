@@ -9,7 +9,7 @@
 
 .form-container {
   width: 480px;
-  margin-top: 180px;
+  margin: 180px auto 0;
 }
 
 .form-title,

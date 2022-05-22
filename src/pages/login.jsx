@@ -15,7 +15,7 @@ export function Login() {
     fetch('https://norma.nomoreparties.space/api/auth/login', {
       method: 'POST',
       headers: {
-        'Content-Type': 'aplication/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body)
     })
@@ -29,7 +29,7 @@ export function Login() {
       title="Вход"
       body={{ email: emailValue, password: passwordValue }}
       buttonText="Войти"
-      onClick={onSubmitHandler}
+      onSubmit={onSubmitHandler}
       text="Вы — новый пользователь?"
       link="/register"
       linkText="Зарегистрироваться"

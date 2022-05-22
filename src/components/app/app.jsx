@@ -9,6 +9,7 @@ import {
   Register,
   ForgotPassword,
   ResetPassword,
+  Profile,
 } from '../../pages';
 
 // import Modal from "../modal/modal";
@@ -16,6 +17,7 @@ import {
 // import IngredientDetails from "../ingredient-details/ingredient-details";
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
+import ProfileForm from '../profile-form/profile-form';
 // import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredientDetailsActions";
 // import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
 // import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
@@ -51,6 +53,9 @@ export default function App() {
           <Route path="register" element={<Register />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="profile" element={<Profile />}>
+            <Route index element={<ProfileForm />} />
+          </Route>
         </Route>
       </Routes>
       {/* {isIngredientModalShown && (

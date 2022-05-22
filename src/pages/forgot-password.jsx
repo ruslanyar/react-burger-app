@@ -15,7 +15,7 @@ export function ForgotPassword() {
     fetch('https://norma.nomoreparties.space/api/password-reset', {
       method: 'POST',
       headers: {
-        'Content-Type': 'aplication/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     })
@@ -35,7 +35,7 @@ export function ForgotPassword() {
       title="Восстановление пароля"
       body={{ email: emailValue }}
       buttonText="Восстановить"
-      onClick={onSubmitHandler}
+      onSubmit={onSubmitHandler}
       text="Вспомнили пароль?"
       link="/login"
       linkText="Войти"

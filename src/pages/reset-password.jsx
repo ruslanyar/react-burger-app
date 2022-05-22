@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/form-input/form-input';
 import Form from '../components/form/form';
@@ -7,21 +8,26 @@ import { PASSWORD, TEXT } from '../utils/constants';
 import { checkResponse } from '../utils/utils';
 
 export function ResetPassword() {
+  const navigate = useNavigate();
   const [passwordValue, setPasswordValue] = useState('');
   const [codeValue, setCodeValue] = useState('');
 
   const onSubmitHandler = (e, body) => {
-    console.log(JSON.stringify(body));
     e.preventDefault();
     fetch('https://norma.nomoreparties.space/api/password-reset/reset', {
       method: 'POST',
       headers: {
-        'Content-Type': 'aplication/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
     })
       .then(checkResponse)
-      .then(data => console.log(data))
+      .then(data => {
+        console.log(data);
+        if (data.success) {
+          navigate('/login');
+        }
+      })
       .catch(err => console.log(err))
   };
 
@@ -30,7 +36,7 @@ export function ResetPassword() {
       title="Восстановление пароля"
       body={{ password: passwordValue, token: codeValue }}
       buttonText="Сохранить"
-      onClick={onSubmitHandler}
+      onSubmit={onSubmitHandler}
       text="Вспомнили пароль?"
       link="/login"
       linkText="Войти"
