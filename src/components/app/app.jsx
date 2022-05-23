@@ -10,6 +10,7 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
+  NotFoundPage
 } from '../../pages';
 
 // import Modal from "../modal/modal";
@@ -99,6 +100,7 @@ export default function App() {
           >
             <Route index element={<ProfileForm />} />
           </Route>
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
       {/* {isIngredientModalShown && (
