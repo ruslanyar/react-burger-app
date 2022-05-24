@@ -2,7 +2,7 @@ import { USER_REGISTRATION, USER_SIGN_IN, USER_SIGN_OUT } from '../actions/userA
 
 
 const initialState = {
-  isAuth: false,
+  isAuth: true,
   user: null,
 }
 

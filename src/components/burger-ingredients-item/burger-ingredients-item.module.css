@@ -1,9 +1,6 @@
 .list__item {
   width: 272px;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   box-sizing: border-box;
   cursor: grab;
 }
@@ -14,5 +11,9 @@
 
 .currency {
   display: flex;
-  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  text-align: center;
 }

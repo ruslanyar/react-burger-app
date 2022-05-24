@@ -10,14 +10,9 @@
     0px 0px 1px rgba(0, 0, 0, 0.04);
 }
 
-.title {
-  width: 640px;
-  height: 64px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .close {
+  position: absolute;
+  top: 40px;
+  right: 40px;
   cursor: pointer;
 }

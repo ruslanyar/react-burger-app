@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Layout,
@@ -10,45 +10,62 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
-  NotFoundPage
+  NotFoundPage,
 } from '../../pages';
 
-// import Modal from "../modal/modal";
-// import OrderDetails from "../order-details/order-details";
-// import IngredientDetails from "../ingredient-details/ingredient-details";
-
-import { getIngredients } from '../../services/actions/ingredientsActions';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 import ProfileForm from '../profile-form/profile-form';
 import ProtectedRoute from '../protected-route/protected-route';
-// import { CLOSE_INGREDIENT_DETAILS } from "../../services/actions/ingredientDetailsActions";
+import Modal from '../modal/modal';
+import Loader from '../../ui/loader/Loader';
+// import OrderDetails from "../order-details/order-details";
+
+import { getIngredients } from '../../services/actions/ingredientsActions';
+
 // import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
 // import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
 
 export default function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, []);
+
+  const { request, failed } = useSelector(
+    (store) => store.ingredients
+  );
+
+  const background = location.state?.background;
 
   // const isIngredientModalShown = useSelector(
   //   (store) => store.ingredientDetails.isOpen;
   // );
   // const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
 
-  // const closeDetailsHandler = useCallback(() => {
-  //   dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  // }, [dispatch]);
+  const closeDetailsHandler = useCallback(() => {
+    navigate(-1);
+  }, [navigate]);
 
   // const closeOrderHandler = useCallback(() => {
   //   dispatch({ type: CLOSE_ORDER_DETAILS });
   //   dispatch({ type: CLEAR_CONSTRUCTOR });
   // }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getIngredients());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  if (request) return <Loader style={{ margin: '40px auto' }} />;
+
+  if (failed)
+    return (
+      <p className="text text_type_main-default">
+        Произошла ошибка при загрузке данных с сервера
+      </p>
+    );
 
   return (
     <>
-      <Routes>
+      <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
           <Route
             index
@@ -100,14 +117,25 @@ export default function App() {
           >
             <Route index element={<ProfileForm />} />
           </Route>
+          <Route path="ingredients/:id" element={<IngredientDetails />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
-      {/* {isIngredientModalShown && (
-          <Modal title="Детали ингредиента" close={closeDetailsHandler}>
-            <IngredientDetails />
-          </Modal>
-        )}
+
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal close={closeDetailsHandler}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+      {/* 
         {isOrderModalShown && (
           <Modal close={closeOrderHandler}>
             <OrderDetails />
