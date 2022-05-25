@@ -11,6 +11,7 @@ import {
   ResetPassword,
   Profile,
   NotFoundPage,
+  Ingredient,
 } from '../../pages';
 
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -32,7 +33,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, []);
+  }, [dispatch]);
 
   const { request, failed } = useSelector(
     (store) => store.ingredients
@@ -66,7 +67,9 @@ export default function App() {
   return (
     <>
       <Routes location={background || location}>
+
         <Route path="/" element={<Layout />}>
+
           <Route
             index
             element={
@@ -75,6 +78,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="login"
             element={
@@ -83,6 +87,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="register"
             element={
@@ -91,6 +96,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="forgot-password"
             element={
@@ -99,6 +105,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="reset-password"
             element={
@@ -107,6 +114,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path="profile"
             element={
@@ -117,21 +125,28 @@ export default function App() {
           >
             <Route index element={<ProfileForm />} />
           </Route>
-          <Route path="ingredients/:id" element={<IngredientDetails />} />
+
+          <Route path='feed' element={<div>Здесь пока ничео нет</div>} />
+
+          <Route path="ingredients/:id" element={<Ingredient />} />
+          
           <Route path="*" element={<NotFoundPage />} />
+
         </Route>
       </Routes>
 
       {background && (
         <Routes>
-          <Route
+
+          <Routes
             path="/ingredients/:id"
             element={
               <Modal close={closeDetailsHandler}>
-                <IngredientDetails />
+                <IngredientDetails isModal />
               </Modal>
             }
           />
+
         </Routes>
       )}
 

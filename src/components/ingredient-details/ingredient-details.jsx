@@ -1,23 +1,35 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import styles from './ingredient-details.module.css';
 import Loader from '../../ui/loader/Loader';
 
-export default function IngredientDetails() {
+export default function IngredientDetails({ isModal = false }) {
   const { id } = useParams();
 
-  const { ingredients, request } = useSelector((store) => store.ingredients);
-  const [ingredient] = ingredients.filter((ingredient) => ingredient._id === id);
+  const { ingredients } = useSelector((store) => store.ingredients);
 
-  if (request) return <Loader />;
+  if (Array.isArray(ingredients) && ingredients.length === 0) {
+    return <Loader />;
+  }
+
+  const [ingredient] = ingredients.filter(
+    (ingredient) => ingredient._id === id
+  );
 
   return (
     <div className={styles.details}>
-      <h2 className={clsx(styles.title, 'text', 'text_type_main-large')}>Детали ингредиента</h2>
-      <img src={ingredient.image_large} alt={ingredient.name} className="mb-4" />
+      <h2 className={clsx(isModal && styles.title, 'text', 'text_type_main-large')}>
+        Детали ингредиента
+      </h2>
+      <img
+        src={ingredient.image_large}
+        alt={ingredient.name}
+        className="mb-4"
+      />
       <span className="text text_type_main-medium mb-8">{ingredient.name}</span>
       <table width="516" align="center">
         <tbody>
@@ -43,4 +55,8 @@ export default function IngredientDetails() {
       </table>
     </div>
   );
+}
+
+IngredientDetails.propTypes = {
+  isModal: PropTypes.bool,
 }
