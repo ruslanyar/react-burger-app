@@ -7,6 +7,11 @@
   align-items: center;
 }
 
+.container {
+  width: 100%;
+  height: 100%;
+}
+
 .canDrop {
   background-color: #26262a;
   border: 1px solid #7920bd;

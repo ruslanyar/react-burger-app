@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+import clsx from 'clsx';
 import { ConstructorElement, Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
@@ -48,10 +49,10 @@ export default function BurgerConstructor() {
   const dropStyle = isActive ? styles.isActive : canDrop ? styles.canDrop : '';
 
   return (
-    <section className={`${styles.constructor} mb-10 mt-25`} ref={dropTargetRef}>
-      <div style={{width: '100%', height: '100%'}} className={dropStyle}>
+    <section className={clsx(styles.constructor, 'mb-10', 'mt-25')} ref={dropTargetRef}>
+      <div className={clsx(styles.container, dropStyle)}>
       {bun.length !== 0 && (
-        <div className='ml-6'>
+        <div className='ml-10'>
           <ConstructorElement
             type='top'
             isLocked={true}
@@ -61,13 +62,13 @@ export default function BurgerConstructor() {
           />
         </div>
       )}
-      <ul className={`${styles.list} mt-4 mb-4 custom-scroll`}>
+      <ul className={clsx(styles.list, 'mt-4', 'mb-4', 'custom-scroll')}>
         {topings && topings.map((item, index) => (
           <BurgerConstructorItem key={item.keyId} ingredient={item} index={index} />
         ))}
       </ul>
       {bun.length !== 0 && (
-        <div className='ml-6 mb-10'>
+        <div className='ml-10 mb-10'>
           <ConstructorElement
             type='bottom'
             isLocked={true}
@@ -78,8 +79,8 @@ export default function BurgerConstructor() {
         </div>
       )}
       </div>
-      <div className={`${styles.currency} mr-4`}>
-        <div className={`${styles.total} mr-10`}>
+      <div className={clsx(styles.currency, 'mr-4')}>
+        <div className={clsx(styles.total, 'mr-10')}>
           <span className='text text_type_digits-medium mr-4'>{totalPrice}</span>
           <div className={styles.icon}>
             <CurrencyIcon />

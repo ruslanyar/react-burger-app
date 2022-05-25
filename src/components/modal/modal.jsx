@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
+import clsx from 'clsx';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -27,7 +28,7 @@ export default function Modal({ children, close }) {
 
   return createPortal(
     <ModalOverlay close={close}>
-      <div className={`${styles.container} pt-10 pb-15 pl-10 pr-10`}>
+      <div className={clsx(styles.container, 'pt-10', 'pb-15', 'pl-10', 'pr-10')}>
         <div onClick={close} className={styles.close}>
           <CloseIcon />
         </div>

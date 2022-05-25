@@ -4,8 +4,9 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
-import styles from './ingredient-details.module.css';
 import Loader from '../../ui/loader/Loader';
+
+import styles from './ingredient-details.module.css';
 
 export default function IngredientDetails({ isModal = false }) {
   const { id } = useParams();

@@ -17,3 +17,13 @@
 .name {
   text-align: center;
 }
+
+.link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+
+.link:hover {
+  opacity: .6;
+}

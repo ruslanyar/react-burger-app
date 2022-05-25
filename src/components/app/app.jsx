@@ -35,9 +35,7 @@ export default function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
-  const { request, failed } = useSelector(
-    (store) => store.ingredients
-  );
+  const { request, failed } = useSelector((store) => store.ingredients);
 
   const background = location.state?.background;
 
@@ -67,9 +65,7 @@ export default function App() {
   return (
     <>
       <Routes location={background || location}>
-
         <Route path="/" element={<Layout />}>
-
           <Route
             index
             element={
@@ -126,19 +122,17 @@ export default function App() {
             <Route index element={<ProfileForm />} />
           </Route>
 
-          <Route path='feed' element={<div>Здесь пока ничео нет</div>} />
+          <Route path="feed" element={<div>Здесь пока ничео нет</div>} />
 
           <Route path="ingredients/:id" element={<Ingredient />} />
-          
-          <Route path="*" element={<NotFoundPage />} />
 
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
 
       {background && (
         <Routes>
-
-          <Routes
+          <Route
             path="/ingredients/:id"
             element={
               <Modal close={closeDetailsHandler}>
@@ -146,7 +140,6 @@ export default function App() {
               </Modal>
             }
           />
-
         </Routes>
       )}
 

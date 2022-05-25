@@ -14,7 +14,7 @@ import styles from './burger-ingredients-item.module.css';
 
 export default function BurgerIngredientsItem({ ingredient }) {
   const location = useLocation();
-  
+
   const { bun, topings } = useSelector((store) => store.burger.ingredients);
 
   const [{ isDragging }, dragRef] = useDrag(
@@ -40,18 +40,19 @@ export default function BurgerIngredientsItem({ ingredient }) {
     return counters[ingredient._id];
   }, [bun, topings, ingredient]);
 
-  const onDragStyle = isDragging ? styles['list__item_isDragging'] : '';
-
   return (
     <li
       key={ingredient._id}
-      className={`${styles['list__item']} ${onDragStyle} mb-8`}
+      className={clsx(
+        styles['list__item'],
+        isDragging && styles['list__item_isDragging']
+      )}
       ref={dragRef}
     >
       <Link
         to={`/ingredients/${ingredient._id}`}
-        style={{ color: 'inherit', textDecoration: 'none' }}
         state={{ background: location }}
+        className={styles.link}
       >
         <Counter count={count} size="default" />
         <img
