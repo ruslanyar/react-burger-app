@@ -35,11 +35,16 @@ export default function App() {
     dispatch(getIngredients());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (location.state?.background) {
+      window.history.replaceState({}, '');
+    }
+  }, [location.state?.background])
+
   const { request, failed } = useSelector((store) => store.ingredients);
 
   const background = location.state?.background;
 
-  console.log(background);
   // const isIngredientModalShown = useSelector(
   //   (store) => store.ingredientDetails.isOpen;
   // );
