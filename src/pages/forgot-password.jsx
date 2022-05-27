@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import FormInput from '../components/form-input/form-input';
 import Form from '../components/form/form';
 
-import { EMAIL } from '../utils/constants';
-import { forgotPasswordRequest } from '../utils/api';
+import { EMAIL, FORGOT_PASSWORD_ENDPOINT } from '../utils/constants';
+import { fetchAuth } from '../utils/api';
 
 export function ForgotPassword() {
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ export function ForgotPassword() {
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
 
-    forgotPasswordRequest(body)
+    fetchAuth(FORGOT_PASSWORD_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
           navigate('/reset-password', { state: { from: location } });

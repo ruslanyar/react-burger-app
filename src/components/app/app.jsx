@@ -39,6 +39,7 @@ export default function App() {
 
   const background = location.state?.background;
 
+  console.log(background);
   // const isIngredientModalShown = useSelector(
   //   (store) => store.ingredientDetails.isOpen;
   // );

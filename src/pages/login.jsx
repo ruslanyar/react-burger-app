@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
-import { EMAIL, PASSWORD } from '../utils/constants';
-import { loginRequest } from '../utils/api';
+import { EMAIL, LOGIN_ENDPOINT, PASSWORD } from '../utils/constants';
+import { fetchAuth } from '../utils/api';
 import { USER_SIGN_IN } from '../services/actions/userActions';
 
 export function Login() {
@@ -16,11 +16,16 @@ export function Login() {
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
 
-    loginRequest(body)
+    fetchAuth(LOGIN_ENDPOINT, body)
       .then(data => {
         if (data.success) {
+          console.log(data);
           dispatch({ type: USER_SIGN_IN, payload: data.user });
         }
+        return data;
+      })
+      .then(data => {
+        localStorage.setItem('token', data.refreshToken);
       })
       .catch(err => console.log(err))
   }

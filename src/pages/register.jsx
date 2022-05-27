@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
-import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
-import { registerRequest } from '../utils/api';
+import { EMAIL, PASSWORD, REGISTRATION_ENDPOINT, TEXT } from '../utils/constants';
+import { fetchAuth } from '../utils/api';
 import { USER_REGISTRATION } from '../services/actions/userActions';
 
 export function Register() {
@@ -17,7 +17,7 @@ export function Register() {
   const onSubmitHandler = (e, body) => {
     e.preventDefault();
 
-    registerRequest(body)
+    fetchAuth(REGISTRATION_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
           dispatch({ type: USER_REGISTRATION, payload: data.user });
