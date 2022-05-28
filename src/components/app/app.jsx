@@ -126,9 +126,10 @@ export default function App() {
             }
           >
             <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<div>Здесь пока ничего нет</div>} />
           </Route>
 
-          <Route path="feed" element={<div>Здесь пока ничео нет</div>} />
+          <Route path="feed" element={<div>Здесь пока ничего нет</div>} />
 
           <Route path="ingredients/:id" element={<Ingredient />} />
 

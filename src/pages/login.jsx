@@ -7,6 +7,7 @@ import FormInput from '../components/form-input/form-input';
 import { EMAIL, LOGIN_ENDPOINT, PASSWORD } from '../utils/constants';
 import { fetchAuth } from '../utils/api';
 import { USER_SIGN_IN } from '../services/actions/userActions';
+import { saveTokens } from '../utils/utils';
 
 export function Login() {
   const [emailValue, setEmailValue] = useState('');
@@ -19,14 +20,11 @@ export function Login() {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then(data => {
         if (data.success) {
-          console.log(data);
-          dispatch({ type: USER_SIGN_IN, payload: data.user });
+          dispatch({ type: USER_SIGN_IN, payload: {...data.user, pass: passwordValue} });
         }
         return data;
       })
-      .then(data => {
-        localStorage.setItem('token', data.refreshToken);
-      })
+      .then(saveTokens)
       .catch(err => console.log(err))
   }
 

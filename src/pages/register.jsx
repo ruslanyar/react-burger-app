@@ -7,6 +7,7 @@ import FormInput from '../components/form-input/form-input';
 import { EMAIL, PASSWORD, REGISTRATION_ENDPOINT, TEXT } from '../utils/constants';
 import { fetchAuth } from '../utils/api';
 import { USER_REGISTRATION } from '../services/actions/userActions';
+import { saveTokens } from '../utils/utils';
 
 export function Register() {
   const [nameValue, setNameValue] = useState('');
@@ -22,7 +23,9 @@ export function Register() {
         if (data.success) {
           dispatch({ type: USER_REGISTRATION, payload: data.user });
         }
+        return data;
       })
+      .then(saveTokens)
       .catch((err) => console.log(err));
   };
 
