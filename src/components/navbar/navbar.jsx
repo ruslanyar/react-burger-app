@@ -12,7 +12,7 @@ export default function Navbar() {
       <nav className='mb-20'>
         <ul className={styles.list}>
           <li className={styles['list__item']}>
-            <NavLink to="/profile" className={styles.link}>
+            <NavLink to="/profile" end className={styles.link}>
               {({ isActive }) => (
                 <span
                   className={clsx(

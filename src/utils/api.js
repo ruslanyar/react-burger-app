@@ -13,11 +13,12 @@ export function checkResponse(res) {
   return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export function orderFetch(ids) {
+export function orderFetch(ids, token) {
   return fetch(`${BASE_URL}${ORDERS_ENDPOINT}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: token,
     },
     body: JSON.stringify({
       ingredients: ids,
