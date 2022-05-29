@@ -5,14 +5,9 @@ import {
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import {
-  BASE_URL,
-  PASSWORD,
-  TEXT,
-  USER_ENDPOINT,
-} from '../../utils/constants';
+import { BASE_URL, PASSWORD, TEXT, USER_ENDPOINT } from '../../utils/constants';
 import { getCookie } from '../../utils/utils';
-import { updateTokens } from '../../utils/api';
+import { checkResponse, updateTokens } from '../../utils/api';
 
 import styles from './profile-form.module.css';
 
@@ -31,9 +26,11 @@ export default function ProfileForm() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        const response = await request.json();
-        setNameValue(response.user.name);
-        setLoginValue(response.user.email);
+        const response = await checkResponse(request);
+        if (response.success) {
+          setNameValue(response.user.name);
+          setLoginValue(response.user.email);
+        }
       } catch (error) {
         console.log(error);
         updateTokens()
@@ -90,7 +87,6 @@ export default function ProfileForm() {
 
     // TODO  Dispatch new user data to store
     // TODO  fetch 'POST' new user data to server
-    
 
     setIsChange(false);
   }, []);

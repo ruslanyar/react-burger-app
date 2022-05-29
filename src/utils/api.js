@@ -37,7 +37,7 @@ export function fetchAuth(endpoint, body) {
 }
 
 export function updateTokens() {
-  fetchAuth(REFRESH_TOKEN_ENDPOINT, {
+  return fetchAuth(REFRESH_TOKEN_ENDPOINT, {
     token: localStorage.getItem('refreshToken'),
   })
     .then(saveTokens)
