@@ -48,9 +48,9 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function saveTokens(res) {
-  localStorage.setItem('refreshToken', res.refreshToken);
-  const accessToken = res.accessToken.split('Bearer ')[1];
+export function saveTokens(data) {
+  localStorage.setItem('refreshToken', data.refreshToken);
+  const accessToken = data.accessToken.split('Bearer ')[1];
   if (accessToken) {
     setCookie('token', accessToken, { path: '/', 'max-age': 1200 });
   }

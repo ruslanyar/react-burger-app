@@ -3,6 +3,7 @@ export const REGISTRATION_ENDPOINT = 'auth/register';
 export const LOGIN_ENDPOINT = 'auth/login';
 export const LOGOUT_ENDPOINT = 'auth/logout';
 export const REFRESH_TOKEN_ENDPOINT = 'auth/token';
+export const USER_ENDPOINT = 'auth/user';
 export const INGREDIENTS_ENDPOINT = 'ingredients';
 export const ORDERS_ENDPOINT = 'orders';
 export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';

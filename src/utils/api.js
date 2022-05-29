@@ -1,7 +1,10 @@
 import {
   BASE_URL,
   ORDERS_ENDPOINT,
+  REFRESH_TOKEN_ENDPOINT
 } from './constants';
+
+import { saveTokens } from './utils';
 
 export function checkResponse(res) {
   if (res.ok) {
@@ -30,4 +33,11 @@ export function fetchAuth(endpoint, body) {
     },
     body: JSON.stringify(body),
   }).then(checkResponse);
+}
+
+export function updateTokens() {
+  fetchAuth(REFRESH_TOKEN_ENDPOINT, {
+    token: localStorage.getItem('refreshToken'),
+  })
+    .then(saveTokens)
 }

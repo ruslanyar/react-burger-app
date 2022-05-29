@@ -25,7 +25,7 @@ export function Login() {
         return data;
       })
       .then(saveTokens)
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   return (

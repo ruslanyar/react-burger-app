@@ -19,12 +19,11 @@ import ProfileForm from '../profile-form/profile-form';
 import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
-// import OrderDetails from "../order-details/order-details";
+import OrderDetails from "../order-details/order-details";
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
-
-// import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
-// import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
+import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
+import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -45,19 +44,16 @@ export default function App() {
 
   const background = location.state?.background;
 
-  // const isIngredientModalShown = useSelector(
-  //   (store) => store.ingredientDetails.isOpen;
-  // );
-  // const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
+  const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
 
   const closeDetailsHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
 
-  // const closeOrderHandler = useCallback(() => {
-  //   dispatch({ type: CLOSE_ORDER_DETAILS });
-  //   dispatch({ type: CLEAR_CONSTRUCTOR });
-  // }, [dispatch]);
+  const closeOrderHandler = useCallback(() => {
+    dispatch({ type: CLOSE_ORDER_DETAILS });
+    dispatch({ type: CLEAR_CONSTRUCTOR });
+  }, [dispatch]);
 
   if (request) return <Loader style={{ margin: '40px auto' }} />;
 
@@ -74,11 +70,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route
             index
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
+            element={<Home />}
           />
 
           <Route
@@ -150,12 +142,11 @@ export default function App() {
         </Routes>
       )}
 
-      {/* 
         {isOrderModalShown && (
           <Modal close={closeOrderHandler}>
             <OrderDetails />
           </Modal>
-        )} */}
+        )}
     </>
   );
 }
