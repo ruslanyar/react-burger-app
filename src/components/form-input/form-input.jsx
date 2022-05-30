@@ -5,6 +5,7 @@ import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 import { PASSWORD, SHOW_ICON, HIDE_ICON, TEXT, EMAIL } from '../../utils/constants';
 
 export default function FormInput({
+  name,
   type,
   placeholder,
   value,
@@ -32,6 +33,7 @@ export default function FormInput({
   return (
     <div className="mb-6">
       <Input
+        name={name}
         type={type === PASSWORD ? inputType.type : type}
         placeholder={placeholder}
         value={value}
@@ -44,8 +46,9 @@ export default function FormInput({
 }
 
 FormInput.propTypes = {
+  name: PropTypes.string.isRequired,
   type: PropTypes.oneOf([EMAIL, PASSWORD, TEXT]).isRequired,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   setValue: PropTypes.func.isRequired,
   icon: PropTypes.bool,

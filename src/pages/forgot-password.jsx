@@ -36,6 +36,7 @@ export function ForgotPassword() {
       linkText="Войти"
     >
       <FormInput
+        name='email'
         type={EMAIL}
         placeholder="Укажите e-mail"
         value={emailValue}

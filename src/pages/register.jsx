@@ -21,7 +21,7 @@ export function Register() {
     fetchAuth(REGISTRATION_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
-          dispatch({ type: USER_REGISTRATION, payload: data.user });
+          dispatch({ type: USER_REGISTRATION, payload: { ...data.user, pass: passwordValue } });
         }
         return data;
       })
@@ -40,18 +40,21 @@ export function Register() {
       linkText="Войти"
     >
       <FormInput
+        name='name'
         type={TEXT}
         placeholder="Имя"
         value={nameValue}
         setValue={setNameValue}
       />
       <FormInput
+        name='email'
         type={EMAIL}
         placeholder="E-mail"
         value={emailValue}
         setValue={setEmailValue}
       />
       <FormInput
+        name='password'
         type={PASSWORD}
         placeholder="Пароль"
         value={passwordValue}

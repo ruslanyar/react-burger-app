@@ -7,7 +7,8 @@ import {
 
 import { BASE_URL, PASSWORD, TEXT, USER_ENDPOINT } from '../../utils/constants';
 import { getCookie } from '../../utils/utils';
-import { checkResponse, updateTokens } from '../../utils/api';
+import { checkResponse, updateTokens, updateUserInfo } from '../../utils/api';
+import { USER_UPDATE } from '../../services/actions/userActions';
 
 import styles from './profile-form.module.css';
 
@@ -16,7 +17,7 @@ export default function ProfileForm() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getUser() {
+    async function getUserInfo() {
       try {
         const accessToken = getCookie('token');
         const request = await fetch(`${BASE_URL}${USER_ENDPOINT}`, {
@@ -34,11 +35,11 @@ export default function ProfileForm() {
       } catch (error) {
         console.log(error);
         updateTokens()
-          .then(getUser)
+          .then(getUserInfo)
           .catch((err) => console.log(err));
       }
     }
-    getUser();
+    getUserInfo();
   }, []);
 
   const [isChange, setIsChange] = useState(false);
@@ -82,14 +83,29 @@ export default function ProfileForm() {
     [onBlurHandler]
   );
 
-  const submitHandler = useCallback((e) => {
-    e.preventDefault();
+  const submitHandler = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    // TODO  Dispatch new user data to store
-    // TODO  fetch 'POST' new user data to server
-
-    setIsChange(false);
-  }, []);
+      const accessToken = getCookie('token');
+      updateUserInfo(accessToken, {
+        name: nameValue,
+        email: loginValue,
+        password: passwordValue,
+      })
+        .then((data) => {
+          if (data.success) {
+            dispatch({
+              type: USER_UPDATE,
+              payload: { ...data.user, pass: passwordValue },
+            });
+          }
+        })
+        .then(() => setIsChange(false))
+        .catch((err) => console.log(err));
+    },
+    [dispatch, loginValue, nameValue, passwordValue]
+  );
 
   const cancelHandler = useCallback(
     (e) => {

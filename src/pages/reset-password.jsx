@@ -45,6 +45,7 @@ export function ResetPassword() {
       linkText="Войти"
     >
       <FormInput
+        name='password'
         type={PASSWORD}
         placeholder="Введите новый пароль"
         value={passwordValue}
@@ -52,6 +53,7 @@ export function ResetPassword() {
         icon
       />
       <FormInput
+        name='reset-token'
         type={TEXT}
         placeholder="Введите код из письма"
         value={codeValue}

@@ -40,12 +40,14 @@ export function Login() {
       isLoginPage
     >
       <FormInput
+        name='email'
         type={EMAIL}
         placeholder="E-mail"
         value={emailValue}
         setValue={setEmailValue}
       />
       <FormInput
+        name='password'
         type={PASSWORD}
         placeholder="Пароль"
         value={passwordValue}

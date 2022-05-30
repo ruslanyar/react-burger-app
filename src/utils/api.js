@@ -1,7 +1,8 @@
 import {
   BASE_URL,
   ORDERS_ENDPOINT,
-  REFRESH_TOKEN_ENDPOINT
+  REFRESH_TOKEN_ENDPOINT,
+  USER_ENDPOINT
 } from './constants';
 
 import { saveTokens } from './utils';
@@ -41,4 +42,16 @@ export function updateTokens() {
     token: localStorage.getItem('refreshToken'),
   })
     .then(saveTokens)
+}
+
+export function updateUserInfo(accessToken, body) {
+  return fetch(`${BASE_URL}${USER_ENDPOINT}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(body)
+  })
+    .then(checkResponse);
 }
