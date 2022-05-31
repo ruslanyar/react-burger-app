@@ -55,7 +55,7 @@ export default function App() {
     dispatch({ type: CLEAR_CONSTRUCTOR });
   }, [dispatch]);
 
-  if (request) return <Loader style={{ margin: '40px auto' }} />;
+  if (request) return <Loader />;
 
   if (failed)
     return (
