@@ -24,7 +24,7 @@ export default function AppHeader() {
             <NavLink to="/" className={styles.link}>
               {({ isActive }) => (
                 <>
-                  <BurgerIcon />
+                  <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
                       linkTextStyle,
@@ -43,7 +43,7 @@ export default function AppHeader() {
             <NavLink to="/feed" className={styles.link}>
               {({ isActive }) => (
                 <>
-                  <ListIcon />
+                  <ListIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
                       linkTextStyle,
@@ -67,7 +67,7 @@ export default function AppHeader() {
             <NavLink to="/profile" className={styles.link}>
               {({ isActive }) => (
                 <>
-                  <ProfileIcon />
+                  <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
                       linkTextStyle,
