@@ -24,6 +24,7 @@ import OrderDetails from "../order-details/order-details";
 import { getIngredients } from '../../services/actions/ingredientsActions';
 import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
 import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
+import { getUserInfo } from "../../services/actions/userActions";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ export default function App() {
 
   useEffect(() => {
     dispatch(getIngredients());
+    dispatch(getUserInfo());
   }, [dispatch]);
 
   useEffect(() => {
