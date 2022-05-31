@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './navbar.module.css';
-import { fetchAuth } from '../../utils/api';
-import { LOGOUT_ENDPOINT } from '../../utils/constants';
 import { useDispatch } from 'react-redux';
-import { USER_SIGN_OUT } from '../../services/actions/userActions';
+import { signoutUser } from '../../services/actions/userActions';
 
 export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const onClickHandler = () => {
-    const refreshToken = localStorage.getItem('refreshToken');
-    fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })
-      .then(() => dispatch({ type: USER_SIGN_OUT }))
-  }
+  const onClickHandler = useCallback(() => {
+    dispatch(signoutUser());
+  }, [dispatch]);
   
   return (
     <aside className={clsx(styles.aside, 'mr-15')}>

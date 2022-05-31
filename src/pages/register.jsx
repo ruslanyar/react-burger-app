@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
-import { EMAIL, PASSWORD, REGISTRATION_ENDPOINT, TEXT } from '../utils/constants';
-import { fetchAuth } from '../utils/api';
-import { USER_REGISTRATION } from '../services/actions/userActions';
-import { saveTokens } from '../utils/utils';
+import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
+import { registerUser } from '../services/actions/userActions';
 
 export function Register() {
   const [nameValue, setNameValue] = useState('');
@@ -15,24 +13,24 @@ export function Register() {
   const [passwordValue, setPasswordValue] = useState('');
   const dispatch = useDispatch();
 
-  const onSubmitHandler = (e, body) => {
-    e.preventDefault();
+  const body = useMemo(() => ({
+    email: emailValue,
+    password: passwordValue,
+    name: nameValue,
+  }), [emailValue, nameValue, passwordValue]);
 
-    fetchAuth(REGISTRATION_ENDPOINT, body)
-      .then((data) => {
-        if (data.success) {
-          dispatch({ type: USER_REGISTRATION, payload: { ...data.user, pass: passwordValue } });
-        }
-        return data;
-      })
-      .then(saveTokens)
-      .catch((err) => console.log(err));
-  };
+  const onSubmitHandler = useCallback(
+    (e, body) => {
+      e.preventDefault();
+      dispatch(registerUser(body));
+    },
+    [dispatch]
+  );
 
   return (
     <Form
       title="Регистрация"
-      body={{ email: emailValue, password: passwordValue, name: nameValue }}
+      body={body}
       buttonText="Зарегистрироваться"
       onSubmit={onSubmitHandler}
       text="Уже зарегистрированы?"
@@ -40,21 +38,21 @@ export function Register() {
       linkText="Войти"
     >
       <FormInput
-        name='name'
+        name="name"
         type={TEXT}
         placeholder="Имя"
         value={nameValue}
         setValue={setNameValue}
       />
       <FormInput
-        name='email'
+        name="email"
         type={EMAIL}
         placeholder="E-mail"
         value={emailValue}
         setValue={setEmailValue}
       />
       <FormInput
-        name='password'
+        name="password"
         type={PASSWORD}
         placeholder="Пароль"
         value={passwordValue}

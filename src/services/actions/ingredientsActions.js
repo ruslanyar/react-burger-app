@@ -6,7 +6,7 @@ export const GET_INGREDIENTS_SUCCESS = 'GET_INGREDIENTS_SUCCESS';
 export const GET_INGREDIENTS_FAILED = 'GET_INGREDIENTS_FAILED';
 
 export function getIngredients() {
-  return function(dispatch) {
+  return function (dispatch) {
     dispatch({ type: GET_INGREDIENTS_REQUEST });
     fetch(`${BASE_URL}${INGREDIENTS_ENDPOINT}`)
       .then(checkResponse)

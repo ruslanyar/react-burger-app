@@ -1,37 +1,31 @@
-import React, { useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
-import { EMAIL, LOGIN_ENDPOINT, PASSWORD } from '../utils/constants';
-import { fetchAuth } from '../utils/api';
-import { USER_SIGN_IN } from '../services/actions/userActions';
-import { saveTokens } from '../utils/utils';
+import { EMAIL, PASSWORD } from '../utils/constants';
+import { signinUser } from '../services/actions/userActions';
 
 export function Login() {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const dispatch = useDispatch();
 
-  const onSubmitHandler = (e, body) => {
-    e.preventDefault();
+  const body = useMemo(() => ({
+    email: emailValue,
+    password: passwordValue,
+  }), [emailValue, passwordValue]);
 
-    fetchAuth(LOGIN_ENDPOINT, body)
-      .then(data => {
-        if (data.success) {
-          dispatch({ type: USER_SIGN_IN, payload: {...data.user, pass: passwordValue} });
-        }
-        return data;
-      })
-      .then(saveTokens)
-      .catch(err => console.log(err));
-  }
+  const onSubmitHandler = useCallback((e, body) => {
+    e.preventDefault();
+    dispatch(signinUser(body));
+  }, [dispatch]);
 
   return (
     <Form
       title="Вход"
-      body={{ email: emailValue, password: passwordValue }}
+      body={body}
       buttonText="Войти"
       onSubmit={onSubmitHandler}
       text="Вы — новый пользователь?"
@@ -40,14 +34,14 @@ export function Login() {
       isLoginPage
     >
       <FormInput
-        name='email'
+        name="email"
         type={EMAIL}
         placeholder="E-mail"
         value={emailValue}
         setValue={setEmailValue}
       />
       <FormInput
-        name='password'
+        name="password"
         type={PASSWORD}
         placeholder="Пароль"
         value={passwordValue}

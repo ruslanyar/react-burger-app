@@ -1,51 +1,43 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { BASE_URL, PASSWORD, TEXT, USER_ENDPOINT } from '../../utils/constants';
-import { getCookie } from '../../utils/utils';
-import { checkResponse, updateTokens, updateUserInfo } from '../../utils/api';
-import { USER_UPDATE } from '../../services/actions/userActions';
+import { PASSWORD, TEXT } from '../../utils/constants';
+import { updateUserInfo } from '../../services/actions/userActions';
+import { getUserInfo } from '../../services/actions/userActions';
 
 import styles from './profile-form.module.css';
 
 export default function ProfileForm() {
-  const { name, email, pass } = useSelector((store) => store.user.user);
+  const { name, email } = useSelector((store) => store.user.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    async function getUserInfo() {
-      try {
-        const accessToken = getCookie('token');
-        const request = await fetch(`${BASE_URL}${USER_ENDPOINT}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const response = await checkResponse(request);
-        if (response.success) {
-          setNameValue(response.user.name);
-          setLoginValue(response.user.email);
-        }
-      } catch (error) {
-        console.log(error);
-        updateTokens()
-          .then(getUserInfo)
-          .catch((err) => console.log(err));
-      }
-    }
-    getUserInfo();
-  }, []);
+    dispatch(getUserInfo());
+  }, [dispatch]);
 
   const [isChange, setIsChange] = useState(false);
   const [nameValue, setNameValue] = useState(name);
   const [loginValue, setLoginValue] = useState(email);
-  const [passwordValue, setPasswordValue] = useState(pass);
+  const [passwordValue, setPasswordValue] = useState('');
+
+  const body = useMemo(
+    () => ({
+      name: nameValue,
+      email: loginValue,
+      password: passwordValue,
+    }),
+    [nameValue, loginValue, passwordValue]
+  );
 
   const [passInputType, setPassInputType] = useState(PASSWORD);
 
@@ -86,25 +78,9 @@ export default function ProfileForm() {
   const submitHandler = useCallback(
     (e) => {
       e.preventDefault();
-
-      const accessToken = getCookie('token');
-      updateUserInfo(accessToken, {
-        name: nameValue,
-        email: loginValue,
-        password: passwordValue,
-      })
-        .then((data) => {
-          if (data.success) {
-            dispatch({
-              type: USER_UPDATE,
-              payload: { ...data.user, pass: passwordValue },
-            });
-          }
-        })
-        .then(() => setIsChange(false))
-        .catch((err) => console.log(err));
+      dispatch(updateUserInfo(body, setIsChange));
     },
-    [dispatch, loginValue, nameValue, passwordValue]
+    [dispatch, body]
   );
 
   const cancelHandler = useCallback(
@@ -112,10 +88,10 @@ export default function ProfileForm() {
       e.preventDefault();
       setNameValue(name);
       setLoginValue(email);
-      setPasswordValue(pass);
+      setPasswordValue('');
       setIsChange(false);
     },
-    [email, name, pass]
+    [email, name]
   );
 
   return (
