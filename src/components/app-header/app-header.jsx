@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   Logo,
@@ -57,9 +57,9 @@ export default function AppHeader() {
             </NavLink>
           </li>
           <li className={styles['list-item']}>
-            <a href="/" className={styles.link}>
+            <Link to="/" className={styles.link}>
               <Logo />
-            </a>
+            </Link>
           </li>
           <li
             className={listItemStyle}
