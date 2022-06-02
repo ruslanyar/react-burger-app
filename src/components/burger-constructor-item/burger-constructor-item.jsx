@@ -2,14 +2,21 @@ import React, { useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import PropTypes from 'prop-types';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import clsx from 'clsx';
+import {
+  ConstructorElement,
+  DragIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { deleteIngredient, sortIngredients } from '../../services/actions/constructorActions';
+import {
+  deleteIngredient,
+  sortIngredients,
+} from '../../services/actions/constructorActions';
 import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';
 
-function BurgerConstructorItem ({ ingredient, index }) {
+export default function BurgerConstructorItem({ ingredient, index }) {
   const dispatch = useDispatch();
   const constructorElementRef = useRef(null);
 
@@ -22,7 +29,8 @@ function BurgerConstructorItem ({ ingredient, index }) {
       const hoverIndex = index;
       if (dragIndex === hoverIndex) return;
 
-      const hoverBoundingRect = constructorElementRef.current?.getBoundingClientRect();
+      const hoverBoundingRect =
+        constructorElementRef.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
@@ -39,22 +47,32 @@ function BurgerConstructorItem ({ ingredient, index }) {
     },
   });
 
-  const [{ opacity }, dragRef] = useDrag({
-    type: 'constructor',
-    item: { id: ingredient.keyId, index },
-    collect: monitor => ({
-      opacity: monitor.isDragging() ? 0 : 1,
-    })
-  }, [ingredient, index]);
+  const [{ opacity }, dragRef] = useDrag(
+    {
+      type: 'constructor',
+      item: { id: ingredient.keyId, index },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0 : 1,
+      }),
+    },
+    [ingredient, index]
+  );
 
   dropRef(dragRef(constructorElementRef));
 
-  const handleClose = useCallback((keyId) => {
-    dispatch(deleteIngredient(keyId));
-  }, [dispatch]);
+  const handleClose = useCallback(
+    (keyId) => {
+      dispatch(deleteIngredient(keyId));
+    },
+    [dispatch]
+  );
 
   return (
-    <li style={{opacity}} className={`${styles['list__item']} mb-4`} ref={constructorElementRef}>
+    <li
+      style={{ opacity }}
+      className={clsx(styles['list__item'], 'mb-4')}
+      ref={constructorElementRef}
+    >
       <DragIcon />
       <ConstructorElement
         text={ingredient.name}
@@ -63,12 +81,10 @@ function BurgerConstructorItem ({ ingredient, index }) {
         handleClose={() => handleClose(ingredient.keyId)}
       />
     </li>
-   );
+  );
 }
 
 BurgerConstructorItem.propTypes = {
   ingredient: ingredientPropType.isRequired,
   index: PropTypes.number.isRequired,
-}
-
-export default BurgerConstructorItem;
+};

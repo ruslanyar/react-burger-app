@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import clsx from 'clsx';
 import {
   Logo,
   BurgerIcon,
@@ -8,39 +10,78 @@ import {
 
 import styles from './app-header.module.css';
 
-const AppHeader = () => {
+const linkTextStyle = 'text text_type_main-default ml-2';
+const listItemStyle = clsx(styles['list-item'], 'mt-4', 'mb-4', 'pt-4', 'pb-4', 'pl-5', 'pr-5');
 
+export default function AppHeader() {
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>
         <ul className={styles.list}>
-          <li className={`${styles['list-item']} mt-4 mb-4 mr-2 pt-4 pb-4 pl-5 pr-5`}>
-            <a href="#" className={styles.link}>
-              <BurgerIcon />
-              <span className='text text_type_main-default ml-2'>Конструктор</span>
-            </a>
+          <li
+            className={listItemStyle}
+          >
+            <NavLink to="/" className={styles.link}>
+              {({ isActive }) => (
+                <>
+                  <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
+                  <span
+                    className={clsx(
+                      linkTextStyle,
+                      !isActive && 'text_color_inactive'
+                    )}
+                  >
+                    Конструктор
+                  </span>
+                </>
+              )}
+            </NavLink>
           </li>
-          <li className={`${styles['list-item']} mt-4 mb-4 pt-4 pb-4 pl-5 pr-5`}>
-            <a href="#" className={styles.link}>
-              <ListIcon />
-              <span className='text text_type_main-default text_color_inactive ml-2'>Лента заказов</span>
-            </a>
+          <li
+            className={listItemStyle}
+          >
+            <NavLink to="/feed" className={styles.link}>
+              {({ isActive }) => (
+                <>
+                  <ListIcon type={isActive ? 'primary' : 'secondary'} />
+                  <span
+                    className={clsx(
+                      linkTextStyle,
+                      !isActive && 'text_color_inactive'
+                    )}
+                  >
+                    Лента заказов
+                  </span>
+                </>
+              )}
+            </NavLink>
           </li>
           <li className={styles['list-item']}>
-            <a href="#" className={styles.link}>
+            <Link to="/" className={styles.link}>
               <Logo />
-            </a>
+            </Link>
           </li>
-          <li className={`${styles['list-item']} mt-4 mb-4 pt-4 pb-4 pl-5 pr-5`}>
-            <a href="#" className={styles.link}>
-              <ProfileIcon />
-              <span className='text text_type_main-default text_color_inactive ml-2'>Личный кабинет</span>
-            </a>
+          <li
+            className={listItemStyle}
+          >
+            <NavLink to="/profile" className={styles.link}>
+              {({ isActive }) => (
+                <>
+                  <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
+                  <span
+                    className={clsx(
+                      linkTextStyle,
+                      !isActive && 'text_color_inactive'
+                    )}
+                  >
+                    Личный кабинет
+                  </span>
+                </>
+              )}
+            </NavLink>
           </li>
         </ul>
       </nav>
     </header>
   );
 }
-
-export default AppHeader;

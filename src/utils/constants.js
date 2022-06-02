@@ -1,7 +1,20 @@
 export const BASE_URL = 'https://norma.nomoreparties.space/api/';
-export const INGREDIENTS = 'ingredients';
-export const ORDERS = 'orders';
+export const REGISTRATION_ENDPOINT = 'auth/register';
+export const LOGIN_ENDPOINT = 'auth/login';
+export const LOGOUT_ENDPOINT = 'auth/logout';
+export const REFRESH_TOKEN_ENDPOINT = 'auth/token';
+export const USER_ENDPOINT = 'auth/user';
+export const INGREDIENTS_ENDPOINT = 'ingredients';
+export const ORDERS_ENDPOINT = 'orders';
+export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
+export const RESET_PASSWORD_ENDPOINT ='password-reset/reset';
+
 export const ESC_KEY = 'Escape';
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
+export const PASSWORD = 'password';
+export const TEXT = 'text';
+export const EMAIL = 'email';
+export const SHOW_ICON = 'ShowIcon';
+export const HIDE_ICON = 'HideIcon';

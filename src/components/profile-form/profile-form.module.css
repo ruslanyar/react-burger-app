@@ -1,0 +1,8 @@
+.profile-form {
+  width: 480px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+}

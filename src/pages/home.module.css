@@ -1,5 +1,6 @@
-.main {
+.constructor-container {
   display: flex;
   width: 1240px;
   justify-content: space-between;
+  margin: 0 auto;
 }

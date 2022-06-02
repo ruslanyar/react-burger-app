@@ -5,3 +5,18 @@
   max-width: 1280px;
   margin: 0 auto 0;
 }
+
+.input__container,
+.input {
+  width: 100%;
+}
+
+.link {
+  color: #4C4CFF;
+  text-decoration: none;
+  transition: opacity .3s;
+}
+
+.link:hover {
+  opacity: .8;
+}

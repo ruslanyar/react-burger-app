@@ -6,7 +6,7 @@ import Loader from '../../ui/loader/Loader';
 
 import styles from './order-details.module.css'
 
-const OrderDetails = () => {
+export default function OrderDetails() {
   const { order, request, failed, isEmpty } = useSelector(store => store.orderDetails);
   const number = order.order?.number;
 
@@ -45,5 +45,3 @@ const OrderDetails = () => {
     </div>
   );
 }
-
-export default OrderDetails;

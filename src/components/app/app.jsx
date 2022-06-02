@@ -1,61 +1,154 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Modal from '../modal/modal';
-import OrderDetails from '../order-details/order-details';
+import {
+  Layout,
+  Home,
+  Login,
+  Register,
+  ForgotPassword,
+  ResetPassword,
+  Profile,
+  NotFoundPage,
+  Ingredient,
+} from '../../pages';
+
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import ProfileForm from '../profile-form/profile-form';
+import ProtectedRoute from '../protected-route/protected-route';
+import Modal from '../modal/modal';
+import Loader from '../../ui/loader/Loader';
+import OrderDetails from "../order-details/order-details";
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
-import { CLOSE_INGREDIENT_DETAILS } from '../../services/actions/ingredientDetailsActions';
-import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
-import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
+import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
+import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
+import { getUserInfo } from "../../services/actions/userActions";
 
-import styles from './app.module.css';
-
-const App = () => {
-  const isIngredientModalShown = useSelector(store => store.ingredientDetails.isOpen);
-  const isOrderModalShown = useSelector(store => store.orderDetails.isOpen);
+export default function App() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getIngredients());
+    dispatch(getUserInfo());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (location.state?.background) {
+      window.history.replaceState({}, '');
+    }
+  }, [location.state?.background])
+
+  const { request, failed } = useSelector((store) => store.ingredients);
+
+  const background = location.state?.background;
+
+  const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
 
   const closeDetailsHandler = useCallback(() => {
-    dispatch({ type: CLOSE_INGREDIENT_DETAILS });
-  }, [dispatch]);
+    navigate(-1);
+  }, [navigate]);
 
   const closeOrderHandler = useCallback(() => {
     dispatch({ type: CLOSE_ORDER_DETAILS });
     dispatch({ type: CLEAR_CONSTRUCTOR });
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, []);
+  if (request) return <Loader />;
+
+  if (failed)
+    return (
+      <p className="text text_type_main-default">
+        Произошла ошибка при загрузке данных с сервера
+      </p>
+    );
 
   return (
     <>
-      <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-            <BurgerIngredients />
-            <BurgerConstructor />
-        </main>
-      </DndProvider>
-      {isIngredientModalShown && (
-        <Modal title='Детали ингредиента' close={closeDetailsHandler}>
-          <IngredientDetails />
-        </Modal>
-      )}
-      {isOrderModalShown && (
-        <Modal close={closeOrderHandler}>
-          <OrderDetails />
-        </Modal>
-      )}
-    </>
-  )
-}
+      <Routes location={background || location}>
+        <Route path="/" element={<Layout />}>
+          <Route
+            index
+            element={<Home />}
+          />
 
-export default App;
+          <Route
+            path="login"
+            element={
+              <ProtectedRoute anonymous>
+                <Login />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="register"
+            element={
+              <ProtectedRoute anonymous>
+                <Register />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="forgot-password"
+            element={
+              <ProtectedRoute anonymous>
+                <ForgotPassword />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="reset-password"
+            element={
+              <ProtectedRoute anonymous>
+                <ResetPassword />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<ProfileForm />} />
+            <Route path="orders" element={<div>Здесь пока ничего нет</div>} />
+          </Route>
+
+          <Route path="feed" element={<div>Здесь пока ничего нет</div>} />
+
+          <Route path="ingredients/:id" element={<Ingredient />} />
+
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+
+      {background && (
+        <Routes>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal close={closeDetailsHandler}>
+                <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
+
+        {isOrderModalShown && (
+          <Modal close={closeOrderHandler}>
+            <OrderDetails />
+          </Modal>
+        )}
+    </>
+  );
+}
