@@ -1,16 +1,17 @@
 import {
   BASE_URL,
+  ERR_MESSAGE,
   ORDERS_ENDPOINT,
   REFRESH_TOKEN_ENDPOINT,
 } from './constants';
 
 import { saveTokens } from './utils';
 
-export function checkResponse(res) {
+export async function checkResponse(res) {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Ошибка: ${res.status}`);
+  return Promise.reject(await res.json());
 }
 
 export function orderFetch(ids, token) {
@@ -36,9 +37,34 @@ export function fetchAuth(endpoint, body) {
   }).then(checkResponse);
 }
 
-export function updateTokens() {
+function updateTokens() {
+  const refreshToken = localStorage.getItem('refreshToken');
   return fetchAuth(REFRESH_TOKEN_ENDPOINT, {
-    token: localStorage.getItem('refreshToken'),
+    token: refreshToken,
   })
-    .then(saveTokens)
+    .then(data => {
+      console.log(data);
+      if (!data.success) {
+        return Promise.reject(data);
+      }
+      saveTokens(data);
+      return data;
+    })
+}
+
+export async function fetchWithRefresh(url, options) {
+  try {
+    const res = await fetch(url, options);
+    return await checkResponse(res);
+  } catch (err) {
+    if (err.message === ERR_MESSAGE) {
+      const refreshData = await updateTokens();
+      options.headers.Authorization = refreshData.accessToken;
+
+      const res = await fetch(url, options);
+      return await checkResponse(res);
+    } else {
+      return Promise.reject(err);
+    }
+  }
 }
