@@ -1,7 +1,4 @@
-import {
-  fetchAuth,
-  fetchWithRefresh,
-} from '../../utils/api';
+import { fetchAuth, fetchWithRefresh } from '../../utils/api';
 import {
   BASE_URL,
   LOGIN_ENDPOINT,
@@ -34,7 +31,7 @@ export function registerUser(body) {
   };
 }
 
-export function signinUser(body) {
+export function signInUser(body) {
   return function (dispatch) {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then((data) => {
@@ -48,7 +45,7 @@ export function signinUser(body) {
   };
 }
 
-export function signoutUser() {
+export function signOutUser() {
   const refreshToken = localStorage.getItem('refreshToken');
   return function (dispatch) {
     fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })

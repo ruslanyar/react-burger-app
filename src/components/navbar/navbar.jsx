@@ -1,17 +1,18 @@
 import React, { useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
 
+import { signOutUser } from '../../services/actions/userActions';
+
 import styles from './navbar.module.css';
-import { useDispatch } from 'react-redux';
-import { signoutUser } from '../../services/actions/userActions';
 
 export default function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
 
   const onClickHandler = useCallback(() => {
-    dispatch(signoutUser());
+    dispatch(signOutUser());
   }, [dispatch]);
   
   return (
