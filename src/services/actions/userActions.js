@@ -1,4 +1,4 @@
-import { checkResponse, fetchAuth, updateTokens } from '../../utils/api';
+import { fetchAuth, fetchWithRefresh } from '../../utils/api';
 import {
   BASE_URL,
   LOGIN_ENDPOINT,
@@ -31,7 +31,7 @@ export function registerUser(body) {
   };
 }
 
-export function signinUser(body) {
+export function signInUser(body) {
   return function (dispatch) {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then((data) => {
@@ -45,7 +45,7 @@ export function signinUser(body) {
   };
 }
 
-export function signoutUser() {
+export function signOutUser() {
   const refreshToken = localStorage.getItem('refreshToken');
   return function (dispatch) {
     fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })
@@ -62,14 +62,13 @@ export function getUserInfo() {
   const accessToken = getCookie('token');
   return function (dispatch) {
     dispatch({ type: USER_GET_USER_REQUEST });
-    fetch(`${BASE_URL}${USER_ENDPOINT}`, {
+    fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then(checkResponse)
       .then((data) => {
         if (data.success) {
           dispatch({ type: USER_GET_USER_SUCCESS, payload: data.user });
@@ -77,9 +76,6 @@ export function getUserInfo() {
       })
       .catch((err) => {
         console.log(err);
-        updateTokens()
-          .then(() => dispatch(getUserInfo()))
-          .catch((err) => console.log(err));
       });
   };
 }
@@ -88,7 +84,7 @@ export function updateUserInfo(body, setFn) {
   const accessToken = getCookie('token');
   return function (dispatch) {
     dispatch({ type: USER_UPDATE_USER_REQUEST });
-    fetch(`${BASE_URL}${USER_ENDPOINT}`, {
+    fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -96,18 +92,14 @@ export function updateUserInfo(body, setFn) {
       },
       body: JSON.stringify(body),
     })
-      .then(checkResponse)
       .then((data) => {
         if (data.success) {
           dispatch({ type: USER_UPDATE_USER_SUCCESS, payload: data.user });
         }
       })
+      .then(() => setFn(false))
       .catch((err) => {
         console.log(err);
-        updateTokens()
-          .then(() => dispatch(updateUserInfo(body)))
-          .then(() => setFn(false))
-          .catch((err) => console.log(err));
       });
   };
 }
