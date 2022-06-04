@@ -43,13 +43,13 @@ function updateTokens() {
     token: refreshToken,
   })
     .then(data => {
-      console.log(data);
       if (!data.success) {
         return Promise.reject(data);
       }
       saveTokens(data);
       return data;
     })
+    .catch(err => console.log(err));
 }
 
 export async function fetchWithRefresh(url, options) {
@@ -57,6 +57,7 @@ export async function fetchWithRefresh(url, options) {
     const res = await fetch(url, options);
     return await checkResponse(res);
   } catch (err) {
+    console.log(err.message);
     if (err.message === ERR_MESSAGE) {
       const refreshData = await updateTokens();
       options.headers.Authorization = refreshData.accessToken;

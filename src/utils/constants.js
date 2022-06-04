@@ -8,7 +8,7 @@ export const INGREDIENTS_ENDPOINT = 'ingredients';
 export const ORDERS_ENDPOINT = 'orders';
 export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 export const RESET_PASSWORD_ENDPOINT ='password-reset/reset';
-export const ERR_MESSAGE = 'jwt malformed';
+export const ERR_MESSAGE = 'jwt expired';
 
 export const ESC_KEY = 'Escape';
 export const BUN = 'bun';

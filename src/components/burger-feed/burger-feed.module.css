@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feed {
+  width: 600px;
+  max-height: 852px;
+  overflow-y: scroll;
+}
+
+.stats {
+  width: 580px;
+}

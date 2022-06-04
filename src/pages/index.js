@@ -7,6 +7,8 @@ import { ResetPassword } from './reset-password';
 import { Profile } from './profile';
 import { NotFoundPage } from './not-found-page';
 import { Ingredient } from './ingredient';
+import { FeedPage } from './feed-page';
+import { FeedDetails } from './feed-details';
 
 export {
   Layout,
@@ -18,4 +20,6 @@ export {
   Profile,
   NotFoundPage,
   Ingredient,
+  FeedPage,
+  FeedDetails,
 };

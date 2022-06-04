@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 
 import {
   Layout,
@@ -12,6 +17,8 @@ import {
   Profile,
   NotFoundPage,
   Ingredient,
+  FeedDetails,
+  FeedPage,
 } from '../../pages';
 
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -19,12 +26,12 @@ import ProfileForm from '../profile-form/profile-form';
 import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
-import OrderDetails from "../order-details/order-details";
+import OrderDetails from '../order-details/order-details';
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
-import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
-import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
-import { getUserInfo } from "../../services/actions/userActions";
+import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
+import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
+import { getUserInfo } from '../../services/actions/userActions';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,7 +47,7 @@ export default function App() {
     if (location.state?.background) {
       window.history.replaceState({}, '');
     }
-  }, [location.state?.background])
+  }, [location.state?.background]);
 
   const { request, failed } = useSelector((store) => store.ingredients);
 
@@ -70,10 +77,7 @@ export default function App() {
     <>
       <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={<Home />}
-          />
+          <Route index element={<Home />} />
 
           <Route
             path="login"
@@ -123,7 +127,8 @@ export default function App() {
             <Route path="orders" element={<div>Здесь пока ничего нет</div>} />
           </Route>
 
-          <Route path="feed" element={<div>Здесь пока ничего нет</div>} />
+          <Route path="feed" element={<FeedPage />} />
+          <Route path="feed/:id" element={<FeedDetails />} />
 
           <Route path="ingredients/:id" element={<Ingredient />} />
 
@@ -144,11 +149,11 @@ export default function App() {
         </Routes>
       )}
 
-        {isOrderModalShown && (
-          <Modal close={closeOrderHandler}>
-            <OrderDetails />
-          </Modal>
-        )}
+      {isOrderModalShown && (
+        <Modal close={closeOrderHandler}>
+          <OrderDetails />
+        </Modal>
+      )}
     </>
   );
 }
