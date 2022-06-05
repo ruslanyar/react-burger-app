@@ -6,7 +6,7 @@ import styles from './card-order.module.css';
 
 export default function CardOrder() {
   return (
-    <div className={clsx(styles['card-order'], 'p-6', 'mb-4')}>
+    <article className={clsx(styles['card-order'], 'p-6', 'mb-4')}>
       <div className={styles.orderId}>
         <span className={clsx('text', 'text_type_digits-default')}>
           #1234567
@@ -47,6 +47,6 @@ export default function CardOrder() {
         </div>
 
       </div>
-    </div>
+    </article>
   );
 }
