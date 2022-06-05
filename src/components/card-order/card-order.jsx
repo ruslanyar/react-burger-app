@@ -2,7 +2,19 @@ import React from 'react';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import IngredientIcon from '../ingredient-icon/ingredient-icon';
+
 import styles from './card-order.module.css';
+
+const imageUrls = [
+  { id: 1, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  { id: 2, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  { id: 3, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  { id: 4, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  { id: 5, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  { id: 6, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
+  //{id:7, url: "https://code.s3.yandex.net/react/code/bun-02-mobile.png"},
+];
 
 export default function CardOrder() {
   return (
@@ -27,25 +39,18 @@ export default function CardOrder() {
       </p>
 
       <div className={styles.info}>
-
-        <div className={styles.ingredients}>
-          <div className={styles['image-container']}>
-            <div className={styles.border} />
-            <div
-              style={{
-                backgroundImage:
-                  'url("https://code.s3.yandex.net/react/code/bun-02-mobile.png")',
-              }}
-              className={styles.image}
-            />
-          </div>
-        </div>
+        <ul className="list">
+          {imageUrls.map((url, index) => (
+            <li className={styles['list-item']}>
+              <IngredientIcon key={url.id} imageUrl={url.url} index={index} />
+            </li>
+          ))}
+        </ul>
 
         <div className={styles.price}>
           <span className={clsx('text', 'text_type_digits-default')}>430</span>
           <CurrencyIcon />
         </div>
-
       </div>
     </article>
   );

@@ -22,51 +22,18 @@
   justify-content: space-between;
 }
 
-.ingredients {
-  position: relative;
-  height: 64px;
-}
-
 .info {
   display: flex;
-  justify-content: space-between;
   gap: 24px;
-}
-
-.image-container,
-.image,
-.border {
-  position: absolute;
-  width: 64px;
-  height: 64px;
-}
-
-.image-container {
-  top: 0;
-}
-
-.image {
-  top: 0;
-  left: 0;
-  background-position: center;
-  background-size: cover;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  box-sizing: border-box;
-}
-
-.border {
-  top: 0;
-  left: 0;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  box-sizing: border-box;
-  background: linear-gradient(var(--background) 0 0) padding-box,
-    linear-gradient(to right, #801ab2, #4c4cff) border-box;
 }
 
 .price {
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-left: auto;
+}
+
+.list-item {
+  position: relative;
 }
