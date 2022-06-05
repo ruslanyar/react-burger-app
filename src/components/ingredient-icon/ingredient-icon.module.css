@@ -14,18 +14,19 @@
   height: 64px;
 }
 
+.image,
+.border {
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  border-radius: 50%;
+}
+
 .image {
   background-position: center;
   background-size: cover;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  box-sizing: border-box;
 }
 
 .border {
-  border: 2px solid transparent;
-  border-radius: 50%;
-  box-sizing: border-box;
   background: linear-gradient(var(--background) 0 0) padding-box,
     linear-gradient(to right, #801ab2, #4c4cff) border-box;
 }
