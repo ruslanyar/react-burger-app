@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import styles from './ingredient-icon.module.css';
 
@@ -18,6 +19,11 @@ export default function IngredientIcon({ imageUrl, index }) {
           className={styles.image}
         />
       </div>
+      {index === 5 && (
+        <div className={styles.overlay}>
+          <span className={clsx('text', 'text_type_main-small')}>{`+${3}`}</span>
+        </div>
+      )}
     </div>
   );
 }

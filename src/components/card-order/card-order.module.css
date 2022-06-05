@@ -23,6 +23,7 @@
 }
 
 .info {
+  height: 64px;
   display: flex;
   gap: 24px;
 }

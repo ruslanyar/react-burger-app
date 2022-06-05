@@ -13,10 +13,12 @@ const imageUrls = [
   { id: 4, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
   { id: 5, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
   { id: 6, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  //{id:7, url: "https://code.s3.yandex.net/react/code/bun-02-mobile.png"},
+  { id: 7, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
 ];
 
 export default function CardOrder() {
+  const ingr = imageUrls.slice(0, 6);
+
   return (
     <article className={clsx(styles['card-order'], 'p-6', 'mb-4')}>
       <div className={styles.orderId}>
@@ -40,9 +42,9 @@ export default function CardOrder() {
 
       <div className={styles.info}>
         <ul className="list">
-          {imageUrls.map((url, index) => (
-            <li className={styles['list-item']}>
-              <IngredientIcon key={url.id} imageUrl={url.url} index={index} />
+          {ingr.map((url, index) => (
+            <li key={url.id} className={styles['list-item']}>
+              <IngredientIcon imageUrl={url.url} index={index} />
             </li>
           ))}
         </ul>
