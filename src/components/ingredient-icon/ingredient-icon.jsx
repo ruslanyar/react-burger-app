@@ -3,7 +3,6 @@ import clsx from 'clsx';
 
 import styles from './ingredient-icon.module.css';
 
-// TODO  в пропсы будет передаваться url картинки и индекс для вычесления z-index
 export default function IngredientIcon({ imageUrl, index }) {
   return (
     <div
@@ -19,7 +18,7 @@ export default function IngredientIcon({ imageUrl, index }) {
           className={styles.image}
         />
       </div>
-      {index === 5 && (
+      {index && index === 5 && (
         <div className={styles.overlay}>
           <span className={clsx('text', 'text_type_main-small')}>{`+${3}`}</span>
         </div>
