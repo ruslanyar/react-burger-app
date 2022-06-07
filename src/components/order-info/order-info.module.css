@@ -1,0 +1,9 @@
+.ingredients-list {
+  max-height: 312px;
+  overflow-y: scroll;
+  box-sizing: border-box;
+}
+
+.ingredient {
+  
+}

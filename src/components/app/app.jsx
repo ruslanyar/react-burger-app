@@ -17,7 +17,7 @@ import {
   Profile,
   NotFoundPage,
   Ingredient,
-  FeedDetails,
+  OrderInfoPage,
   FeedPage,
 } from '../../pages';
 
@@ -128,7 +128,7 @@ export default function App() {
           </Route>
 
           <Route path="feed" element={<FeedPage />} />
-          <Route path="feed/:id" element={<FeedDetails />} />
+          <Route path="feed/:id" element={<OrderInfoPage />} />
 
           <Route path="ingredients/:id" element={<Ingredient />} />
 

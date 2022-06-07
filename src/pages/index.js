@@ -8,7 +8,7 @@ import { Profile } from './profile';
 import { NotFoundPage } from './not-found-page';
 import { Ingredient } from './ingredient';
 import { FeedPage } from './feed-page';
-import { FeedDetails } from './feed-details';
+import { OrderInfoPage } from './order-info-page';
 
 export {
   Layout,
@@ -21,5 +21,5 @@ export {
   NotFoundPage,
   Ingredient,
   FeedPage,
-  FeedDetails,
+  OrderInfoPage,
 };
