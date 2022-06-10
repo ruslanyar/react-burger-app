@@ -5,13 +5,19 @@ import { socketMiddleware } from '../middleware';
 import { rootReducer } from '../reducers';
 
 import { wsAuthUrl, wsUrl } from '../../utils/constants';
-import { wsActions } from '../action-types';
+import { wsActions, wsAuthActions } from '../../utils/ws';
 
 const composeEnhancer =
   typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancer(applyMiddleware(socketMiddleware(wsUrl, wsAuthUrl, wsActions), thunk));
+const enhancer = composeEnhancer(
+  applyMiddleware(
+    socketMiddleware(wsUrl, wsActions),
+    socketMiddleware(wsAuthUrl, wsAuthActions, true),
+    thunk
+  )
+);
 
 export const store = createStore(rootReducer, enhancer);

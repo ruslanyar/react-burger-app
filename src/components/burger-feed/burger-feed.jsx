@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import clsx from 'clsx';
 
 import CardOrder from '../card-order/card-order';
 
 import styles from './burger-feed.module.css';
+import { useDispatch } from 'react-redux';
+import { wsClose, wsConnectionStart } from '../../services/actions';
 
 const formatCount = (n) => {
   return n.toLocaleString();
 }
 
 export default function BurgerFeed() {
-  // useEffect(() => {
-  //   const ws = new WebSocket('wss://norma.nomoreparties.space/orders/all');
-  // })
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(wsConnectionStart());
+
+    return () => {
+      dispatch(wsClose());
+    }
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
