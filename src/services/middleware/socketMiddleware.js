@@ -42,7 +42,7 @@ export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
         };
 
         socket.onmessage = (event) => {
-          console.log('message', event);
+          console.log('message');
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;

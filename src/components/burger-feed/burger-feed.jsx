@@ -27,16 +27,20 @@ export default function BurgerFeed() {
 
   const doneOrdersNumbers = useMemo(() => {
     return orders
-      .filter((order) => order.status === 'done')
-      .map((order) => order.number)
-      .slice(0, 10);
+      ? orders
+          .filter((order) => order.status === 'done')
+          .map((order) => order.number)
+          .slice(0, 10)
+      : null;
   }, [orders]);
 
   const inWorkOrdersNumbers = useMemo(() => {
     return orders
-      .filter((order) => order.status !== 'done')
-      .map((order) => order.number)
-      .slice(0, 10);
+      ? orders
+          .filter((order) => order.status !== 'done')
+          .map((order) => order.number)
+          .slice(0, 10)
+      : null;
   }, [orders]);
 
   useEffect(() => {
@@ -78,9 +82,10 @@ export default function BurgerFeed() {
               Готовы:
             </h2>
             <ul className={clsx(styles['number-list'], 'list')}>
-              {doneOrdersNumbers.length > 0 &&
-                doneOrdersNumbers.map((num) => (
+              {doneOrdersNumbers &&
+                doneOrdersNumbers.map((num, index) => (
                   <li
+                    key={index}
                     className={clsx(
                       styles.number,
                       styles['number_type_success'],
@@ -100,9 +105,10 @@ export default function BurgerFeed() {
               В работе:
             </h2>
             <ul className="list">
-              {inWorkOrdersNumbers.length > 0 &&
-                inWorkOrdersNumbers.map((num) => (
+              {inWorkOrdersNumbers &&
+                inWorkOrdersNumbers.map((num, index) => (
                   <li
+                    key={index}
                     className={clsx(
                       styles.number,
                       'text',
