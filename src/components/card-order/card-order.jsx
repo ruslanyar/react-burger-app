@@ -1,29 +1,57 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
+import { BUN } from '../../utils/constants';
+
 import styles from './card-order.module.css';
 
-const imageUrls = [
-  { id: 1, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 2, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 3, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 4, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 5, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 6, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-  { id: 7, url: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png' },
-];
+export default function CardOrder({ order }) {
+  const { ingredients } = useSelector((store) => store.ingredients);
 
-export default function CardOrder() {
-  const ingr = imageUrls.slice(0, 6);
+  const { name, number, ingredients: ingredIds } = order;
+
+  const orderNumber = useMemo(() => {
+    return `#${number.toString().padStart(6, '0')}`;
+  }, [number]);
+
+  const { imageUrls, totalPrice } = useMemo(() => {
+    const urls = [];
+    let price = 0;
+
+    ingredIds.forEach((id) => {
+      const ingredient = ingredients.find((item) => item._id === id);
+      if (ingredient) {
+        if (urls.length < 6) {
+          urls.push(ingredient.image_mobile);
+        }
+
+        if (ingredient.type === BUN) {
+          price += ingredient.price * 2;
+        } else {
+          price += ingredient.price;
+        }
+      }
+    });
+
+    return {
+      imageUrls: urls,
+      totalPrice: price,
+    };
+  }, [ingredients, ingredIds]);
+
+  const count = useMemo(() => {
+    return ingredIds.length - 6;
+  }, [ingredIds.length]);
 
   return (
     <article className={clsx(styles['card-order'], 'p-6', 'mb-4')}>
       <div className={styles.orderId}>
         <span className={clsx('text', 'text_type_digits-default')}>
-          #1234567
+          {orderNumber}
         </span>
         <span
           className={clsx(
@@ -36,21 +64,21 @@ export default function CardOrder() {
         </span>
       </div>
 
-      <p className={clsx('text', 'text_type_main-medium')}>
-        Death Star Starship Main бургер
-      </p>
+      <p className={clsx('text', 'text_type_main-medium')}>{name}</p>
 
       <div className={styles.info}>
         <ul className="list">
-          {ingr.map((url, index) => (
-            <li key={url.id} className={styles['list-item']}>
-              <IngredientIcon imageUrl={url.url} index={index} />
+          {imageUrls.map((url, index) => (
+            <li key={index} className={styles['list-item']}>
+              <IngredientIcon imageUrl={url} index={index} count={count} />
             </li>
           ))}
         </ul>
 
         <div className={styles.price}>
-          <span className={clsx('text', 'text_type_digits-default')}>430</span>
+          <span className={clsx('text', 'text_type_digits-default')}>
+            {totalPrice}
+          </span>
           <CurrencyIcon />
         </div>
       </div>

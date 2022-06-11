@@ -6,13 +6,14 @@ import styles from './ingredient-icon.module.css';
 export default function IngredientIcon({
   imageUrl,
   index,
+  count,
   position = 'absolute',
 }) {
-
-  const ingredientIconStyle = useMemo(() => (
-    position === 'absolute'
-      ? { position, zIndex: `${10 - index}`, left: `${index * 48}px` }
-      : { position }),
+  const ingredientIconStyle = useMemo(
+    () =>
+      position === 'absolute'
+        ? { position, zIndex: `${10 - index}`, left: `${index * 48}px` }
+        : { position },
     [index, position]
   );
 
@@ -25,10 +26,10 @@ export default function IngredientIcon({
         }}
         className={styles.image}
       />
-      {index === 5 && (
+      {index === 5 && count > 0 && (
         <div className={styles.overlay}>
           <span className={clsx('text', 'text_type_main-small')}>
-            {`+${3}`}
+            {`+${count}`}
           </span>
         </div>
       )}

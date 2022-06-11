@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  Routes,
-  Route,
-  useLocation,
-  useNavigate,
-} from 'react-router-dom';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import {
   Layout,
@@ -32,6 +27,7 @@ import { getIngredients } from '../../services/actions/ingredientsActions';
 import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
 import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
 import { getUserInfo } from '../../services/actions/userActions';
+import OrderInfo from '../order-info/order-info';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -55,7 +51,7 @@ export default function App() {
 
   const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
 
-  const closeDetailsHandler = useCallback(() => {
+  const closeModalHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
 
@@ -141,8 +137,17 @@ export default function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal close={closeDetailsHandler}>
+              <Modal close={closeModalHandler}>
                 <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal close={closeModalHandler}>
+                <OrderInfo />
               </Modal>
             }
           />
