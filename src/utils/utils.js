@@ -55,3 +55,7 @@ export function saveTokens(data) {
     setCookie('token', accessToken, { path: '/' });
   }
 }
+
+export const formatOrderNumber = (n) => {
+  return n.toString().padStart(6, '0');
+};

@@ -6,6 +6,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import { BUN } from '../../utils/constants';
+import { formatOrderNumber } from '../../utils/utils';
 
 import styles from './card-order.module.css';
 
@@ -15,7 +16,7 @@ export default function CardOrder({ order }) {
   const { name, number, ingredients: ingredIds } = order;
 
   const orderNumber = useMemo(() => {
-    return `#${number.toString().padStart(6, '0')}`;
+    return `#${formatOrderNumber(number)}`;
   }, [number]);
 
   const { imageUrls, totalPrice } = useMemo(() => {

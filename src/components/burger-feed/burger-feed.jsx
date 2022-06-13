@@ -7,15 +7,12 @@ import CardOrder from '../card-order/card-order';
 import Loader from '../../ui/loader/Loader';
 
 import { wsClose, wsConnectionStart } from '../../services/actions';
+import { formatOrderNumber } from '../../utils/utils';
 
 import styles from './burger-feed.module.css';
 
 const formatCount = (n) => {
   return n.toLocaleString();
-};
-
-const formatNumber = (n) => {
-  return n.toString().padStart(6, '0');
 };
 
 export default function BurgerFeed() {
@@ -94,7 +91,7 @@ export default function BurgerFeed() {
                       'mb-2'
                     )}
                   >
-                    {formatNumber(num)}
+                    {formatOrderNumber(num)}
                   </li>
                 ))}
             </ul>
@@ -116,7 +113,7 @@ export default function BurgerFeed() {
                       'mb-2'
                     )}
                   >
-                    {formatNumber(num)}
+                    {formatOrderNumber(num)}
                   </li>
                 ))}
             </ul>

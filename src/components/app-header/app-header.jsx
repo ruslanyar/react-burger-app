@@ -40,7 +40,7 @@ export default function AppHeader() {
           <li
             className={listItemStyle}
           >
-            <NavLink to="/feed" className={styles.link}>
+            <NavLink to="/feed" end className={styles.link}>
               {({ isActive }) => (
                 <>
                   <ListIcon type={isActive ? 'primary' : 'secondary'} />
