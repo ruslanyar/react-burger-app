@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   ConstructorElement,
@@ -11,10 +11,9 @@ import {
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { sendOrder } from '../../services/actions/orderActions';
+import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
 import { addIngredientThunk } from '../../services/thunks';
-
 
 import styles from './burger-constructor.module.css';
 
@@ -23,6 +22,7 @@ export default function BurgerConstructor() {
   const { isAuth } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [{ isHover, canDrop }, dropTargetRef] = useDrop({
     accept: 'ingredient',
@@ -108,11 +108,11 @@ export default function BurgerConstructor() {
             <CurrencyIcon />
           </div>
         </div>
-        <div onClick={onClickHandler}>
+        <Link to="order-details" state={{ background: location }} onClick={onClickHandler}>
           <Button type="primary" size="large">
             Оформить заказ
           </Button>
-        </div>
+        </Link>
       </div>
     </section>
   );

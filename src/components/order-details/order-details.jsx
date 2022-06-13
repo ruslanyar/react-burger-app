@@ -17,12 +17,15 @@ export default function OrderDetails() {
           Для заказа необходимо выбрать ингредиенты
         </p>
       )}
+      
       {failed && (
         <p className='text text_type_main-default'>
           Произошла ошибка связи с сервером
         </p>
       )}
+
       {request && <Loader />}
+
       {!request && !failed && !isEmpty && (
         <>
           <span className='text text_type_digits-large mt-4 mb-8'>{number}</span>

@@ -4,14 +4,13 @@ import {
   SEND_ORDER_REQUEST,
   SEND_ORDER_SUCCESS,
   CLOSE_ORDER_DETAILS,
-} from '../actions/orderActions';
+} from '../action-types';
 
 const initialState = {
   order: {},
   request: false,
   failed: false,
   isEmpty: true,
-  isOpen: false,
 }
 
 export const orderDetailsReducer = (state = initialState, { type, payload }) => {
@@ -53,7 +52,6 @@ export const orderDetailsReducer = (state = initialState, { type, payload }) => 
         ...state,
         order: {},
         isEmpty: true,
-        isOpen: false,
       }
 
     default:

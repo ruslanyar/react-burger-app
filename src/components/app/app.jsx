@@ -23,8 +23,8 @@ import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
 import OrderDetails from '../order-details/order-details';
 
-import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
-import { clearConstructor } from '../../services/actions/constructorActions';
+import { closeOrderDetails } from '../../services/actions';
+import { clearConstructor } from '../../services/actions';
 import { getUserInfo } from '../../services/actions/userActions';
 import OrderInfo from '../order-info/order-info';
 import { getIngredients } from '../../services/thunks';
@@ -49,16 +49,15 @@ export default function App() {
 
   const background = location.state?.background;
 
-  const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
-
   const closeModalHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
 
   const closeOrderHandler = useCallback(() => {
-    dispatch({ type: CLOSE_ORDER_DETAILS });
+    closeModalHandler();
+    dispatch(closeOrderDetails());
     dispatch(clearConstructor());
-  }, [dispatch]);
+  }, [dispatch, closeModalHandler]);
 
   if (request) return <Loader />;
 
@@ -151,13 +150,16 @@ export default function App() {
               </Modal>
             }
           />
-        </Routes>
-      )}
 
-      {isOrderModalShown && (
-        <Modal close={closeOrderHandler}>
-          <OrderDetails />
-        </Modal>
+          <Route
+            path="/order-details"
+            element={
+              <Modal close={closeOrderHandler}>
+                <OrderDetails />
+              </Modal>
+            }
+          />
+        </Routes>
       )}
     </>
   );
