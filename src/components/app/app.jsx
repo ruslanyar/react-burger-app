@@ -25,7 +25,7 @@ import OrderDetails from '../order-details/order-details';
 
 import { getIngredients } from '../../services/actions/ingredientsActions';
 import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
-import { CLEAR_CONSTRUCTOR } from '../../services/actions/constructorActions';
+import { clearConstructor } from '../../services/actions/constructorActions';
 import { getUserInfo } from '../../services/actions/userActions';
 import OrderInfo from '../order-info/order-info';
 
@@ -57,7 +57,7 @@ export default function App() {
 
   const closeOrderHandler = useCallback(() => {
     dispatch({ type: CLOSE_ORDER_DETAILS });
-    dispatch({ type: CLEAR_CONSTRUCTOR });
+    dispatch(clearConstructor());
   }, [dispatch]);
 
   if (request) return <Loader />;

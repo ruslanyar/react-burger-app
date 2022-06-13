@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import CardOrder from '../card-order/card-order';
 import Loader from '../../ui/loader/Loader';
 
+import { getOrders } from '../../services/selectors/wsSelectors';
 import { wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber } from '../../utils/utils';
 
@@ -17,9 +18,7 @@ const formatCount = (n) => {
 
 export default function BurgerFeed() {
   const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector(
-    (store) => store.wsReducer.orders
-  );
+  const { orders, total, totalToday } = useSelector(getOrders);
   const location = useLocation();
 
   const doneOrdersNumbers = useMemo(() => {

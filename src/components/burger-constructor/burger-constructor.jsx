@@ -11,9 +11,10 @@ import {
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { addIngredient } from '../../services/actions/constructorActions';
 import { sendOrder } from '../../services/actions/orderActions';
 import { getCookie } from '../../utils/utils';
+import { addIngredientThunk } from '../../services/thunks/constructorThunks';
+
 
 import styles from './burger-constructor.module.css';
 
@@ -26,7 +27,7 @@ export default function BurgerConstructor() {
   const [{ isHover, canDrop }, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop({ id }) {
-      dispatch(addIngredient(id));
+      dispatch(addIngredientThunk(id));
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
