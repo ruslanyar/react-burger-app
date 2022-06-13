@@ -7,6 +7,7 @@ import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients
 
 import { throttle } from '../../utils/utils';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
+import { ingredientsSelector } from '../../services/selectors';
 
 import styles from './burger-ingredients.module.css';
 
@@ -14,7 +15,7 @@ const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
 export default function BurgerIngredients() {
-  const { ingredients } = useSelector((store) => store.ingredients);
+  const { ingredients } = useSelector(ingredientsSelector);
 
   const [current, setCurrent] = useState(BUN);
 

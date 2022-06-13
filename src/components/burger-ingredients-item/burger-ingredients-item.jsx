@@ -9,13 +9,14 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { ingredientPropType } from '../../utils/propTypes';
+import { constructorIngredients } from '../../services/selectors';
 
 import styles from './burger-ingredients-item.module.css';
 
 export default function BurgerIngredientsItem({ ingredient }) {
   const location = useLocation();
 
-  const { bun, topings } = useSelector((store) => store.burger.ingredients);
+  const { bun, topings } = useSelector(constructorIngredients);
 
   const [{ isDragging }, dragRef] = useDrag(
     {

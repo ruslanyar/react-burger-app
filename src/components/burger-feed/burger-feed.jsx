@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import CardOrder from '../card-order/card-order';
 import Loader from '../../ui/loader/Loader';
 
-import { getOrders } from '../../services/selectors/wsSelectors';
+import { getOrders } from '../../services/selectors';
 import { wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber } from '../../utils/utils';
 

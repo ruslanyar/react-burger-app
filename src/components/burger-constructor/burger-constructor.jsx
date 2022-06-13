@@ -14,12 +14,13 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
 import { addIngredientThunk } from '../../services/thunks';
+import { constructorIngredients, userSelector } from '../../services/selectors';
 
 import styles from './burger-constructor.module.css';
 
 export default function BurgerConstructor() {
-  const { bun, topings } = useSelector((store) => store.burger.ingredients);
-  const { isAuth } = useSelector((store) => store.user);
+  const { bun, topings } = useSelector(constructorIngredients);
+  const { isAuth } = useSelector(userSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,7 +47,7 @@ export default function BurgerConstructor() {
 
   const onClickHandler = useCallback(() => {
     if (isAuth) {
-      const accessToken = `Bearer ${getCookie('token')}`
+      const accessToken = `Bearer ${getCookie('token')}`;
       const ids = [
         ...bun.map((item) => item._id),
         ...topings.map((item) => item._id),
@@ -108,7 +109,11 @@ export default function BurgerConstructor() {
             <CurrencyIcon />
           </div>
         </div>
-        <Link to="order-details" state={{ background: location }} onClick={onClickHandler}>
+        <Link
+          to="order-details"
+          state={{ background: location }}
+          onClick={onClickHandler}
+        >
           <Button type="primary" size="large">
             Оформить заказ
           </Button>

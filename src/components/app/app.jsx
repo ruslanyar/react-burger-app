@@ -22,12 +22,13 @@ import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
 import OrderDetails from '../order-details/order-details';
+import OrderInfo from '../order-info/order-info';
 
 import { closeOrderDetails } from '../../services/actions';
 import { clearConstructor } from '../../services/actions';
 import { getUserInfo } from '../../services/thunks';
-import OrderInfo from '../order-info/order-info';
 import { getIngredients } from '../../services/thunks';
+import { ingredientsSelector } from '../../services/selectors';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ export default function App() {
     }
   }, [location.state?.background]);
 
-  const { request, failed } = useSelector((store) => store.ingredients);
+  const { request, failed } = useSelector(ingredientsSelector);
 
   const background = location.state?.background;
 

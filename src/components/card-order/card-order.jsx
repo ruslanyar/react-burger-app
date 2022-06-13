@@ -7,11 +7,12 @@ import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import { BUN } from '../../utils/constants';
 import { formatOrderNumber } from '../../utils/utils';
+import { ingredientsSelector } from '../../services/selectors';
 
 import styles from './card-order.module.css';
 
 export default function CardOrder({ order }) {
-  const { ingredients } = useSelector((store) => store.ingredients);
+  const { ingredients } = useSelector(ingredientsSelector);
 
   const { name, number, ingredients: ingredIds } = order;
 
