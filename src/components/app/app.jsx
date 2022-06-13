@@ -23,11 +23,11 @@ import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
 import OrderDetails from '../order-details/order-details';
 
-import { getIngredients } from '../../services/actions/ingredientsActions';
 import { CLOSE_ORDER_DETAILS } from '../../services/actions/orderActions';
 import { clearConstructor } from '../../services/actions/constructorActions';
 import { getUserInfo } from '../../services/actions/userActions';
 import OrderInfo from '../order-info/order-info';
+import { getIngredients } from '../../services/thunks';
 
 export default function App() {
   const dispatch = useDispatch();

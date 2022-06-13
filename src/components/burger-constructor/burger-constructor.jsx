@@ -13,7 +13,7 @@ import BurgerConstructorItem from '../burger-constructor-item/burger-constructor
 
 import { sendOrder } from '../../services/actions/orderActions';
 import { getCookie } from '../../utils/utils';
-import { addIngredientThunk } from '../../services/thunks/constructorThunks';
+import { addIngredientThunk } from '../../services/thunks';
 
 
 import styles from './burger-constructor.module.css';

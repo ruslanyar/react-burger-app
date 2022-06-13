@@ -11,7 +11,7 @@ import {
 import {
   deleteIngredientThunk,
   sortIngredientsThunk,
-} from '../../services/thunks/constructorThunks';
+} from '../../services/thunks';
 import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';

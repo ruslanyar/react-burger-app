@@ -3,7 +3,7 @@ import {
   CLEAR_CONSTRUCTOR,
   DELETE_INGREDIENT,
   SORT_INGREDIENTS,
-} from '../action-types/constructorActionTypes';
+} from '../action-types';
 
 export const addIngredient = (payload) => {
   return { type: ADD_INGREDIENT, payload };

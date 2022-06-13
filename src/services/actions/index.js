@@ -3,3 +3,4 @@ export * from './ingredientsActions';
 export * from './orderActions';
 export * from './userActions';
 export * from './wsActions';
+export * from './wsAuthActions';
