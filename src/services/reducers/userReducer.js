@@ -5,9 +5,9 @@ import {
   USER_SIGN_OUT,
   USER_UPDATE,
   USER_GET_USER_SUCCESS,
-  USER_UPDATE_USER_REQUEST,
-  USER_UPDATE_USER_SUCCESS,
-} from '../actions/userActions';
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+} from '../action-types';
 
 const initialState = {
   isRequest: false,
@@ -18,7 +18,7 @@ const initialState = {
 export function userReducer(state = initialState, { type, payload }) {
   switch (type) {
     case USER_GET_USER_REQUEST:
-    case USER_UPDATE_USER_REQUEST:
+    case USER_UPDATE_REQUEST:
       return {
         ...state,
         isRequest: true,
@@ -28,7 +28,7 @@ export function userReducer(state = initialState, { type, payload }) {
     case USER_REGISTRATION:
     case USER_UPDATE:
     case USER_GET_USER_SUCCESS:
-    case USER_UPDATE_USER_SUCCESS:
+    case USER_UPDATE_SUCCESS:
       return {
         ...state,
         isAuth: true,

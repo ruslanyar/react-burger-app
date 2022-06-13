@@ -5,7 +5,7 @@ import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
 import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
-import { registerUser } from '../services/actions/userActions';
+import { registerUser } from '../services/thunks';
 
 export function Register() {
   const [nameValue, setNameValue] = useState('');

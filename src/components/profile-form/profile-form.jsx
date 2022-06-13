@@ -13,7 +13,7 @@ import {
 
 import { PASSWORD, TEXT } from '../../utils/constants';
 import { updateUserInfo } from '../../services/actions/userActions';
-import { getUserInfo } from '../../services/actions/userActions';
+import { getUserInfo } from '../../services/thunks';
 
 import styles from './profile-form.module.css';
 

@@ -25,7 +25,7 @@ import OrderDetails from '../order-details/order-details';
 
 import { closeOrderDetails } from '../../services/actions';
 import { clearConstructor } from '../../services/actions';
-import { getUserInfo } from '../../services/actions/userActions';
+import { getUserInfo } from '../../services/thunks';
 import OrderInfo from '../order-info/order-info';
 import { getIngredients } from '../../services/thunks';
 
