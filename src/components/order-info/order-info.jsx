@@ -5,18 +5,19 @@ import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
-
-import { getOrders } from '../../services/selectors';
-import { wsClose, wsConnectionStart } from '../../services/actions';
-
-import styles from './order-info.module.css';
-import { formatOrderNumber } from '../../utils/utils';
 import Loader from '../../ui/loader/Loader';
 
+import { getOrders, ingredientsSelector } from '../../services/selectors';
+import { wsClose, wsConnectionStart } from '../../services/actions';
+import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
+
+import styles from './order-info.module.css';
+
 export default function OrderInfo() {
+  const dispatch = useDispatch();
   const { id } = useParams();
   const { orders } = useSelector(getOrders);
-  const dispatch = useDispatch();
+  const { ingredients } = useSelector(ingredientsSelector);
 
   useEffect(() => {
     dispatch(wsConnectionStart());
@@ -27,42 +28,64 @@ export default function OrderInfo() {
   if (!orders) return <Loader />;
 
   const order = orders.find((order) => order._id === id);
-  const { name, number, status } = order;
+  const { name, number, status, ingredients: ingredIds } = order;
   const orderNumber = `#${formatOrderNumber(number)}`;
-  const orderStatus = status // TODO
+  const orderStatus = getOrderStatus(status);
 
   return (
     <div className={clsx(styles.container, 'pt-5')}>
-      <p className={clsx('text', 'text_type_digits-default', 'mb-10')}>{orderNumber}</p>
+      <p className={clsx('text', 'text_type_digits-default', 'mb-10')}>
+        {orderNumber}
+      </p>
       <h2 className={clsx('text', 'text_type_main-medium', 'mb-3')}>{name}</h2>
-      <p className={clsx('text', 'text_type_main-default', 'mb-15')}>{orderStatus}</p>
-      <h3 className={clsx('text', 'text_type_main-medium', 'mb-6')}>Состав:</h3>
-
-      <ul
+      <p
         className={clsx(
-          styles['ingredients-list'],
-          'list',
-          'custom-scroll',
-          'pr-6'
+          'text',
+          'text_type_main-default',
+          'mb-15',
+          status === 'done' && styles['order-status']
         )}
       >
-        <li className={styles.ingredient}>
-          <IngredientIcon
-            imageUrl="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-            position="relative"
-          />
-          <p>Флюоресцентная булка R2-D3</p>
-          <div>
-            <span></span>
-            <CurrencyIcon />
-          </div>
-        </li>
-      </ul>
-
-      <div>
-        <span></span>
-        <div>
-          <span></span>
+        {orderStatus}
+      </p>
+      <h3 className={clsx('text', 'text_type_main-medium', 'mb-6')}>Состав:</h3>
+      <div className="mb-10">
+        <ul
+          className={clsx(styles['ingredients-list'], 'list', 'custom-scroll')}
+        >
+          <li className={clsx(styles.ingredient, 'mr-6')}>
+            <div className="mr-4">
+              <IngredientIcon
+                imageUrl="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
+                position="relative"
+              />
+            </div>
+            <p className={clsx('text', 'text_type_main-default', 'mr-4')}>
+              Флюоресцентная булка R2-D3
+            </p>
+            <div className={styles.currency}>
+              <p className={clsx('text', 'text_type_digits-default', 'mr-4')}>
+                2 x 30
+              </p>
+              <CurrencyIcon />
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div className={styles['time-price']}>
+        <p
+          className={clsx(
+            'text',
+            'text_type_main-default',
+            'text_color_inactive'
+          )}
+        >
+          Вчера, 13:50 i-GMT+3
+        </p>
+        <div className={styles.price}>
+          <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
+            570
+          </span>
           <CurrencyIcon />
         </div>
       </div>

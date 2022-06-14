@@ -7,3 +7,27 @@
   overflow-y: scroll;
   box-sizing: border-box;
 }
+
+.ingredient {
+  display: flex;
+  align-items: center;
+}
+
+.order-status {
+  color: var(--colors-interface-success);
+}
+
+.currency {
+  display: flex;
+  margin-left: auto;
+}
+
+.time-price {
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+}
