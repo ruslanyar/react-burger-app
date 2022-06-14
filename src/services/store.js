@@ -14,9 +14,9 @@ const composeEnhancer =
 
 const enhancer = composeEnhancer(
   applyMiddleware(
+    thunk,
     socketMiddleware(wsUrl, wsActions),
     socketMiddleware(wsAuthUrl, wsAuthActions, true),
-    thunk
   )
 );
 
