@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import styles from './ingredient-icon.module.css';
@@ -35,4 +36,11 @@ export default function IngredientIcon({
       )}
     </div>
   );
+}
+
+IngredientIcon.propTypes ={
+  imageUrl: PropTypes.string.isRequired,
+  index: PropTypes.number,
+  count: PropTypes.number,
+  position: PropTypes.string,
 }

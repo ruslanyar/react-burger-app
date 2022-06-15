@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -8,12 +9,12 @@ import IngredientIcon from '../ingredient-icon/ingredient-icon';
 import { BUN } from '../../utils/constants';
 import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
 import { ingredientsSelector } from '../../services/selectors';
+import { orderPropType } from '../../utils/propTypes';
 
 import styles from './card-order.module.css';
 
 export default function CardOrder({ order, isUser }) {
   const { ingredients } = useSelector(ingredientsSelector);
-
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
   const orderStatus = getOrderStatus(status);
 
@@ -106,4 +107,9 @@ export default function CardOrder({ order, isUser }) {
       </div>
     </article>
   );
+}
+
+CardOrder.propTypes = {
+  order: orderPropType.isRequired,
+  isUser: PropTypes.bool,
 }

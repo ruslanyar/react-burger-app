@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useMatch, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -114,4 +115,8 @@ export default function OrderInfo({ isModal = false }) {
       </div>
     </div>
   );
+}
+
+OrderInfo.propTypes = {
+  isModal: PropTypes.bool,
 }

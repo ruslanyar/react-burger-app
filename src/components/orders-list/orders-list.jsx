@@ -1,9 +1,11 @@
 import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import CardOrder from '../card-order/card-order';
 
 import styles from './orders-list.module.css';
+import { orderPropType } from '../../utils/propTypes';
 
 export default function OrdersList({ orders, to, isUser = false }) {
   const location = useLocation();
@@ -23,4 +25,10 @@ export default function OrdersList({ orders, to, isUser = false }) {
         ))}
     </ul>
   );
+}
+
+OrdersList.propTypes = {
+  orders: PropTypes.arrayOf(orderPropType).isRequired,
+  to: PropTypes.string.isRequired,
+  isUser: PropTypes.bool,
 }

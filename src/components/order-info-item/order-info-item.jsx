@@ -1,10 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import styles from './order-info-item.module.css';
+import { ingredientPropType } from '../../utils/propTypes';
 
 export default function OrderInfoItem({ ingredient }) {
   const { name, image_mobile: imageUrl, price, count } = ingredient;
@@ -28,4 +30,8 @@ export default function OrderInfoItem({ ingredient }) {
       </div>
     </>
   );
+}
+
+OrderInfoItem.propTypes ={
+  ingredient: ingredientPropType.isRequired,
 }
