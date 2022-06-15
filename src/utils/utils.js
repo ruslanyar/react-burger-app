@@ -1,3 +1,5 @@
+import { MSEC_IN_DAY } from './constants';
+
 export function throttle(callee, timeout) {
   let timer = null;
 
@@ -75,3 +77,35 @@ export const getOrderStatus = (status) => {
       return '';
   }
 };
+
+const getDaysDiff = (orderDateISOString) => {
+  const today = new Date();
+  const todayISOstring = today.toISOString();
+  const slicedTodayISOString = todayISOstring.slice(0, 10);
+  const slicedOrderDateISOString = orderDateISOString.slice(0, 10);
+  const parsedToday = Date.parse(slicedTodayISOString);
+  const parsedOrderDate = Date.parse(slicedOrderDateISOString);
+
+  const daysDiff = (parsedToday - parsedOrderDate) / MSEC_IN_DAY;
+
+  return daysDiff;
+}
+
+const formatDaysDiff = (num) => {
+  if (num === 0) return 'Сегодня';
+  if (num === 1) return 'Вчера';
+  return num <= 4 ? `${num} дня назад` : `${num} дней назад`;
+}
+
+export const getTimeStampString = (orderDateISOString) => {
+  const date = new Date(orderDateISOString);
+  const daysDiff = getDaysDiff(orderDateISOString);
+  const formatedDaysDiff = formatDaysDiff(daysDiff);
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const hoursToString = hours <= 9 ? `0${hours}` : `${hours}`;
+  const minutesToString = minutes <= 9 ? `0${minutes}` : `${minutes}`;
+  const timeZone = Math.abs(date.getTimezoneOffset() / 60);
+  
+  return `${formatedDaysDiff}, ${hoursToString}:${minutesToString} i-GMT+${timeZone}`;
+}

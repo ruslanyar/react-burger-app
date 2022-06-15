@@ -7,7 +7,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import { BUN } from '../../utils/constants';
-import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
+import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { ingredientsSelector } from '../../services/selectors';
 import { orderPropType } from '../../utils/propTypes';
 
@@ -51,6 +51,8 @@ export default function CardOrder({ order, isUser }) {
     return ingredIds.length - 6;
   }, [ingredIds.length]);
 
+  const orderTime = getTimeStampString(createdAt);
+
   return (
     <article className={clsx(styles['card-order'], 'p-6', 'mb-4', 'mr-2')}>
       <div className={styles.orderId}>
@@ -64,7 +66,7 @@ export default function CardOrder({ order, isUser }) {
             'text_color_inactive'
           )}
         >
-          {/* {getOrderTime(createdAt)} */}
+          {orderTime}
         </span>
       </div>
 

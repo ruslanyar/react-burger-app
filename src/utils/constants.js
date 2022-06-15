@@ -22,3 +22,4 @@ export const EMAIL = 'email';
 export const SHOW_ICON = 'ShowIcon';
 export const HIDE_ICON = 'HideIcon';
 export const ERR_MESSAGE = 'jwt expired';
+export const MSEC_IN_DAY = 1000 * 60 * 60 * 24;

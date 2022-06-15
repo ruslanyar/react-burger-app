@@ -10,7 +10,7 @@ import Loader from '../../ui/loader/Loader';
 
 import { getOrders, getUserOrders, ingredientsSelector } from '../../services/selectors';
 import { wsAuthClose, wsAuthConnectionStart, wsClose, wsConnectionStart } from '../../services/actions';
-import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
+import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 
 import styles from './order-info.module.css';
@@ -42,7 +42,7 @@ export default function OrderInfo({ isModal = false }) {
   if (!orders) return <Loader />;
 
   const order = orders.find((order) => order._id === id);
-  const { name, number, status, ingredients: ingredIds } = order;
+  const { name, number, status, ingredients: ingredIds, createdAt } = order;
   const orderNumber = `#${formatOrderNumber(number)}`;
   const orderStatus = getOrderStatus(status);
 
@@ -66,6 +66,7 @@ export default function OrderInfo({ isModal = false }) {
     (acc, ingredient) => acc + ingredient.price * ingredient.count,
     0
   );
+  const orderTime = getTimeStampString(createdAt);
 
   return (
     <div className={clsx(styles.container, 'pt-5')}>
@@ -110,7 +111,7 @@ export default function OrderInfo({ isModal = false }) {
             'text_color_inactive'
           )}
         >
-          Вчера, 13:50 i-GMT+3
+          {orderTime}
         </p>
         <div className={styles.price}>
           <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
