@@ -9,7 +9,7 @@ import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
 
 import { getOrders, getUserOrders, ingredientsSelector } from '../../services/selectors';
-import { wsAuthConnectionStart, wsClose, wsConnectionStart } from '../../services/actions';
+import { wsAuthClose, wsAuthConnectionStart, wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 
@@ -30,7 +30,13 @@ export default function OrderInfo({ isModal = false }) {
       dispatch(wsAuthConnectionStart());
     }
 
-    return () => dispatch(wsClose());
+    return () => {
+      if (match) {
+        dispatch(wsClose());
+      } else {
+        dispatch(wsAuthClose());
+      }
+    };
   }, [dispatch, match]);
 
   if (!orders) return <Loader />;

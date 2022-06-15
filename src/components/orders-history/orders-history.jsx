@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Loader from '../../ui/loader/Loader';
 import OrdersList from '../orders-list/orders-list';
 
-import { wsAuthConnectionStart, wsClose } from '../../services/actions';
+import { wsAuthConnectionStart, wsAuthClose } from '../../services/actions';
 import { getUserOrders } from '../../services/selectors';
 
 import styles from './orders-history.module.css';
@@ -17,7 +17,7 @@ export default function OrdersHistory() {
   useEffect(() => {
     dispatch(wsAuthConnectionStart());
 
-    return () => dispatch(wsClose());
+    return () => dispatch(wsAuthClose());
   }, [dispatch]);
 
   if (!orders) return <Loader />;
