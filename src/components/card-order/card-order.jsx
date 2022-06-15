@@ -6,15 +6,16 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import { BUN } from '../../utils/constants';
-import { formatOrderNumber } from '../../utils/utils';
+import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
 import { ingredientsSelector } from '../../services/selectors';
 
 import styles from './card-order.module.css';
 
-export default function CardOrder({ order }) {
+export default function CardOrder({ order, isUser }) {
   const { ingredients } = useSelector(ingredientsSelector);
 
-  const { name, number, ingredients: ingredIds, createdAt } = order;
+  const { name, number, ingredients: ingredIds, createdAt, status } = order;
+  const orderStatus = getOrderStatus(status);
 
   const orderNumber = useMemo(() => {
     return `#${formatOrderNumber(number)}`;
@@ -52,7 +53,7 @@ export default function CardOrder({ order }) {
   return (
     <article className={clsx(styles['card-order'], 'p-6', 'mb-4', 'mr-2')}>
       <div className={styles.orderId}>
-        <span className={clsx('text', 'text_type_digits-default')}>
+        <span className={clsx('text', 'text_type_digits-default', 'mb-6')}>
           {orderNumber}
         </span>
         <span
@@ -66,8 +67,27 @@ export default function CardOrder({ order }) {
         </span>
       </div>
 
-      <p className={clsx('text', 'text_type_main-medium')}>{name}</p>
-
+      <p
+        className={clsx(
+          'text',
+          'text_type_main-medium',
+          isUser ? 'mb-2' : 'mb-6'
+        )}
+      >
+        {name}
+      </p>
+      {isUser && (
+        <p
+          className={clsx(
+            'text',
+            'text_type_main-default',
+            'mb-6',
+            status === 'done' && 'order-status'
+          )}
+        >
+          {orderStatus}
+        </p>
+      )}
       <div className={styles.info}>
         <ul className="list">
           {imageUrls.map((url, index) => (

@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
-import CardOrder from '../card-order/card-order';
+import OrdersList from '../orders-list/orders-list';
 import Loader from '../../ui/loader/Loader';
 
 import { getOrders } from '../../services/selectors';
@@ -19,7 +18,6 @@ const formatCount = (n) => {
 export default function BurgerFeed() {
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector(getOrders);
-  const location = useLocation();
 
   const doneOrdersNumbers = useMemo(() => {
     return orders
@@ -55,20 +53,7 @@ export default function BurgerFeed() {
         aria-label="Лента заказов"
         className={clsx(styles.feed, 'custom-scroll')}
       >
-        <ul className="list">
-          {orders &&
-            orders.map((order) => (
-              <li key={order._id}>
-                <Link
-                  to={`/feed/${order._id}`}
-                  state={{ background: location }}
-                  className={styles.link}
-                >
-                  <CardOrder order={order} />
-                </Link>
-              </li>
-            ))}
-        </ul>
+        <OrdersList orders={orders} to="feed" />
       </section>
 
       <section aria-label="Статистика заказов" className={styles.stats}>

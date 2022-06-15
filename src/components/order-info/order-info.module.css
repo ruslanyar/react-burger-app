@@ -19,10 +19,6 @@
   align-items: center;
 }
 
-.order-status {
-  color: var(--colors-interface-success);
-}
-
 .time-price {
   display: flex;
   justify-content: space-between;

@@ -14,6 +14,7 @@ import {
   Ingredient,
   OrderInfoPage,
   FeedPage,
+  OrdersHistoryPage,
 } from '../../pages';
 
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -120,7 +121,7 @@ export default function App() {
             }
           >
             <Route index element={<ProfileForm />} />
-            <Route path="orders" element={<div>Здесь пока ничего нет</div>} />
+            <Route path="orders" element={<OrdersHistoryPage />} />
           </Route>
 
           <Route path="feed" element={<FeedPage />} />

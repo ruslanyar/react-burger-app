@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   wsAuthConnected: false,
-  userOrders: {},
+  orders: {},
 };
 
 export function wsAuthReducer(state = initialState, { type, payload }) {
@@ -33,7 +33,7 @@ export function wsAuthReducer(state = initialState, { type, payload }) {
     case WS_GET_AUTH_ORDERS:
       return {
         ...state,
-        userOrders: {...payload},
+        orders: {...payload},
       }
 
     default:

@@ -72,7 +72,7 @@ export default function OrderInfo({ isModal = false }) {
           'text',
           'text_type_main-default',
           'mb-15',
-          status === 'done' && styles['order-status']
+          status === 'done' && 'order-status'
         )}
       >
         {orderStatus}
