@@ -10,7 +10,6 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
-  NotFoundPage,
   Ingredient,
   OrderInfoPage,
   FeedPage,
@@ -24,6 +23,7 @@ import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
 import OrderDetails from '../order-details/order-details';
 import OrderInfo from '../order-info/order-info';
+import NotFound from '../not-found/not-found';
 
 import { closeOrderDetails } from '../../services/actions';
 import { clearConstructor } from '../../services/actions';
@@ -131,7 +131,7 @@ export default function App() {
 
           <Route path="ingredients/:id" element={<Ingredient />} />
 
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
 
