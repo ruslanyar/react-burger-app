@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useMatch, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,8 +7,8 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
 
-import { getOrders, ingredientsSelector } from '../../services/selectors';
-import { wsClose, wsConnectionStart } from '../../services/actions';
+import { getOrders, getUserOrders, ingredientsSelector } from '../../services/selectors';
+import { wsAuthConnectionStart, wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 
@@ -17,14 +17,20 @@ import styles from './order-info.module.css';
 export default function OrderInfo({ isModal = false }) {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { orders } = useSelector(getOrders);
+  const match = useMatch(`/feed/${id}`);
+  const selector = match ? getOrders : getUserOrders;
+  const { orders } = useSelector(selector);
   const { ingredients } = useSelector(ingredientsSelector);
 
   useEffect(() => {
-    dispatch(wsConnectionStart());
+    if (match) {
+      dispatch(wsConnectionStart());
+    } else {
+      dispatch(wsAuthConnectionStart());
+    }
 
     return () => dispatch(wsClose());
-  }, [dispatch]);
+  }, [dispatch, match]);
 
   if (!orders) return <Loader />;
 

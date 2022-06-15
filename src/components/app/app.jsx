@@ -124,6 +124,8 @@ export default function App() {
             <Route path="orders" element={<OrdersHistoryPage />} />
           </Route>
 
+          <Route path="profile/orders/:id" element={<OrderInfoPage />} />
+
           <Route path="feed" element={<FeedPage />} />
           <Route path="feed/:id" element={<OrderInfoPage />} />
 
@@ -146,6 +148,15 @@ export default function App() {
 
           <Route
             path="/feed/:id"
+            element={
+              <Modal close={closeModalHandler}>
+                <OrderInfo isModal />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
             element={
               <Modal close={closeModalHandler}>
                 <OrderInfo isModal />
