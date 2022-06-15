@@ -147,7 +147,7 @@ export default function App() {
             path="/feed/:id"
             element={
               <Modal close={closeModalHandler}>
-                <OrderInfo />
+                <OrderInfo isModal />
               </Modal>
             }
           />

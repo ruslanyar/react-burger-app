@@ -14,7 +14,7 @@ import styles from './card-order.module.css';
 export default function CardOrder({ order }) {
   const { ingredients } = useSelector(ingredientsSelector);
 
-  const { name, number, ingredients: ingredIds } = order;
+  const { name, number, ingredients: ingredIds, createdAt } = order;
 
   const orderNumber = useMemo(() => {
     return `#${formatOrderNumber(number)}`;
@@ -50,7 +50,7 @@ export default function CardOrder({ order }) {
   }, [ingredIds.length]);
 
   return (
-    <article className={clsx(styles['card-order'], 'p-6', 'mb-4')}>
+    <article className={clsx(styles['card-order'], 'p-6', 'mb-4', 'mr-2')}>
       <div className={styles.orderId}>
         <span className={clsx('text', 'text_type_digits-default')}>
           {orderNumber}
@@ -62,7 +62,7 @@ export default function CardOrder({ order }) {
             'text_color_inactive'
           )}
         >
-          Сегодня, 16:20 i-GMT+3
+          {/* {getOrderTime(createdAt)} */}
         </span>
       </div>
 

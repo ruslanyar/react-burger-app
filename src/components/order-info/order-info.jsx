@@ -4,16 +4,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import IngredientIcon from '../ingredient-icon/ingredient-icon';
+import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
 
 import { getOrders, ingredientsSelector } from '../../services/selectors';
 import { wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber, getOrderStatus } from '../../utils/utils';
+import { BUN } from '../../utils/constants';
 
 import styles from './order-info.module.css';
 
-export default function OrderInfo() {
+export default function OrderInfo({ isModal = false }) {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { orders } = useSelector(getOrders);
@@ -32,9 +33,37 @@ export default function OrderInfo() {
   const orderNumber = `#${formatOrderNumber(number)}`;
   const orderStatus = getOrderStatus(status);
 
+  const orderIngredients = ingredIds.reduce((acc, current) => {
+    const ingredient = ingredients.find((item) => item._id === current);
+    if (!acc[current]) {
+      ingredient.type === BUN
+        ? acc[current] = { ...ingredient, count: 2 }
+        : acc[current] = { ...ingredient, count: 1 };
+    } else {
+      ingredient.type === BUN
+        ? acc[current].count = 2
+        : acc[current].count++;
+    }
+
+    return acc;
+  }, {});
+
+  const ingredientsList = Object.values(orderIngredients);
+  const totalPrice = ingredientsList.reduce(
+    (acc, ingredient) => acc + ingredient.price * ingredient.count,
+    0
+  );
+
   return (
     <div className={clsx(styles.container, 'pt-5')}>
-      <p className={clsx('text', 'text_type_digits-default', 'mb-10')}>
+      <p
+        className={clsx(
+          !isModal && styles['order-number'],
+          'text',
+          'text_type_digits-default',
+          'mb-10'
+        )}
+      >
         {orderNumber}
       </p>
       <h2 className={clsx('text', 'text_type_main-medium', 'mb-3')}>{name}</h2>
@@ -53,23 +82,11 @@ export default function OrderInfo() {
         <ul
           className={clsx(styles['ingredients-list'], 'list', 'custom-scroll')}
         >
-          <li className={clsx(styles.ingredient, 'mr-6')}>
-            <div className="mr-4">
-              <IngredientIcon
-                imageUrl="https://code.s3.yandex.net/react/code/bun-02-mobile.png"
-                position="relative"
-              />
-            </div>
-            <p className={clsx('text', 'text_type_main-default', 'mr-4')}>
-              Флюоресцентная булка R2-D3
-            </p>
-            <div className={styles.currency}>
-              <p className={clsx('text', 'text_type_digits-default', 'mr-4')}>
-                2 x 30
-              </p>
-              <CurrencyIcon />
-            </div>
-          </li>
+          {ingredientsList.map((item, index) => (
+            <li key={index} className={clsx(styles.ingredient, 'mr-6')}>
+              <OrderInfoItem ingredient={item} />
+            </li>
+          ))}
         </ul>
       </div>
       <div className={styles['time-price']}>
@@ -84,7 +101,7 @@ export default function OrderInfo() {
         </p>
         <div className={styles.price}>
           <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
-            570
+            {totalPrice}
           </span>
           <CurrencyIcon />
         </div>

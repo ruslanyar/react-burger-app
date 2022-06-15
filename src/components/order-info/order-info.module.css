@@ -1,5 +1,11 @@
 .container {
   width: 640px;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-number {
+  align-self: center;
 }
 
 .ingredients-list {
@@ -15,11 +21,6 @@
 
 .order-status {
   color: var(--colors-interface-success);
-}
-
-.currency {
-  display: flex;
-  margin-left: auto;
 }
 
 .time-price {
