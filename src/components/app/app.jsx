@@ -124,7 +124,14 @@ export default function App() {
             <Route path="orders" element={<OrdersHistoryPage />} />
           </Route>
 
-          <Route path="profile/orders/:id" element={<OrderInfoPage />} />
+          <Route
+            path="profile/orders/:id"
+            element={
+              <ProtectedRoute>
+                <OrderInfoPage />
+              </ProtectedRoute>
+            }
+          />
 
           <Route path="feed" element={<FeedPage />} />
           <Route path="feed/:id" element={<OrderInfoPage />} />
