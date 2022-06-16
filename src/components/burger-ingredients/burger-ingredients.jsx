@@ -57,17 +57,33 @@ export default function BurgerIngredients() {
     [ingredients]
   );
 
+  const scrollIntoView = useCallback((element) => {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   return (
     <section className="mb-10 pt-10">
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
       <div className={clsx(styles.tabs, 'mb-10')}>
-        <Tab value={BUN} active={current === BUN} onClick={setCurrent}>
+        <Tab
+          value={BUN}
+          active={current === BUN}
+          onClick={() => scrollIntoView(bunTitleRef.current)}
+        >
           Булки
         </Tab>
-        <Tab value={SAUCE} active={current === SAUCE} onClick={setCurrent}>
+        <Tab
+          value={SAUCE}
+          active={current === SAUCE}
+          onClick={() => scrollIntoView(sauceTitleRef.current)}
+        >
           Соусы
         </Tab>
-        <Tab value={MAIN} active={current === MAIN} onClick={setCurrent}>
+        <Tab
+          value={MAIN}
+          active={current === MAIN}
+          onClick={() => scrollIntoView(mainTitleRef.current)}
+        >
           Начинки
         </Tab>
       </div>
