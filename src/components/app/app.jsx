@@ -36,20 +36,20 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const background = location.state?.background;
+
   useEffect(() => {
     dispatch(getIngredients());
     dispatch(getUserInfo());
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state?.background) {
+    if (background) {
       window.history.replaceState({}, '');
     }
-  }, [location.state?.background]);
+  }, [background]);
 
   const { request, failed } = useSelector(ingredientsSelector);
-
-  const background = location.state?.background;
 
   const closeModalHandler = useCallback(() => {
     navigate(-1);
