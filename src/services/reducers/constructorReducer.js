@@ -2,7 +2,7 @@ import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   SORT_INGREDIENTS,
-  CLEAR_CONSTRUCTOR } from '../actions/constructorActions';
+  CLEAR_CONSTRUCTOR } from '../action-types/constructorActionTypes';
 
 const initialState = {
   ingredients: {

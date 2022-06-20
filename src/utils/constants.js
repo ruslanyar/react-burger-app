@@ -8,7 +8,9 @@ export const INGREDIENTS_ENDPOINT = 'ingredients';
 export const ORDERS_ENDPOINT = 'orders';
 export const FORGOT_PASSWORD_ENDPOINT = 'password-reset';
 export const RESET_PASSWORD_ENDPOINT ='password-reset/reset';
-export const ERR_MESSAGE = 'jwt malformed';
+
+export const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+export const wsAuthUrl = 'wss://norma.nomoreparties.space/orders';
 
 export const ESC_KEY = 'Escape';
 export const BUN = 'bun';
@@ -19,3 +21,5 @@ export const TEXT = 'text';
 export const EMAIL = 'email';
 export const SHOW_ICON = 'ShowIcon';
 export const HIDE_ICON = 'HideIcon';
+export const ERR_MESSAGE = 'jwt expired';
+export const MSEC_IN_DAY = 1000 * 60 * 60 * 24;

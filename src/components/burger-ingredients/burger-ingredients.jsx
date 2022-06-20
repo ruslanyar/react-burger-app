@@ -7,6 +7,7 @@ import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients
 
 import { throttle } from '../../utils/utils';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
+import { ingredientsSelector } from '../../services/selectors';
 
 import styles from './burger-ingredients.module.css';
 
@@ -14,7 +15,7 @@ const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
 export default function BurgerIngredients() {
-  const { ingredients } = useSelector((store) => store.ingredients);
+  const { ingredients } = useSelector(ingredientsSelector);
 
   const [current, setCurrent] = useState(BUN);
 
@@ -56,17 +57,33 @@ export default function BurgerIngredients() {
     [ingredients]
   );
 
+  const scrollIntoView = useCallback((element) => {
+    element.scrollIntoView({ behavior: 'smooth' });
+  }, []);
+
   return (
     <section className="mb-10 pt-10">
       <h1 className="text text_type_main-large mb-5">Соберите бургер</h1>
       <div className={clsx(styles.tabs, 'mb-10')}>
-        <Tab value={BUN} active={current === BUN} onClick={setCurrent}>
+        <Tab
+          value={BUN}
+          active={current === BUN}
+          onClick={() => scrollIntoView(bunTitleRef.current)}
+        >
           Булки
         </Tab>
-        <Tab value={SAUCE} active={current === SAUCE} onClick={setCurrent}>
+        <Tab
+          value={SAUCE}
+          active={current === SAUCE}
+          onClick={() => scrollIntoView(sauceTitleRef.current)}
+        >
           Соусы
         </Tab>
-        <Tab value={MAIN} active={current === MAIN} onClick={setCurrent}>
+        <Tab
+          value={MAIN}
+          active={current === MAIN}
+          onClick={() => scrollIntoView(mainTitleRef.current)}
+        >
           Начинки
         </Tab>
       </div>

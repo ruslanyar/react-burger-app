@@ -5,7 +5,7 @@ import Form from '../components/form/form';
 import FormInput from '../components/form-input/form-input';
 
 import { EMAIL, PASSWORD } from '../utils/constants';
-import { signInUser } from '../services/actions/userActions';
+import { signInUserThunk } from '../services/thunks';
 
 export function Login() {
   const [emailValue, setEmailValue] = useState('');
@@ -19,7 +19,7 @@ export function Login() {
 
   const onSubmitHandler = useCallback((e, body) => {
     e.preventDefault();
-    dispatch(signInUser(body));
+    dispatch(signInUserThunk(body));
   }, [dispatch]);
 
   return (

@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   ConstructorElement,
@@ -11,22 +11,24 @@ import {
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { addIngredient } from '../../services/actions/constructorActions';
-import { sendOrder } from '../../services/actions/orderActions';
+import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
+import { addIngredientThunk } from '../../services/thunks';
+import { constructorIngredients, userSelector } from '../../services/selectors';
 
 import styles from './burger-constructor.module.css';
 
 export default function BurgerConstructor() {
-  const { bun, topings } = useSelector((store) => store.burger.ingredients);
-  const { isAuth } = useSelector((store) => store.user);
+  const { bun, topings } = useSelector(constructorIngredients);
+  const { isAuth } = useSelector(userSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [{ isHover, canDrop }, dropTargetRef] = useDrop({
     accept: 'ingredient',
     drop({ id }) {
-      dispatch(addIngredient(id));
+      dispatch(addIngredientThunk(id));
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -45,7 +47,7 @@ export default function BurgerConstructor() {
 
   const onClickHandler = useCallback(() => {
     if (isAuth) {
-      const accessToken = `Bearer ${getCookie('token')}`
+      const accessToken = `Bearer ${getCookie('token')}`;
       const ids = [
         ...bun.map((item) => item._id),
         ...topings.map((item) => item._id),
@@ -107,11 +109,15 @@ export default function BurgerConstructor() {
             <CurrencyIcon />
           </div>
         </div>
-        <div onClick={onClickHandler}>
+        <Link
+          to="order-details"
+          state={{ background: location }}
+          onClick={onClickHandler}
+        >
           <Button type="primary" size="large">
             Оформить заказ
           </Button>
-        </div>
+        </Link>
       </div>
     </section>
   );

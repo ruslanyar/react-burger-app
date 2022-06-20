@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import Loader from '../../ui/loader/Loader';
+import { ingredientsSelector } from '../../services/selectors';
 
 import styles from './ingredient-details.module.css';
 
 export default function IngredientDetails({ isModal = false }) {
   const { id } = useParams();
 
-  const { ingredients } = useSelector((store) => store.ingredients);
+  const { ingredients } = useSelector(ingredientsSelector);
 
   if (Array.isArray(ingredients) && ingredients.length === 0) {
     return <Loader />;

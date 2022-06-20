@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 
 import App from './components/app/app';
 
-import { store } from './services/store/store';
+import { store } from './services/store';
 
 import './index.css';
 

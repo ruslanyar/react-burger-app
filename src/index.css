@@ -20,3 +20,13 @@
 .link:hover {
   opacity: .8;
 }
+
+.list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.order-status {
+  color: var(--colors-interface-success);
+}

@@ -10,8 +10,10 @@ import {
   ForgotPassword,
   ResetPassword,
   Profile,
-  NotFoundPage,
   Ingredient,
+  OrderInfoPage,
+  FeedPage,
+  OrdersHistoryPage,
 } from '../../pages';
 
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -19,17 +21,22 @@ import ProfileForm from '../profile-form/profile-form';
 import ProtectedRoute from '../protected-route/protected-route';
 import Modal from '../modal/modal';
 import Loader from '../../ui/loader/Loader';
-import OrderDetails from "../order-details/order-details";
+import OrderDetails from '../order-details/order-details';
+import OrderInfo from '../order-info/order-info';
+import NotFound from '../not-found/not-found';
 
-import { getIngredients } from '../../services/actions/ingredientsActions';
-import { CLOSE_ORDER_DETAILS } from "../../services/actions/orderActions";
-import { CLEAR_CONSTRUCTOR } from "../../services/actions/constructorActions";
-import { getUserInfo } from "../../services/actions/userActions";
+import { closeOrderDetails } from '../../services/actions';
+import { clearConstructor } from '../../services/actions';
+import { getUserInfo } from '../../services/thunks';
+import { getIngredients } from '../../services/thunks';
+import { ingredientsSelector } from '../../services/selectors';
 
 export default function App() {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const background = location.state?.background;
 
   useEffect(() => {
     dispatch(getIngredients());
@@ -37,25 +44,22 @@ export default function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (location.state?.background) {
+    if (background) {
       window.history.replaceState({}, '');
     }
-  }, [location.state?.background])
+  }, [background]);
 
-  const { request, failed } = useSelector((store) => store.ingredients);
+  const { request, failed } = useSelector(ingredientsSelector);
 
-  const background = location.state?.background;
-
-  const isOrderModalShown = useSelector((store) => store.orderDetails.isOpen);
-
-  const closeDetailsHandler = useCallback(() => {
+  const closeModalHandler = useCallback(() => {
     navigate(-1);
   }, [navigate]);
 
   const closeOrderHandler = useCallback(() => {
-    dispatch({ type: CLOSE_ORDER_DETAILS });
-    dispatch({ type: CLEAR_CONSTRUCTOR });
-  }, [dispatch]);
+    closeModalHandler();
+    dispatch(closeOrderDetails());
+    dispatch(clearConstructor());
+  }, [dispatch, closeModalHandler]);
 
   if (request) return <Loader />;
 
@@ -70,10 +74,7 @@ export default function App() {
     <>
       <Routes location={background || location}>
         <Route path="/" element={<Layout />}>
-          <Route
-            index
-            element={<Home />}
-          />
+          <Route index element={<Home />} />
 
           <Route
             path="login"
@@ -120,14 +121,24 @@ export default function App() {
             }
           >
             <Route index element={<ProfileForm />} />
-            <Route path="orders" element={<div>Здесь пока ничего нет</div>} />
+            <Route path="orders" element={<OrdersHistoryPage />} />
           </Route>
 
-          <Route path="feed" element={<div>Здесь пока ничего нет</div>} />
+          <Route
+            path="profile/orders/:id"
+            element={
+              <ProtectedRoute>
+                <OrderInfoPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="feed" element={<FeedPage />} />
+          <Route path="feed/:id" element={<OrderInfoPage />} />
 
           <Route path="ingredients/:id" element={<Ingredient />} />
 
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
 
@@ -136,19 +147,40 @@ export default function App() {
           <Route
             path="/ingredients/:id"
             element={
-              <Modal close={closeDetailsHandler}>
+              <Modal close={closeModalHandler}>
                 <IngredientDetails isModal />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal close={closeModalHandler}>
+                <OrderInfo isModal />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal close={closeModalHandler}>
+                <OrderInfo isModal />
+              </Modal>
+            }
+          />
+
+          <Route
+            path="/order-details"
+            element={
+              <Modal close={closeOrderHandler}>
+                <OrderDetails />
               </Modal>
             }
           />
         </Routes>
       )}
-
-        {isOrderModalShown && (
-          <Modal close={closeOrderHandler}>
-            <OrderDetails />
-          </Modal>
-        )}
     </>
   );
 }

@@ -4,10 +4,12 @@ import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-component
 
 import Loader from '../../ui/loader/Loader';
 
+import { orderDetailsSelector } from '../../services/selectors';
+
 import styles from './order-details.module.css'
 
 export default function OrderDetails() {
-  const { order, request, failed, isEmpty } = useSelector(store => store.orderDetails);
+  const { order, request, failed, isEmpty } = useSelector(orderDetailsSelector);
   const number = order.order?.number;
 
   return (
@@ -17,12 +19,15 @@ export default function OrderDetails() {
           Для заказа необходимо выбрать ингредиенты
         </p>
       )}
+      
       {failed && (
         <p className='text text_type_main-default'>
           Произошла ошибка связи с сервером
         </p>
       )}
+
       {request && <Loader />}
+
       {!request && !failed && !isEmpty && (
         <>
           <span className='text text_type_digits-large mt-4 mb-8'>{number}</span>

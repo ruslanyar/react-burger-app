@@ -13,12 +13,13 @@ import {
 
 import { PASSWORD, TEXT } from '../../utils/constants';
 import { updateUserInfo } from '../../services/actions/userActions';
-import { getUserInfo } from '../../services/actions/userActions';
+import { getUserInfo } from '../../services/thunks';
+import { userInfo } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
 
 export default function ProfileForm() {
-  const { name, email } = useSelector((store) => store.user.user);
+  const { name, email } = useSelector(userInfo);
   const dispatch = useDispatch();
 
   useEffect(() => {

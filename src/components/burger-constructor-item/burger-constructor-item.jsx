@@ -9,9 +9,9 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import {
-  deleteIngredient,
-  sortIngredients,
-} from '../../services/actions/constructorActions';
+  deleteIngredientThunk,
+  sortIngredientsThunk,
+} from '../../services/thunks';
 import { ingredientPropType } from '../../utils/propTypes';
 
 import styles from './burger-constructor-item.module.css';
@@ -42,7 +42,7 @@ export default function BurgerConstructorItem({ ingredient, index }) {
         return;
       }
 
-      dispatch(sortIngredients(dragIndex, hoverIndex));
+      dispatch(sortIngredientsThunk(dragIndex, hoverIndex));
       item.index = hoverIndex;
     },
   });
@@ -62,7 +62,7 @@ export default function BurgerConstructorItem({ ingredient, index }) {
 
   const handleClose = useCallback(
     (keyId) => {
-      dispatch(deleteIngredient(keyId));
+      dispatch(deleteIngredientThunk(keyId));
     },
     [dispatch]
   );

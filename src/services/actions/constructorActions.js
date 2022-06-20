@@ -1,45 +1,22 @@
-import { v4 as uuidv4 } from 'uuid';
-import { BUN } from '../../utils/constants';
+import {
+  ADD_INGREDIENT,
+  CLEAR_CONSTRUCTOR,
+  DELETE_INGREDIENT,
+  SORT_INGREDIENTS,
+} from '../action-types';
 
-export const ADD_INGREDIENT = 'ADD_INGREDIENT';
-export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
-export const SORT_INGREDIENTS = 'SORT_INGREDIENTS';
-export const CLEAR_CONSTRUCTOR = 'CLEAR_CONSTRUCTOR';
+export const addIngredient = (payload) => {
+  return { type: ADD_INGREDIENT, payload };
+};
 
-export const addIngredient = (itemId) => {
-  return (dispatch, getState) => {
-    const constructorIngredients = getState().burger.ingredients;
-    const item = {
-      ...getState().ingredients.ingredients.find(i => i._id === itemId),
-      keyId: uuidv4(),
-    };
-    const payload = {
-      ...constructorIngredients,
-      [item.type === BUN ? item.type : 'topings']: item.type === BUN
-        ? [item]
-        : [
-            ...constructorIngredients.topings,
-            item,
-          ]
-    };
-    
-    dispatch({ type: ADD_INGREDIENT, payload });
-  }
-}
+export const deleteIngredient = (payload) => {
+  return { type: DELETE_INGREDIENT, payload };
+};
 
-export const deleteIngredient = (itemId) => {
-  return (dispatch, getState) => {
-    const list = getState().burger.ingredients.topings
-      .filter(i => i.keyId !== itemId);
+export const sortIngredients = (payload) => {
+  return { type: SORT_INGREDIENTS, payload };
+};
 
-    dispatch({ type: DELETE_INGREDIENT, payload: list });
-  }
-}
-
-export const sortIngredients = (dragIndex, dropIndex) => {
-  return (dispatch, getState) => {
-    const sortableIngredients = getState().burger.ingredients.topings;
-    sortableIngredients.splice(dropIndex, 0, ...sortableIngredients.splice(dragIndex, 1));
-    dispatch({ type: SORT_INGREDIENTS, payload: sortableIngredients });
-  }
-}
+export const clearConstructor = () => {
+  return { type: CLEAR_CONSTRUCTOR };
+};
