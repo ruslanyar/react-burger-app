@@ -10,8 +10,8 @@ import {
 
 import styles from './app-header.module.css';
 
-const linkTextStyle = 'text text_type_main-default ml-2';
-const listItemStyle = clsx(styles['list-item'], 'mt-4', 'mb-4', 'pt-4', 'pb-4', 'pl-5', 'pr-5');
+const linkTextClassName: string = 'text text_type_main-default ml-2';
+const listItemClassName: string = clsx(styles['list-item'], 'mt-4', 'mb-4', 'pt-4', 'pb-4', 'pl-5', 'pr-5');
 
 export default function AppHeader() {
   return (
@@ -19,7 +19,7 @@ export default function AppHeader() {
       <nav className={styles.menu}>
         <ul className={styles.list}>
           <li
-            className={listItemStyle}
+            className={listItemClassName}
           >
             <NavLink to="/" className={styles.link}>
               {({ isActive }) => (
@@ -27,7 +27,7 @@ export default function AppHeader() {
                   <BurgerIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
-                      linkTextStyle,
+                      linkTextClassName,
                       !isActive && 'text_color_inactive'
                     )}
                   >
@@ -38,7 +38,7 @@ export default function AppHeader() {
             </NavLink>
           </li>
           <li
-            className={listItemStyle}
+            className={listItemClassName}
           >
             <NavLink to="/feed" end className={styles.link}>
               {({ isActive }) => (
@@ -46,7 +46,7 @@ export default function AppHeader() {
                   <ListIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
-                      linkTextStyle,
+                      linkTextClassName,
                       !isActive && 'text_color_inactive'
                     )}
                   >
@@ -62,7 +62,7 @@ export default function AppHeader() {
             </Link>
           </li>
           <li
-            className={listItemStyle}
+            className={listItemClassName}
           >
             <NavLink to="/profile" className={styles.link}>
               {({ isActive }) => (
@@ -70,7 +70,7 @@ export default function AppHeader() {
                   <ProfileIcon type={isActive ? 'primary' : 'secondary'} />
                   <span
                     className={clsx(
-                      linkTextStyle,
+                      linkTextClassName,
                       !isActive && 'text_color_inactive'
                     )}
                   >
