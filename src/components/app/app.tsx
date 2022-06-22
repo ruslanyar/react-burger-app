@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
@@ -31,9 +31,17 @@ import { getUserInfo } from '../../services/thunks';
 import { getIngredients } from '../../services/thunks';
 import { ingredientsSelector } from '../../services/selectors';
 
+type TLocationState = {
+  state: {
+    background?: string;
+  };
+};
+
+type TCloseModalCallback = () => void;
+
 export default function App() {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const location = useLocation() as TLocationState;
   const navigate = useNavigate();
 
   const background = location.state?.background;
@@ -49,13 +57,13 @@ export default function App() {
     }
   }, [background]);
 
-  const { request, failed } = useSelector(ingredientsSelector);
+  const { request, failed }: { request: boolean; failed: boolean } = useSelector(ingredientsSelector);
 
-  const closeModalHandler = useCallback(() => {
+  const closeModalHandler = useCallback<TCloseModalCallback>(() => {
     navigate(-1);
   }, [navigate]);
 
-  const closeOrderHandler = useCallback(() => {
+  const closeOrderHandler = useCallback<TCloseModalCallback>(() => {
     closeModalHandler();
     dispatch(closeOrderDetails());
     dispatch(clearConstructor());
