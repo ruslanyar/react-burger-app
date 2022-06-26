@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -15,17 +15,19 @@ import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
 import { addIngredientThunk } from '../../services/thunks';
 import { constructorIngredients, userSelector } from '../../services/selectors';
+import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
+import { ICollect, IDragObj } from './burger-constructor.types';
 
 import styles from './burger-constructor.module.css';
 
-export default function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const { bun, topings } = useSelector(constructorIngredients);
   const { isAuth } = useSelector(userSelector);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [{ isHover, canDrop }, dropTargetRef] = useDrop({
+  const [{ isHover, canDrop }, dropTargetRef] = useDrop<IDragObj, void, ICollect>({
     accept: 'ingredient',
     drop({ id }) {
       dispatch(addIngredientThunk(id));
@@ -38,7 +40,7 @@ export default function BurgerConstructor() {
 
   const totalPrice = useMemo(() => {
     const bunPrice = bun?.length ? bun[0].price * 2 : 0;
-    const otherPrice = topings.reduce((acc, cur) => {
+    const otherPrice = topings.reduce((acc: number, cur: IIngredient) => {
       return acc + cur.price;
     }, 0);
     const result = bunPrice + otherPrice;
@@ -49,8 +51,8 @@ export default function BurgerConstructor() {
     if (isAuth) {
       const accessToken = `Bearer ${getCookie('token')}`;
       const ids = [
-        ...bun.map((item) => item._id),
-        ...topings.map((item) => item._id),
+        ...bun.map((item: IIngredient) => item._id),
+        ...topings.map((item: IIngredient) => item._id),
       ];
       dispatch(sendOrder(ids, accessToken));
     } else {
@@ -80,7 +82,7 @@ export default function BurgerConstructor() {
         )}
         <ul className={clsx(styles.list, 'mt-4', 'mb-4', 'custom-scroll')}>
           {topings &&
-            topings.map((item, index) => (
+            topings.map((item: IIngredient, index: number) => (
               <BurgerConstructorItem
                 key={item.keyId}
                 ingredient={item}
@@ -106,7 +108,7 @@ export default function BurgerConstructor() {
             {totalPrice}
           </span>
           <div className={styles.icon}>
-            <CurrencyIcon />
+            <CurrencyIcon type='primary' />
           </div>
         </div>
         <Link
@@ -122,3 +124,5 @@ export default function BurgerConstructor() {
     </section>
   );
 }
+
+export default BurgerConstructor;
