@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
@@ -8,12 +8,13 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { ingredientPropType } from '../../utils/propTypes';
 import { constructorIngredients } from '../../services/selectors';
+import { IBurgerIngredientsProps } from './burger-ingredients-item.types';
+import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
 
 import styles from './burger-ingredients-item.module.css';
 
-export default function BurgerIngredientsItem({ ingredient }) {
+const BurgerIngredientsItem: FC<IBurgerIngredientsProps> = ({ ingredient }) => {
   const location = useLocation();
 
   const { bun, topings } = useSelector(constructorIngredients);
@@ -29,9 +30,9 @@ export default function BurgerIngredientsItem({ ingredient }) {
     [ingredient]
   );
 
-  const count = useMemo(() => {
-    const counters = {};
-    [...bun, ...topings].forEach((item) => {
+  const count: number = useMemo(() => {
+    const counters: {[K: string]: number} = {};
+    [...bun, ...topings].forEach((item: IIngredient) => {
       if (!counters[item._id]) {
         counters[item._id] = 1;
       } else {
@@ -65,7 +66,7 @@ export default function BurgerIngredientsItem({ ingredient }) {
           <span className="text text_type_digits-default mr-2">
             {ingredient.price}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type='primary' />
         </div>
         <p className={clsx(styles.name, 'text', 'text_type_main-default')}>
           {ingredient.name}
@@ -75,6 +76,4 @@ export default function BurgerIngredientsItem({ ingredient }) {
   );
 }
 
-BurgerIngredientsItem.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-};
+export default BurgerIngredientsItem;
