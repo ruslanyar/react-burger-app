@@ -8,31 +8,32 @@ import Loader from '../../ui/loader/Loader';
 import { getOrders } from '../../services/selectors';
 import { wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber } from '../../utils/utils';
+import { IBurgerFeedOrder, TOrdersNumbers } from './burger-feed.types';
 
 import styles from './burger-feed.module.css';
 
-const formatCount = (n) => {
+const formatCount = (n: number): string => {
   return n.toLocaleString();
 };
 
-export default function BurgerFeed() {
+function BurgerFeed(): JSX.Element {
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector(getOrders);
 
-  const doneOrdersNumbers = useMemo(() => {
+  const doneOrdersNumbers = useMemo<TOrdersNumbers>(() => {
     return orders
       ? orders
-          .filter((order) => order.status === 'done')
-          .map((order) => order.number)
+          .filter((order: IBurgerFeedOrder) => order.status === 'done')
+          .map((order: IBurgerFeedOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
 
-  const inWorkOrdersNumbers = useMemo(() => {
+  const inWorkOrdersNumbers = useMemo<TOrdersNumbers>(() => {
     return orders
       ? orders
-          .filter((order) => order.status !== 'done')
-          .map((order) => order.number)
+          .filter((order: IBurgerFeedOrder) => order.status !== 'done')
+          .map((order: IBurgerFeedOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
@@ -129,3 +130,5 @@ export default function BurgerFeed() {
     </div>
   );
 }
+
+export default BurgerFeed;
