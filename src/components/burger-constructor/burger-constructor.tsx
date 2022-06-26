@@ -27,7 +27,11 @@ const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [{ isHover, canDrop }, dropTargetRef] = useDrop<IDragObj, void, ICollect>({
+  const [{ isHover, canDrop }, dropTargetRef] = useDrop<
+    IDragObj,
+    void,
+    ICollect
+  >({
     accept: 'ingredient',
     drop({ id }) {
       dispatch(addIngredientThunk(id));
@@ -83,11 +87,12 @@ const BurgerConstructor: FC = () => {
         <ul className={clsx(styles.list, 'mt-4', 'mb-4', 'custom-scroll')}>
           {topings &&
             topings.map((item: IIngredient, index: number) => (
-              <BurgerConstructorItem
-                key={item.keyId}
-                ingredient={item}
-                index={index}
-              />
+              <li key={item.keyId}>
+                <BurgerConstructorItem
+                  ingredient={item}
+                  index={index}
+                />
+              </li>
             ))}
         </ul>
         {bun.length !== 0 && (
@@ -108,7 +113,7 @@ const BurgerConstructor: FC = () => {
             {totalPrice}
           </span>
           <div className={styles.icon}>
-            <CurrencyIcon type='primary' />
+            <CurrencyIcon type="primary" />
           </div>
         </div>
         <Link
@@ -123,6 +128,6 @@ const BurgerConstructor: FC = () => {
       </div>
     </section>
   );
-}
+};
 
 export default BurgerConstructor;
