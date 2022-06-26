@@ -8,52 +8,60 @@ import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients
 import { throttle } from '../../utils/utils';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
 import { ingredientsSelector } from '../../services/selectors';
+import { IIngredient } from './burger-ingredients.types';
 
 import styles from './burger-ingredients.module.css';
 
 const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
-export default function BurgerIngredients() {
+function BurgerIngredients(): JSX.Element {
   const { ingredients } = useSelector(ingredientsSelector);
 
   const [current, setCurrent] = useState(BUN);
 
-  const scrollContainerRef = useRef(null);
-  const bunTitleRef = useRef(null);
-  const sauceTitleRef = useRef(null);
-  const mainTitleRef = useRef(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const bunTitleRef = useRef<HTMLHeadingElement>(null);
+  const sauceTitleRef = useRef<HTMLHeadingElement>(null);
+  const mainTitleRef = useRef<HTMLHeadingElement>(null);
 
   const onScrollHandler = useCallback(() => {
-    const currentScroll = scrollContainerRef.current.scrollTop;
-    const bunTitlePos = Math.abs(bunTitleRef.current.offsetTop - currentScroll);
-    const sauceTitlePos = Math.abs(
-      sauceTitleRef.current.offsetTop - currentScroll
-    );
-    const mainTitlePos = Math.abs(
-      mainTitleRef.current.offsetTop - currentScroll
-    );
+    const currentScroll = scrollContainerRef.current?.scrollTop;
 
-    if (bunTitlePos < sauceTitlePos) setCurrent(BUN);
-    if (sauceTitlePos < bunTitlePos && sauceTitlePos < mainTitlePos)
-      setCurrent(SAUCE);
-    if (mainTitlePos < sauceTitlePos) setCurrent(MAIN);
+    if (typeof currentScroll !== 'undefined') {
+      if ( bunTitleRef.current && sauceTitleRef.current && mainTitleRef.current) {
+        const bunTitlePos = Math.abs(
+          bunTitleRef.current.offsetTop - currentScroll
+        );
+        const sauceTitlePos = Math.abs(
+          sauceTitleRef.current.offsetTop - currentScroll
+        );
+        const mainTitlePos = Math.abs(
+          mainTitleRef.current.offsetTop - currentScroll
+        );
+
+        if (bunTitlePos < sauceTitlePos) setCurrent(BUN);
+        if (sauceTitlePos < bunTitlePos && sauceTitlePos < mainTitlePos)
+          setCurrent(SAUCE);
+        if (mainTitlePos < sauceTitlePos) setCurrent(MAIN);
+      }
+    }
   }, [scrollContainerRef, bunTitleRef, sauceTitleRef, mainTitleRef]);
 
   const throttledOnScrollHandler = throttle(onScrollHandler, 50);
 
   const buns = useMemo(
-    () => ingredients.filter((item) => item.type === BUN),
+    () => ingredients.filter((item: IIngredient) => item.type === BUN),
     [ingredients]
   );
 
   const sauces = useMemo(
-    () => ingredients.filter((item) => item.type === SAUCE),
+    () => ingredients.filter((item: IIngredient) => item.type === SAUCE),
     [ingredients]
   );
 
   const main = useMemo(
-    () => ingredients.filter((item) => item.type === MAIN),
+    () => ingredients.filter((item: IIngredient) => item.type === MAIN),
     [ingredients]
   );
 
@@ -97,7 +105,7 @@ export default function BurgerIngredients() {
             Булки
           </h2>
           <ul className={listStyle}>
-            {buns.map((item) => (
+            {buns.map((item: IIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
           </ul>
@@ -107,7 +115,7 @@ export default function BurgerIngredients() {
             Соусы
           </h2>
           <ul className={listStyle}>
-            {sauces.map((item) => (
+            {sauces.map((item: IIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
           </ul>
@@ -117,7 +125,7 @@ export default function BurgerIngredients() {
             Начинки
           </h2>
           <ul className={listStyle}>
-            {main.map((item) => (
+            {main.map((item: IIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
           </ul>
@@ -126,3 +134,5 @@ export default function BurgerIngredients() {
     </section>
   );
 }
+
+export default BurgerIngredients;
