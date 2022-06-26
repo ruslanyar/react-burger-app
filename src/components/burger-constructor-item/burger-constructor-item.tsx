@@ -1,7 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { FC, useCallback, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import {
   ConstructorElement,
@@ -12,15 +11,15 @@ import {
   deleteIngredientThunk,
   sortIngredientsThunk,
 } from '../../services/thunks';
-import { ingredientPropType } from '../../utils/propTypes';
+import { IBurgerConstructorItem } from './burger-constructor-item.types';
 
 import styles from './burger-constructor-item.module.css';
 
-export default function BurgerConstructorItem({ ingredient, index }) {
+const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }) => {
   const dispatch = useDispatch();
-  const constructorElementRef = useRef(null);
+  const constructorElementRef = useRef<HTMLDivElement>(null);
 
-  const [, dropRef] = useDrop({
+  const [, dropRef] = useDrop<{id: number; index: number}, void, any>({
     accept: 'constructor',
     hover(item, monitor) {
       if (!constructorElementRef.current) return;
@@ -34,6 +33,7 @@ export default function BurgerConstructorItem({ ingredient, index }) {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      if (!clientOffset) return;
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -68,23 +68,20 @@ export default function BurgerConstructorItem({ ingredient, index }) {
   );
 
   return (
-    <li
+    <div
       style={{ opacity }}
-      className={clsx(styles['list__item'], 'mb-4')}
+      className={clsx(styles['constructor__item'], 'mb-4')}
       ref={constructorElementRef}
     >
-      <DragIcon />
+      <DragIcon type='primary' />
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
         handleClose={() => handleClose(ingredient.keyId)}
       />
-    </li>
+    </div>
   );
 }
 
-BurgerConstructorItem.propTypes = {
-  ingredient: ingredientPropType.isRequired,
-  index: PropTypes.number.isRequired,
-};
+export default BurgerConstructorItem;
