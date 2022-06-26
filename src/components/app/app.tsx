@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
@@ -31,15 +31,9 @@ import { getUserInfo } from '../../services/thunks';
 import { getIngredients } from '../../services/thunks';
 import { ingredientsSelector } from '../../services/selectors';
 
-type TLocationState = {
-  state: {
-    background?: string;
-  };
-};
+import { TCloseModalCallback, TLocationState } from './app.types';
 
-type TCloseModalCallback = () => void;
-
-export default function App() {
+function App(): JSX.Element {
   const dispatch = useDispatch();
   const location = useLocation() as TLocationState;
   const navigate = useNavigate();
@@ -192,3 +186,5 @@ export default function App() {
     </>
   );
 }
+
+export default App;

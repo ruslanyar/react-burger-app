@@ -13,7 +13,7 @@ import styles from './app-header.module.css';
 const linkTextClassName: string = 'text text_type_main-default ml-2';
 const listItemClassName: string = clsx(styles['list-item'], 'mt-4', 'mb-4', 'pt-4', 'pb-4', 'pl-5', 'pr-5');
 
-export default function AppHeader() {
+function AppHeader(): JSX.Element {
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>
@@ -85,3 +85,5 @@ export default function AppHeader() {
     </header>
   );
 }
+
+export default AppHeader;
