@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 
 import Loader from '../../ui/loader/Loader';
 import { ingredientsSelector } from '../../services/selectors';
+import { IIngredient } from '../../services/types/data';
 
 import styles from './ingredient-details.module.css';
 
-export default function IngredientDetails({ isModal = false }) {
+interface IIngredientDetailsProps {
+  isModal?: boolean;
+}
+
+const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => {
   const { id } = useParams();
 
   const { ingredients } = useSelector(ingredientsSelector);
@@ -18,8 +22,8 @@ export default function IngredientDetails({ isModal = false }) {
     return <Loader />;
   }
 
-  const [ingredient] = ingredients.filter(
-    (ingredient) => ingredient._id === id
+  const [ingredient]: IIngredient[] = ingredients.filter(
+    (ingredient: IIngredient) => ingredient._id === id
   );
 
   return (
@@ -59,6 +63,4 @@ export default function IngredientDetails({ isModal = false }) {
   );
 }
 
-IngredientDetails.propTypes = {
-  isModal: PropTypes.bool,
-}
+export default IngredientDetails;
