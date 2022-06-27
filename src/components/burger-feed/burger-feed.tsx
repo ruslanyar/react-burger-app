@@ -8,9 +8,11 @@ import Loader from '../../ui/loader/Loader';
 import { getOrders } from '../../services/selectors';
 import { wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber } from '../../utils/utils';
-import { IBurgerFeedOrder, TOrdersNumbers } from './burger-feed.types';
+import { IOrder } from '../../services/types/data';
 
 import styles from './burger-feed.module.css';
+
+type TOrdersNumbers = number[] | null;
 
 const formatCount = (n: number): string => {
   return n.toLocaleString();
@@ -23,8 +25,8 @@ function BurgerFeed(): JSX.Element {
   const doneOrdersNumbers = useMemo<TOrdersNumbers>(() => {
     return orders
       ? orders
-          .filter((order: IBurgerFeedOrder) => order.status === 'done')
-          .map((order: IBurgerFeedOrder) => order.number)
+          .filter((order: IOrder) => order.status === 'done')
+          .map((order: IOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);
@@ -32,8 +34,8 @@ function BurgerFeed(): JSX.Element {
   const inWorkOrdersNumbers = useMemo<TOrdersNumbers>(() => {
     return orders
       ? orders
-          .filter((order: IBurgerFeedOrder) => order.status !== 'done')
-          .map((order: IBurgerFeedOrder) => order.number)
+          .filter((order: IOrder) => order.status !== 'done')
+          .map((order: IOrder) => order.number)
           .slice(0, 10)
       : null;
   }, [orders]);

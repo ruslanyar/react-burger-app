@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React, { FC, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -9,11 +8,16 @@ import IngredientIcon from '../ingredient-icon/ingredient-icon';
 import { BUN } from '../../utils/constants';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { ingredientsSelector } from '../../services/selectors';
-import { orderPropType } from '../../utils/propTypes';
+import { IOrder } from '../../services/types/data';
 
 import styles from './card-order.module.css';
 
-export default function CardOrder({ order, isUser }) {
+interface ICardOrderProps {
+  order: IOrder;
+  isUser?: boolean;
+}
+
+const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
   const { ingredients } = useSelector(ingredientsSelector);
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
   const orderStatus = getOrderStatus(status);
@@ -23,11 +27,11 @@ export default function CardOrder({ order, isUser }) {
   }, [number]);
 
   const { imageUrls, totalPrice } = useMemo(() => {
-    const urls = [];
+    const urls: string[] = [];
     let price = 0;
 
     ingredIds.forEach((id) => {
-      const ingredient = ingredients.find((item) => item._id === id);
+      const ingredient = ingredients.find((item: any) => item._id === id);  // ! (item: any) !!!!!
       if (ingredient) {
         if (urls.length < 6) {
           urls.push(ingredient.image_mobile);
@@ -104,14 +108,11 @@ export default function CardOrder({ order, isUser }) {
           <span className={clsx('text', 'text_type_digits-default')}>
             {totalPrice}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type='primary' />
         </div>
       </div>
     </article>
   );
 }
 
-CardOrder.propTypes = {
-  order: orderPropType.isRequired,
-  isUser: PropTypes.bool,
-}
+export default CardOrder;

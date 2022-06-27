@@ -13,3 +13,15 @@ export interface IIngredient {
   readonly __v: number;
   keyId?: number;
 }
+
+type TOrderStatus = 'created' | 'pending' | 'done';
+
+export interface IOrder {
+  _id: string;
+  ingredients: string[];
+  status: TOrderStatus;
+  name: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+}
