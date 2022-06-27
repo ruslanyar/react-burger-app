@@ -10,7 +10,7 @@ import {
 
 import { constructorIngredients } from '../../services/selectors';
 import { IBurgerIngredientsProps } from './burger-ingredients-item.types';
-import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
+import { IIngredient } from '../../services/types/data';
 
 import styles from './burger-ingredients-item.module.css';
 

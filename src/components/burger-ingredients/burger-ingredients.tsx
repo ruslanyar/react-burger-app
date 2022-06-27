@@ -8,7 +8,7 @@ import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients
 import { throttle } from '../../utils/utils';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
 import { ingredientsSelector } from '../../services/selectors';
-import { IIngredient } from './burger-ingredients.types';
+import { IIngredient } from '../../services/types/data';
 
 import styles from './burger-ingredients.module.css';
 

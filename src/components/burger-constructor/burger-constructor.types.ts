@@ -4,5 +4,5 @@ export interface ICollect {
 }
 
 export interface IDragObj {
-  id: number
+  id: string
 }

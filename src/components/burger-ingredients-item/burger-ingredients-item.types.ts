@@ -1,4 +1,4 @@
-import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
+import { IIngredient } from '../../services/types/data';
 
 export interface IBurgerIngredientsProps {
   ingredient: IIngredient;

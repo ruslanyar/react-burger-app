@@ -15,7 +15,7 @@ import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
 import { addIngredientThunk } from '../../services/thunks';
 import { constructorIngredients, userSelector } from '../../services/selectors';
-import { IIngredient } from '../burger-ingredients/burger-ingredients.types';
+import { IIngredient } from '../../services/types/data';
 import { ICollect, IDragObj } from './burger-constructor.types';
 
 import styles from './burger-constructor.module.css';
