@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { IForm } from './form.types';
 
 import styles from './form.module.css';
 
@@ -13,7 +14,7 @@ const titleStyle = clsx(
   'mb-6'
 );
 
-export default function Form({
+const Form: FC<IForm> = ({
   children,
   title,
   body,
@@ -23,7 +24,7 @@ export default function Form({
   link,
   linkText,
   isLoginPage = false,
-}) {
+}) => {
   return (
     <div className={styles['form-container']}>
       <h2 className={titleStyle}>{title}</h2>
@@ -60,17 +61,4 @@ export default function Form({
   );
 }
 
-Form.propTypes ={
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element
-  ]),
-  title: PropTypes.string,
-  body: PropTypes.object.isRequired,
-  buttonText: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  text: PropTypes.string,
-  link: PropTypes.string.isRequired,
-  linkText: PropTypes.string,
-  isLoginPage: PropTypes.bool,
-}
+export default Form;
