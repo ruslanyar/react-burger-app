@@ -10,7 +10,7 @@ import { getUserOrders } from '../../services/selectors';
 
 import styles from './orders-history.module.css';
 
-export default function OrdersHistory(): JSX.Element {
+function OrdersHistory(): JSX.Element {
   const dispatch = useDispatch();
   const { orders } = useSelector(getUserOrders);
 
@@ -28,3 +28,5 @@ export default function OrdersHistory(): JSX.Element {
     </div>
   );
 }
+
+export default OrdersHistory;

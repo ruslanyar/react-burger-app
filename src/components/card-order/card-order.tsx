@@ -8,14 +8,10 @@ import IngredientIcon from '../ingredient-icon/ingredient-icon';
 import { BUN } from '../../utils/constants';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { ingredientsSelector } from '../../services/selectors';
-import { IOrder } from '../../services/types/data';
+import { ICardOrderProps } from './card-order.types';
+import { IIngredient } from '../../services/types/data';
 
 import styles from './card-order.module.css';
-
-interface ICardOrderProps {
-  order: IOrder;
-  isUser?: boolean;
-}
 
 const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
   const { ingredients } = useSelector(ingredientsSelector);
@@ -31,7 +27,7 @@ const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
     let price = 0;
 
     ingredIds.forEach((id) => {
-      const ingredient = ingredients.find((item: any) => item._id === id);  // ! (item: any) !!!!!
+      const ingredient = ingredients.find((item: IIngredient) => item._id === id);
       if (ingredient) {
         if (urls.length < 6) {
           urls.push(ingredient.image_mobile);

@@ -1,14 +1,9 @@
 import React, { FC, useMemo } from 'react';
 import clsx from 'clsx';
 
-import styles from './ingredient-icon.module.css';
+import { IIngredientIconProps } from './ingredient-icon.types';
 
-interface IIngredientIconProps {
-  imageUrl: string;
-  index: number;
-  count: number;
-  position?: 'absolute' | 'relative';
-}
+import styles from './ingredient-icon.module.css';
 
 const IngredientIcon: FC<IIngredientIconProps> = ({
   imageUrl,

@@ -8,7 +8,7 @@ import { orderDetailsSelector } from '../../services/selectors';
 
 import styles from './order-details.module.css'
 
-export default function OrderDetails(): JSX.Element {
+function OrderDetails(): JSX.Element {
   const { order, request, failed, isEmpty } = useSelector(orderDetailsSelector);
   const number = order.order?.number;
 
@@ -50,3 +50,5 @@ export default function OrderDetails(): JSX.Element {
     </div>
   );
 }
+
+export default OrderDetails;

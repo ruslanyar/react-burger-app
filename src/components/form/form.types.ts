@@ -7,7 +7,7 @@ type TFormText = 'Уже зарегистрированы?' | 'Вы — нов�
 
 type TFormBody = { [key in TFormBodyKey]: string }
 
-export interface IForm {
+export interface IFormProps {
   title: TFormTitle;
   body: TFormBody;
   buttonText: TFormButtonText;

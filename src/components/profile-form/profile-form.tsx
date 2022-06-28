@@ -18,7 +18,7 @@ import { userInfo } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
 
-export default function ProfileForm(): JSX.Element {
+function ProfileForm(): JSX.Element {
   const { name, email } = useSelector(userInfo);
   const dispatch = useDispatch();
 
@@ -152,3 +152,5 @@ export default function ProfileForm(): JSX.Element {
     </form>
   );
 }
+
+export default ProfileForm;

@@ -1,12 +1,10 @@
 import React, { FC, useCallback } from 'react';
 
+import { IModalOverlayProps } from './modal-overlay.types';
+
 import styles from './modal-overlay.module.css';
 
-interface IModalOverlay {
-  close: () => void;
-}
-
-const ModalOverlay: FC<IModalOverlay> = ({ children, close }) => {
+const ModalOverlay: FC<IModalOverlayProps> = ({ children, close }) => {
   const closeHandler = useCallback((e) => {
     if (e.target === e.currentTarget) {
       close();

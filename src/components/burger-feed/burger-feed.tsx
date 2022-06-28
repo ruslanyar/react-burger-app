@@ -12,8 +12,6 @@ import { IOrder } from '../../services/types/data';
 
 import styles from './burger-feed.module.css';
 
-type TOrdersNumbers = number[] | null;
-
 const formatCount = (n: number): string => {
   return n.toLocaleString();
 };
@@ -22,7 +20,7 @@ function BurgerFeed(): JSX.Element {
   const dispatch = useDispatch();
   const { orders, total, totalToday } = useSelector(getOrders);
 
-  const doneOrdersNumbers = useMemo<TOrdersNumbers>(() => {
+  const doneOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
       ? orders
           .filter((order: IOrder) => order.status === 'done')
@@ -31,7 +29,7 @@ function BurgerFeed(): JSX.Element {
       : null;
   }, [orders]);
 
-  const inWorkOrdersNumbers = useMemo<TOrdersNumbers>(() => {
+  const inWorkOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
       ? orders
           .filter((order: IOrder) => order.status !== 'done')

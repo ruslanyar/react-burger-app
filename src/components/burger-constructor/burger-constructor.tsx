@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -20,7 +20,7 @@ import { ICollect, IDragObj } from './burger-constructor.types';
 
 import styles from './burger-constructor.module.css';
 
-const BurgerConstructor: FC = () => {
+function BurgerConstructor(): JSX.Element {
   const { bun, topings } = useSelector(constructorIngredients);
   const { isAuth } = useSelector(userSelector);
   const dispatch = useDispatch();

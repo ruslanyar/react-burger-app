@@ -4,7 +4,7 @@ import clsx from 'clsx';
 
 import styles from './not-found.module.css';
 
-export default function NotFound(): JSX.Element {
+function NotFound(): JSX.Element {
   return (
     <div className={styles.container}>
       <div className={styles['text-container']}>
@@ -20,3 +20,5 @@ export default function NotFound(): JSX.Element {
     </div>
   );
 }
+
+export default NotFound;

@@ -6,14 +6,11 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from '../modal-overlay/modal-overlay';
 
 import { ESC_KEY } from '../../utils/constants';
+import { IModalProps } from './modal.types';
 
 import styles from './modal.module.css';
 
-interface IModal {
-  close: () => void;
-}
-
-const Modal: FC<IModal> = ({ children, close }) => {
+const Modal: FC<IModalProps> = ({ children, close }) => {
   const handleEscClose = useCallback(
     (evt) => {
       if (evt.key === ESC_KEY) {

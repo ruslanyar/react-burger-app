@@ -6,12 +6,9 @@ import clsx from 'clsx';
 import Loader from '../../ui/loader/Loader';
 import { ingredientsSelector } from '../../services/selectors';
 import { IIngredient } from '../../services/types/data';
+import { IIngredientDetailsProps } from './ingredient-details.types';
 
 import styles from './ingredient-details.module.css';
-
-interface IIngredientDetailsProps {
-  isModal?: boolean;
-}
 
 const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => {
   const { id } = useParams();

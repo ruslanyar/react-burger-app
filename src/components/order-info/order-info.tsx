@@ -12,16 +12,9 @@ import { wsAuthClose, wsAuthConnectionStart, wsClose, wsConnectionStart } from '
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 import { IIngredient, IOrder } from '../../services/types/data';
+import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
 
 import styles from './order-info.module.css';
-
-interface IOrderInfoProps {
-  isModal?: boolean;
-}
-
-interface IIngredientWithCount extends IIngredient {
-  count: number;
-}
 
 const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
   const dispatch = useDispatch();

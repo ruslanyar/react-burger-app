@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { IForm } from './form.types';
+import { IFormProps } from './form.types';
 
 import styles from './form.module.css';
 
@@ -14,7 +14,7 @@ const titleStyle = clsx(
   'mb-6'
 );
 
-const Form: FC<IForm> = ({
+const Form: FC<IFormProps> = ({
   children,
   title,
   body,
