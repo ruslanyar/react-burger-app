@@ -7,7 +7,7 @@ import { signOutUserThunk } from '../../services/thunks';
 
 import styles from './navbar.module.css';
 
-export default function Navbar() {
+export default function Navbar(): JSX.Element {
   const location = useLocation();
   const dispatch = useDispatch();
 

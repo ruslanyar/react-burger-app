@@ -8,7 +8,7 @@ import { orderDetailsSelector } from '../../services/selectors';
 
 import styles from './order-details.module.css'
 
-export default function OrderDetails() {
+export default function OrderDetails(): JSX.Element {
   const { order, request, failed, isEmpty } = useSelector(orderDetailsSelector);
   const number = order.order?.number;
 
@@ -36,7 +36,7 @@ export default function OrderDetails() {
           </p>
           <div className={`${styles.done} mb-15`}>
             <div className={styles['check-icon']}>
-              <CheckMarkIcon />
+              <CheckMarkIcon type='primary' />
             </div>
           </div>
           <p className='text text_type_main-default mb-2'>
