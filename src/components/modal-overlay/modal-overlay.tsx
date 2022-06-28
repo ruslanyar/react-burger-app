@@ -1,9 +1,12 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useCallback } from 'react';
 
 import styles from './modal-overlay.module.css';
 
-export default function ModalOverlay({ children, close }) {
+interface IModalOverlay {
+  close: () => void;
+}
+
+const ModalOverlay: FC<IModalOverlay> = ({ children, close }) => {
   const closeHandler = useCallback((e) => {
     if (e.target === e.currentTarget) {
       close();
@@ -20,7 +23,4 @@ export default function ModalOverlay({ children, close }) {
   );
 }
 
-ModalOverlay.propTypes = {
-  children: PropTypes.node,
-  close: PropTypes.func.isRequired,
-}
+export default ModalOverlay;
