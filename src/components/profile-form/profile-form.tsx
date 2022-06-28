@@ -18,7 +18,7 @@ import { userInfo } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
 
-export default function ProfileForm() {
+export default function ProfileForm(): JSX.Element {
   const { name, email } = useSelector(userInfo);
   const dispatch = useDispatch();
 
@@ -26,10 +26,10 @@ export default function ProfileForm() {
     dispatch(getUserInfo());
   }, [dispatch]);
 
-  const [isChange, setIsChange] = useState(false);
-  const [nameValue, setNameValue] = useState(name);
-  const [loginValue, setLoginValue] = useState(email);
-  const [passwordValue, setPasswordValue] = useState('');
+  const [isChange, setIsChange] = useState<boolean>(false);
+  const [nameValue, setNameValue] = useState<string>(name);
+  const [loginValue, setLoginValue] = useState<string>(email);
+  const [passwordValue, setPasswordValue] = useState<string>('');
 
   const body = useMemo(
     () => ({
@@ -40,7 +40,9 @@ export default function ProfileForm() {
     [nameValue, loginValue, passwordValue]
   );
 
-  const [passInputType, setPassInputType] = useState(PASSWORD);
+  const [passInputType, setPassInputType] = useState<
+    typeof PASSWORD | typeof TEXT
+  >(PASSWORD);
 
   const nameInputRef = useRef(null);
   const loginInputRef = useRef(null);
@@ -79,7 +81,7 @@ export default function ProfileForm() {
   const submitHandler = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(updateUserInfo(body, setIsChange));
+      dispatch(updateUserInfo(body));
     },
     [dispatch, body]
   );
