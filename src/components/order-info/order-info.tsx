@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useMatch, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -14,8 +13,17 @@ import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../uti
 import { BUN } from '../../utils/constants';
 
 import styles from './order-info.module.css';
+import { IIngredient, IOrder } from '../../services/types/data';
 
-export default function OrderInfo({ isModal = false }) {
+interface IOrderInfoProps {
+  isModal?: boolean;
+}
+
+interface IIngredientWithCount extends IIngredient {
+  count: number;
+}
+
+const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const match = useMatch(`/feed/${id}`);
@@ -41,21 +49,21 @@ export default function OrderInfo({ isModal = false }) {
 
   if (!orders) return <Loader />;
 
-  const order = orders.find((order) => order._id === id);
+  const order: IOrder = orders.find((order: IOrder) => order._id === id);
   const { name, number, status, ingredients: ingredIds, createdAt } = order;
   const orderNumber = `#${formatOrderNumber(number)}`;
   const orderStatus = getOrderStatus(status);
 
-  const orderIngredients = ingredIds.reduce((acc, current) => {
-    const ingredient = ingredients.find((item) => item._id === current);
+  const orderIngredients = ingredIds.reduce<{[k: string]: IIngredientWithCount}>((acc, current) => {
+    const ingredient: IIngredient = ingredients.find((item: IIngredient) => item._id === current);
     if (!acc[current]) {
       ingredient.type === BUN
         ? acc[current] = { ...ingredient, count: 2 }
         : acc[current] = { ...ingredient, count: 1 };
     } else {
-      ingredient.type === BUN
-        ? acc[current].count = 2
-        : acc[current].count++;
+      if (ingredient.type !== BUN) {
+        acc[current].count++;
+     }
     }
 
     return acc;
@@ -117,13 +125,11 @@ export default function OrderInfo({ isModal = false }) {
           <span className={clsx('text', 'text_type_digits-default', 'mr-2')}>
             {totalPrice}
           </span>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary" />
         </div>
       </div>
     </div>
   );
 }
 
-OrderInfo.propTypes = {
-  isModal: PropTypes.bool,
-}
+export default OrderInfo;
