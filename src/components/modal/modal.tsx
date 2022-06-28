@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -10,7 +9,11 @@ import { ESC_KEY } from '../../utils/constants';
 
 import styles from './modal.module.css';
 
-export default function Modal({ children, close }) {
+interface IModal {
+  close: () => void;
+}
+
+const Modal: FC<IModal> = ({ children, close }) => {
   const handleEscClose = useCallback(
     (evt) => {
       if (evt.key === ESC_KEY) {
@@ -30,16 +33,13 @@ export default function Modal({ children, close }) {
     <ModalOverlay close={close}>
       <div className={clsx(styles.container, 'pt-10', 'pb-15', 'pl-10', 'pr-10')}>
         <div onClick={close} className={styles.close}>
-          <CloseIcon />
+          <CloseIcon type='primary' />
         </div>
         {children}
       </div>
     </ModalOverlay>,
-    document.querySelector('#modal')
+    document.querySelector('#modal')!
   );
 }
 
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  close: PropTypes.func.isRequired,
-};
+export default Modal;
