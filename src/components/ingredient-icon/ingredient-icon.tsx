@@ -1,15 +1,21 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
+import React, { FC, useMemo } from 'react';
 import clsx from 'clsx';
 
 import styles from './ingredient-icon.module.css';
 
-export default function IngredientIcon({
+interface IIngredientIconProps {
+  imageUrl: string;
+  index: number;
+  count: number;
+  position?: 'absolute' | 'relative';
+}
+
+const IngredientIcon: FC<IIngredientIconProps> = ({
   imageUrl,
   index,
   count,
   position = 'absolute',
-}) {
+}) => {
   const ingredientIconStyle = useMemo(
     () =>
       position === 'absolute'
@@ -38,9 +44,4 @@ export default function IngredientIcon({
   );
 }
 
-IngredientIcon.propTypes ={
-  imageUrl: PropTypes.string.isRequired,
-  index: PropTypes.number,
-  count: PropTypes.number,
-  position: PropTypes.string,
-}
+export default IngredientIcon;
