@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import { userSelector } from '../../services/selectors';
+import { IProtectedRoutProps, TLocationState } from './protected-route.types';
 
-export default function ProtectedRoute({ children, anonymous = false }) {
+const ProtectedRoute: FC<IProtectedRoutProps> = ({ children, anonymous = false }) => {
   const { isAuth } = useSelector(userSelector);
-  const location = useLocation();
+  const location = useLocation() as TLocationState;
 
   const from = location.state?.from?.pathname || '/';
 
@@ -22,7 +22,4 @@ export default function ProtectedRoute({ children, anonymous = false }) {
   return <>{children}</>;
 }
 
-ProtectedRoute.propTypes = {
-  children: PropTypes.element.isRequired,
-  anonymous: PropTypes.bool,
-}
+export default ProtectedRoute;
