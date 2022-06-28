@@ -10,14 +10,14 @@ import { getUserOrders } from '../../services/selectors';
 
 import styles from './orders-history.module.css';
 
-export default function OrdersHistory() {
+export default function OrdersHistory(): JSX.Element {
   const dispatch = useDispatch();
   const { orders } = useSelector(getUserOrders);
 
   useEffect(() => {
     dispatch(wsAuthConnectionStart());
 
-    return () => dispatch(wsAuthClose());
+    return () => dispatch(wsAuthClose()) as any; // ! as any !!!!!!!!!!!!
   }, [dispatch]);
 
   if (!orders) return <Loader />;

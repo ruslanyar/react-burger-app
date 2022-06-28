@@ -11,9 +11,9 @@ import { getOrders, getUserOrders, ingredientsSelector } from '../../services/se
 import { wsAuthClose, wsAuthConnectionStart, wsClose, wsConnectionStart } from '../../services/actions';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
+import { IIngredient, IOrder } from '../../services/types/data';
 
 import styles from './order-info.module.css';
-import { IIngredient, IOrder } from '../../services/types/data';
 
 interface IOrderInfoProps {
   isModal?: boolean;
