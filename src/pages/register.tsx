@@ -6,8 +6,9 @@ import FormInput from '../components/form-input/form-input';
 
 import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
 import { registerUser } from '../services/thunks';
+import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function Register() {
+export function Register(): JSX.Element {
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
@@ -19,7 +20,7 @@ export function Register() {
     name: nameValue,
   }), [emailValue, nameValue, passwordValue]);
 
-  const onSubmitHandler = useCallback(
+  const onSubmitHandler: TOnSubmitHandler = useCallback(
     (e, body) => {
       e.preventDefault();
       dispatch(registerUser(body));

@@ -6,10 +6,12 @@ import Form from '../components/form/form';
 
 import { PASSWORD, RESET_PASSWORD_ENDPOINT, TEXT } from '../utils/constants';
 import { fetchAuth } from '../utils/api';
+import { TOnSubmitHandler } from '../components/form/form.types';
+import { TLocationState } from '../components/protected-route/protected-route.types';
 
-export function ResetPassword() {
+export function ResetPassword(): JSX.Element {
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation() as TLocationState;
   
   const [passwordValue, setPasswordValue] = useState('');
   const [codeValue, setCodeValue] = useState('');
@@ -22,7 +24,7 @@ export function ResetPassword() {
     }
   }, [from, navigate]);
 
-  const onSubmitHandler = (e, body) => {
+  const onSubmitHandler: TOnSubmitHandler = (e, body) => {
     e.preventDefault();
 
     fetchAuth(RESET_PASSWORD_ENDPOINT, body)
