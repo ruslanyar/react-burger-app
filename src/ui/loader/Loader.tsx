@@ -2,9 +2,9 @@ import React from 'react';
 
 import styles from './Loader.module.css';
 
-function Loader(props) {
+function Loader(): JSX.Element {
   return (
-    <div className={styles.loader} {...props} />
+    <div className={styles.loader} />
    );
 }
 
