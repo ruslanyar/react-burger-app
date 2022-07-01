@@ -13,11 +13,11 @@ const IngredientIcon: FC<IIngredientIconProps> = ({
 }) => {
   const ingredientIconStyle = useMemo(
     () =>
-      position === 'absolute' && index
+      position === 'absolute' && typeof index !== 'undefined'
         ? { position, zIndex: `${10 - index}`, left: `${index * 48}px` }
         : { position },
     [index, position]
-  );
+  );  
 
   return (
     <div style={ingredientIconStyle} className={styles['ingredient-icon']}>
@@ -28,7 +28,7 @@ const IngredientIcon: FC<IIngredientIconProps> = ({
         }}
         className={styles.image}
       />
-      {index === 5 && count && count > 0 && (
+      {index === 5 && typeof count !== 'undefined' && count > 0 && (
         <div className={styles.overlay}>
           <span className={clsx('text', 'text_type_main-small')}>
             {`+${count}`}
