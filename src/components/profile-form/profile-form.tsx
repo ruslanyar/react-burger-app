@@ -12,7 +12,7 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { PASSWORD, TEXT } from '../../utils/constants';
-import { updateUserInfo } from '../../services/actions/userActions';
+import { updateUserInfoThunk } from '../../services/thunks/user';
 import { getUserInfo } from '../../services/thunks';
 import { userInfo } from '../../services/selectors';
 
@@ -81,7 +81,7 @@ function ProfileForm(): JSX.Element {
   const submitHandler = useCallback(
     (e) => {
       e.preventDefault();
-      dispatch(updateUserInfo(body));
+      dispatch(updateUserInfoThunk(body, setIsChange));
     },
     [dispatch, body]
   );

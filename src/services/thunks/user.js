@@ -7,14 +7,14 @@ import {
   USER_ENDPOINT,
 } from '../../utils/constants';
 import { getCookie, saveTokens } from '../../utils/utils';
-import { getUserRequest, getUserSuccess, registrationUser, signInUser, signOutUser, userUpdateRequest, userUpdateSuccess } from '../actions';
+import { getUserRequestAction, getUserSuccessAction, registrationUserAction, signInUserAction, signOutUserAction, userUpdateRequestAction, userUpdateSuccessAction } from '../actions';
 
 export function registerUser(body) {
   return function (dispatch) {
     fetchAuth(REGISTRATION_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
-          dispatch(registrationUser(data.user));
+          dispatch(registrationUserAction(data.user));
         }
         return data;
       })
@@ -28,7 +28,7 @@ export function signInUserThunk(body) {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
-          dispatch(signInUser(data.user));
+          dispatch(signInUserAction(data.user));
         }
         return data;
       })
@@ -43,7 +43,7 @@ export function signOutUserThunk() {
     fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })
       .then((data) => {
         if (data.success) {
-          dispatch(signOutUser());
+          dispatch(signOutUserAction());
         }
       })
       .catch((err) => console.log(err));
@@ -53,7 +53,7 @@ export function signOutUserThunk() {
 export function getUserInfo() {
   const accessToken = getCookie('token');
   return function (dispatch) {
-    dispatch(getUserRequest());
+    dispatch(getUserRequestAction());
     fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'GET',
       headers: {
@@ -63,7 +63,7 @@ export function getUserInfo() {
     })
       .then((data) => {
         if (data.success) {
-          dispatch(getUserSuccess(data.user));
+          dispatch(getUserSuccessAction(data.user));
         }
       })
       .catch((err) => {
@@ -72,10 +72,10 @@ export function getUserInfo() {
   };
 }
 
-export function updateUserInfo(body, setFn) {
+export function updateUserInfoThunk(body, setFn) {
   const accessToken = getCookie('token');
   return function (dispatch) {
-    dispatch(userUpdateRequest());
+    dispatch(userUpdateRequestAction());
     fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'PATCH',
       headers: {
@@ -86,7 +86,7 @@ export function updateUserInfo(body, setFn) {
     })
       .then((data) => {
         if (data.success) {
-          dispatch(userUpdateSuccess(data.user));
+          dispatch(userUpdateSuccessAction(data.user));
         }
       })
       .then(() => setFn(false))

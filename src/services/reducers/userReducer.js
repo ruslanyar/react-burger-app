@@ -26,7 +26,6 @@ export function userReducer(state = initialState, { type, payload }) {
 
     case USER_SIGN_IN:
     case USER_REGISTRATION:
-    case USER_UPDATE:
     case USER_GET_USER_SUCCESS:
     case USER_UPDATE_SUCCESS:
       return {

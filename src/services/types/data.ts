@@ -14,14 +14,41 @@ export interface IIngredient {
   keyId?: number;
 }
 
+export type TIngredientsResponse = {
+  readonly success: boolean;
+  readonly data: IIngredient[];
+}
+
 type TOrderStatus = 'created' | 'pending' | 'done';
 
 export interface IOrder {
-  _id: string;
-  ingredients: string[];
-  status: TOrderStatus;
-  name: string;
-  number: number;
-  createdAt: string;
-  updatedAt: string;
+  readonly _id: string;
+  readonly ingredients: string[];
+  readonly status: TOrderStatus;
+  readonly name: string;
+  readonly number: number;
+  readonly createdAt: string;
+  readonly updatedAt: string;
+}
+
+interface ISuccess {
+  readonly success: boolean;
+}
+
+interface IUser {
+  readonly name: string;
+  readonly email: string;
+}
+
+export interface ITokenResponse extends ISuccess {
+  readonly accessToken: string;
+  readonly refreshToken: string;
+}
+
+export interface IAuthResponse extends ITokenResponse {
+  readonly user: IUser;
+}
+
+export interface ILogOut extends ISuccess {
+  readonly message: string;
 }

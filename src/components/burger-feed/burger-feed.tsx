@@ -6,7 +6,7 @@ import OrdersList from '../orders-list/orders-list';
 import Loader from '../../ui/loader/Loader';
 
 import { getOrders } from '../../services/selectors';
-import { wsClose, wsConnectionStart } from '../../services/actions';
+import { wsCloseAction, wsConnectionStartAction } from '../../services/actions';
 import { formatOrderNumber } from '../../utils/utils';
 import { IOrder } from '../../services/types/data';
 
@@ -39,10 +39,10 @@ function BurgerFeed(): JSX.Element {
   }, [orders]);
 
   useEffect(() => {
-    dispatch(wsConnectionStart());
+    dispatch(wsConnectionStartAction());
 
     return () => {
-      dispatch(wsClose());
+      dispatch(wsCloseAction());
     };
   }, [dispatch]);
 

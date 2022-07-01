@@ -40,7 +40,7 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => 
             align="center"
             className="text text_type_main-default text_color_inactive"
           >
-            <td>Калории,ккал</td>
+            <td>Калории, ккал</td>
             <td>Белки, г</td>
             <td>Жиры, г</td>
             <td>Углеводы, г</td>

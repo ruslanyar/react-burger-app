@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { BUN } from '../../utils/constants';
-import { addIngredient, deleteIngredient, sortIngredients } from '../actions';
+import { addIngredientAction, deleteIngredientAction, sortIngredientsAction } from '../actions';
 
 export const addIngredientThunk = (itemId) => {
   return (dispatch, getState) => {
@@ -19,7 +19,7 @@ export const addIngredientThunk = (itemId) => {
           ]
     };
     
-    dispatch(addIngredient(payload));
+    dispatch(addIngredientAction(payload));
   }
 };
 
@@ -28,7 +28,7 @@ export const deleteIngredientThunk = (itemId) => {
     const list = getState().burger.ingredients.topings
       .filter(i => i.keyId !== itemId);
 
-    dispatch(deleteIngredient(list));
+    dispatch(deleteIngredientAction(list));
   }
 };
 
@@ -36,6 +36,6 @@ export const sortIngredientsThunk = (dragIndex, dropIndex) => {
   return (dispatch, getState) => {
     const sortableIngredients = getState().burger.ingredients.topings;
     sortableIngredients.splice(dropIndex, 0, ...sortableIngredients.splice(dragIndex, 1));
-    dispatch(sortIngredients(sortableIngredients));
+    dispatch(sortIngredientsAction(sortableIngredients));
   }
 };

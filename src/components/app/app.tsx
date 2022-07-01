@@ -25,8 +25,8 @@ import OrderDetails from '../order-details/order-details';
 import OrderInfo from '../order-info/order-info';
 import NotFound from '../not-found/not-found';
 
-import { closeOrderDetails } from '../../services/actions';
-import { clearConstructor } from '../../services/actions';
+import { closeOrderDetailsAction } from '../../services/actions';
+import { clearConstructorAction } from '../../services/actions';
 import { getUserInfo } from '../../services/thunks';
 import { getIngredients } from '../../services/thunks';
 import { ingredientsSelector } from '../../services/selectors';
@@ -59,8 +59,8 @@ function App(): JSX.Element {
 
   const closeOrderHandler = useCallback<TCloseModalCallback>(() => {
     closeModalHandler();
-    dispatch(closeOrderDetails());
-    dispatch(clearConstructor());
+    dispatch(closeOrderDetailsAction());
+    dispatch(clearConstructorAction());
   }, [dispatch, closeModalHandler]);
 
   if (request) return <Loader />;
