@@ -27,7 +27,7 @@ export interface IClearConstructorAction {
 export type TConstructorActions =
   | IAddIngredientAction
   | IDeleteIngredientAction
-  | IDeleteIngredientAction
+  | ISortIngredientsAction
   | IClearConstructorAction;
 
 export const addIngredientAction = (payload: string): IAddIngredientAction => {
