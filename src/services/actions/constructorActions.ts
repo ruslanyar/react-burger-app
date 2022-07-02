@@ -24,11 +24,19 @@ export interface IClearConstructorAction {
   readonly type: typeof CLEAR_CONSTRUCTOR;
 }
 
+export type TConstructorActions =
+  | IAddIngredientAction
+  | IDeleteIngredientAction
+  | IDeleteIngredientAction
+  | IClearConstructorAction;
+
 export const addIngredientAction = (payload: string): IAddIngredientAction => {
   return { type: ADD_INGREDIENT, payload };
 };
 
-export const deleteIngredientAction = (payload: number): IDeleteIngredientAction => {
+export const deleteIngredientAction = (
+  payload: number
+): IDeleteIngredientAction => {
   return { type: DELETE_INGREDIENT, payload };
 };
 

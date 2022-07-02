@@ -18,6 +18,11 @@ export interface IGetIngredientsFailedAction {
   readonly type: typeof GET_INGREDIENTS_FAILED;
 }
 
+export type TIngredientsActions =
+  | IGetIngredientsRequestAction
+  | IGetIngredientsSuccessAction
+  | IGetIngredientsFailedAction;
+
 export const getIngredientsRequestAction = (): IGetIngredientsRequestAction => {
   return {
     type: GET_INGREDIENTS_REQUEST,

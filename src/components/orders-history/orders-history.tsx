@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Loader from '../../ui/loader/Loader';
 import OrdersList from '../orders-list/orders-list';
 
-import { wsAuthConnectionStart, wsAuthClose } from '../../services/actions';
+import { wsAuthConnectionStartAction, wsAuthCloseAction } from '../../services/actions';
 import { getUserOrders } from '../../services/selectors';
 
 import styles from './orders-history.module.css';
@@ -15,9 +15,9 @@ function OrdersHistory(): JSX.Element {
   const { orders } = useSelector(getUserOrders);
 
   useEffect(() => {
-    dispatch(wsAuthConnectionStart());
+    dispatch(wsAuthConnectionStartAction());
 
-    return () => dispatch(wsAuthClose()) as any; // ! as any !!!!!!!!!!!!
+    return () => dispatch(wsAuthCloseAction()) as any; // ! as any !!!!!!!!!!!!
   }, [dispatch]);
 
   if (!orders) return <Loader />;

@@ -8,7 +8,7 @@ import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
 
 import { getOrders, getUserOrders, ingredientsSelector } from '../../services/selectors';
-import { wsAuthClose, wsAuthConnectionStart, wsCloseAction, wsConnectionStartAction } from '../../services/actions';
+import { wsAuthCloseAction, wsAuthConnectionStartAction, wsCloseAction, wsConnectionStartAction } from '../../services/actions';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 import { IIngredient, IOrder } from '../../services/types/data';
@@ -28,14 +28,14 @@ const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
     if (match) {
       dispatch(wsConnectionStartAction());
     } else {
-      dispatch(wsAuthConnectionStart());
+      dispatch(wsAuthConnectionStartAction());
     }
 
     return () => {
       if (match) {
         dispatch(wsCloseAction());
       } else {
-        dispatch(wsAuthClose());
+        dispatch(wsAuthCloseAction());
       }
     };
   }, [dispatch, match]);

@@ -28,6 +28,13 @@ export interface ICloseOrderDetailsAction {
   readonly type: typeof CLOSE_ORDER_DETAILS;
 }
 
+export type TOrderActions =
+  | ISendOrderRequestAction
+  | ISendOrderSuccessAction
+  | ISendOrderFailedAction
+  | IIsOrderEmptyAction
+  | ICloseOrderDetailsAction;
+
 export const sendOrderRequestAction = (): ISendOrderRequestAction => {
   return {
     type: SEND_ORDER_REQUEST,

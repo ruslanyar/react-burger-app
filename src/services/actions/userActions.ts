@@ -41,6 +41,15 @@ export interface IUserUpdateSuccessAction {
   readonly payload: IAuthResponse;
 }
 
+export type TUserActions =
+  | IGetUserRequestAction
+  | IGetUserSuccessAction
+  | ISignInUserAction
+  | ISignOutAction
+  | IRegistrationUserAction
+  | IUserUpdateRequestAction
+  | IUserUpdateSuccessAction;
+
 export const getUserRequestAction = (): IGetUserRequestAction => {
   return {
     type: USER_GET_USER_REQUEST,
