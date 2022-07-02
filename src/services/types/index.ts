@@ -1,5 +1,5 @@
 import { ThunkAction } from 'redux-thunk';
-import { Action, ActionCreator } from 'redux';
+import { ActionCreator } from 'redux';
 
 import { store } from '../store';
 import {
@@ -22,7 +22,7 @@ type TApplicationActions =
   | TWsAuthActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+  ThunkAction<TReturn, RootState, unknown, TApplicationActions>
 >;
 
 export type AppDispatch = typeof store.dispatch;

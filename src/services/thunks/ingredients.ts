@@ -5,9 +5,10 @@ import {
   getIngredientsRequestAction,
   getIngredientsSuccessAction,
 } from '../actions';
+import { AppDispatch, AppThunk } from '../types';
 
-export function getIngredients() {
-  return function (dispatch) {
+export const getIngredients: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch(getIngredientsRequestAction());
     fetch(`${BASE_URL}${INGREDIENTS_ENDPOINT}`)
       .then(checkResponse)

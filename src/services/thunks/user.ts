@@ -7,10 +7,19 @@ import {
   USER_ENDPOINT,
 } from '../../utils/constants';
 import { getCookie, saveTokens } from '../../utils/utils';
-import { getUserRequestAction, getUserSuccessAction, registrationUserAction, signInUserAction, signOutUserAction, userUpdateRequestAction, userUpdateSuccessAction } from '../actions';
+import {
+  getUserRequestAction,
+  getUserSuccessAction,
+  registrationUserAction,
+  signInUserAction,
+  signOutUserAction,
+  userUpdateRequestAction,
+  userUpdateSuccessAction,
+} from '../actions';
+import { AppDispatch, AppThunk } from '../types';
 
-export function registerUser(body) {
-  return function (dispatch) {
+export const registerUser: AppThunk = (body) => {
+  return function (dispatch: AppDispatch) {
     fetchAuth(REGISTRATION_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
@@ -23,8 +32,8 @@ export function registerUser(body) {
   };
 }
 
-export function signInUserThunk(body) {
-  return function (dispatch) {
+export const signInUserThunk: AppThunk = (body) => {
+  return function (dispatch: AppDispatch) {
     fetchAuth(LOGIN_ENDPOINT, body)
       .then((data) => {
         if (data.success) {
@@ -37,9 +46,9 @@ export function signInUserThunk(body) {
   };
 }
 
-export function signOutUserThunk() {
+export const signOutUserThunk: AppThunk = () => {
   const refreshToken = localStorage.getItem('refreshToken');
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })
       .then((data) => {
         if (data.success) {
@@ -50,9 +59,9 @@ export function signOutUserThunk() {
   };
 }
 
-export function getUserInfo() {
+export const getUserInfo: AppThunk = () => {
   const accessToken = getCookie('token');
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(getUserRequestAction());
     fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'GET',
@@ -72,9 +81,9 @@ export function getUserInfo() {
   };
 }
 
-export function updateUserInfoThunk(body, setFn) {
+export const updateUserInfoThunk: AppThunk = (body, setFn) => {
   const accessToken = getCookie('token');
-  return function (dispatch) {
+  return function (dispatch: AppDispatch) {
     dispatch(userUpdateRequestAction());
     fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
       method: 'PATCH',

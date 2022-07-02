@@ -5,9 +5,10 @@ import {
   sendOrderSuccessAction,
 } from '../actions';
 import { orderFetch } from '../../utils/api';
+import { AppDispatch, AppThunk } from '../types';
 
-export function sendOrder(ids, token) {
-  return function (dispatch) {
+export const sendOrder: AppThunk = (ids, token) => {
+  return function (dispatch: AppDispatch) {
     if (!ids.length) return dispatch(isOrderEmptyAction());
     dispatch(sendOrderRequestAction());
     orderFetch(ids, token)
