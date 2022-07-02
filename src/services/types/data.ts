@@ -31,11 +31,17 @@ export interface IOrder {
   readonly updatedAt: string;
 }
 
+export interface IOrdersResponse {
+  readonly orders: ReadonlyArray<IOrder>;
+  readonly total: number;
+  readonly totalToday: number;
+}
+
 interface ISuccess {
   readonly success: boolean;
 }
 
-interface IUser {
+export interface IUser {
   readonly name: string;
   readonly email: string;
 }

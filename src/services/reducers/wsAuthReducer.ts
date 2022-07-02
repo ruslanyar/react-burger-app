@@ -4,14 +4,21 @@ import {
   WS_AUTH_CONNECTION_SUCCESS,
   WS_GET_AUTH_ORDERS,
 } from '../action-types';
+import { TWsAuthActions } from '../actions';
+import { IOrdersResponse } from '../types/data';
 
-const initialState = {
+type TWsAuthState = {
+  wsAuthConnected: boolean;
+  orders: IOrdersResponse | {};
+};
+
+const initialState: TWsAuthState = {
   wsAuthConnected: false,
   orders: {},
 };
 
-export function wsAuthReducer(state = initialState, { type, payload }) {
-  switch (type) {
+export function wsAuthReducer(state = initialState, action: TWsAuthActions) {
+  switch (action.type) {
     case WS_AUTH_CONNECTION_SUCCESS:
       return {
         ...state,
@@ -33,8 +40,8 @@ export function wsAuthReducer(state = initialState, { type, payload }) {
     case WS_GET_AUTH_ORDERS:
       return {
         ...state,
-        orders: {...payload},
-      }
+        orders: { ...action.payload },
+      };
 
     default:
       return state;

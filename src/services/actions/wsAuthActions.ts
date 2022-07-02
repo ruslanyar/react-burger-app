@@ -1,17 +1,43 @@
 import {
   WS_AUTH_CLOSE,
+  WS_AUTH_CONNECTION_CLOSED,
+  WS_AUTH_CONNECTION_ERROR,
   WS_AUTH_CONNECTION_START,
+  WS_AUTH_CONNECTION_SUCCESS,
+  WS_GET_AUTH_ORDERS,
 } from '../action-types';
+import { IOrdersResponse } from '../types/data';
 
-export interface IWsAuthConnectionStartAction {
+interface IWsAuthConnectionStartAction {
   readonly type: typeof WS_AUTH_CONNECTION_START;
 }
 
-export interface IWsAuthCloseAction {
+interface IWsAuthCloseAction {
   readonly type: typeof WS_AUTH_CLOSE;
 }
 
-export type TWsAuthActions = IWsAuthConnectionStartAction | IWsAuthCloseAction;
+interface IWsAuthConectionSuccessAction {
+  readonly type: typeof WS_AUTH_CONNECTION_SUCCESS;
+}
+
+interface IWsAuthConnectionErrorAction {
+  readonly type: typeof WS_AUTH_CONNECTION_ERROR;
+}
+
+interface IWsAuthConnectionClosedAction {
+  readonly type: typeof WS_AUTH_CONNECTION_CLOSED;
+}
+
+interface IWsAuthGetOrdersAction {
+  readonly type: typeof WS_GET_AUTH_ORDERS;
+  readonly payload: IOrdersResponse;
+}
+
+export type TWsAuthActions = 
+  | IWsAuthConectionSuccessAction
+  | IWsAuthConnectionErrorAction
+  | IWsAuthConnectionClosedAction
+  | IWsAuthGetOrdersAction;
 
 export const wsAuthConnectionStartAction = (): IWsAuthConnectionStartAction => {
   return {

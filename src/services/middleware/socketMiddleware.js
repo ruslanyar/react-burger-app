@@ -27,22 +27,18 @@ export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
 
       if (socket) {
         socket.onopen = (event) => {
-          console.log('open', event);
           dispatch({ type: onOpen, payload: event });
         };
 
         socket.onclose = (event) => {
-          console.log('close', event);
           dispatch({ type: onClose, payload: event });
         };
 
         socket.onerror = (event) => {
-          console.log('error', event);
           dispatch({ type: onError, payload: event });
         };
 
         socket.onmessage = (event) => {
-          console.log('message');
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;

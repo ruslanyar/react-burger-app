@@ -5,16 +5,28 @@ import {
   SEND_ORDER_SUCCESS,
   CLOSE_ORDER_DETAILS,
 } from '../action-types';
+import { TOrderActions } from '../actions';
+import { IOrder } from '../types/data';
 
-const initialState = {
+type TOrderDetailsState = {
+  order: IOrder | {};
+  request: boolean;
+  failed: boolean;
+  isEmpty: boolean;
+};
+
+const initialState: TOrderDetailsState = {
   order: {},
   request: false,
   failed: false,
   isEmpty: true,
-}
+};
 
-export const orderDetailsReducer = (state = initialState, { type, payload }) => {
-  switch (type) {
+export const orderDetailsReducer = (
+  state = initialState,
+  action: TOrderActions
+) => {
+  switch (action.type) {
     case SEND_ORDER_REQUEST:
       return {
         ...state,
@@ -22,15 +34,15 @@ export const orderDetailsReducer = (state = initialState, { type, payload }) => 
         failed: false,
         isEmpty: false,
         isOpen: true,
-      }
+      };
 
     case SEND_ORDER_SUCCESS:
       return {
         ...state,
-        order: payload,
+        order: action.payload,
         request: false,
         isEmpty: false,
-      }
+      };
 
     case SEND_ORDER_FAILED:
       return {
@@ -38,23 +50,23 @@ export const orderDetailsReducer = (state = initialState, { type, payload }) => 
         order: {},
         failed: true,
         request: false,
-      }
+      };
 
     case IS_EMPTY:
       return {
         ...state,
         isEmpty: true,
         isOpen: true,
-      }
+      };
 
     case CLOSE_ORDER_DETAILS:
       return {
         ...state,
         order: {},
         isEmpty: true,
-      }
+      };
 
     default:
       return state;
   }
-}
+};
