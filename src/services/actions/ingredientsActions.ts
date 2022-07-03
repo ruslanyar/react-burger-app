@@ -3,7 +3,7 @@ import {
   GET_INGREDIENTS_REQUEST,
   GET_INGREDIENTS_SUCCESS,
 } from '../action-types';
-import { TIngredientsResponse } from '../types/data';
+import { IIngredient } from '../types/data';
 
 export interface IGetIngredientsRequestAction {
   readonly type: typeof GET_INGREDIENTS_REQUEST;
@@ -11,7 +11,7 @@ export interface IGetIngredientsRequestAction {
 
 export interface IGetIngredientsSuccessAction {
   readonly type: typeof GET_INGREDIENTS_SUCCESS;
-  readonly payload: TIngredientsResponse;
+  readonly payload: Array<IIngredient>;
 }
 
 export interface IGetIngredientsFailedAction {
@@ -30,7 +30,7 @@ export const getIngredientsRequestAction = (): IGetIngredientsRequestAction => {
 };
 
 export const getIngredientsSuccessAction = (
-  payload: TIngredientsResponse
+  payload: Array<IIngredient>
 ): IGetIngredientsSuccessAction => {
   return {
     type: GET_INGREDIENTS_SUCCESS,

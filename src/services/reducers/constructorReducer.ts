@@ -7,11 +7,13 @@ import {
 import { TConstructorActions } from '../actions';
 import { IIngredient } from '../types/data';
 
+export type TConstructorIngredientsState = {
+  bun: Array<IIngredient>;
+  topings: Array<IIngredient>;
+};
+
 type TConstructorState = {
-  ingredients: {
-    bun: Array<IIngredient>;
-    topings: Array<IIngredient>;
-  };
+  ingredients: TConstructorIngredientsState;
   isEmpty: boolean;
 };
 
@@ -23,10 +25,10 @@ const initialState: TConstructorState = {
   isEmpty: true,
 };
 
-export function constructorReducer(
+export const constructorReducer = (
   state = initialState,
   action: TConstructorActions
-) {
+): TConstructorState => {
   switch (action.type) {
     case ADD_INGREDIENT:
       return {

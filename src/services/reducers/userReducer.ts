@@ -22,7 +22,10 @@ const initialState: TUserState = {
   user: null,
 };
 
-export function userReducer(state = initialState, action: TUserActions) {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     case USER_GET_USER_REQUEST:
     case USER_UPDATE_REQUEST:
@@ -52,4 +55,4 @@ export function userReducer(state = initialState, action: TUserActions) {
     default:
       return state;
   }
-}
+};

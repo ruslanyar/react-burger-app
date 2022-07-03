@@ -10,14 +10,17 @@ import { IOrdersResponse } from '../types/data';
 type TWsState = {
   wsConnected: boolean;
   orders: IOrdersResponse | {};
-}
+};
 
 const initialState: TWsState = {
   wsConnected: false,
   orders: {},
 };
 
-export function wsReducer(state = initialState, action: TWsActions) {
+export const wsReducer = (
+  state = initialState,
+  action: TWsActions
+): TWsState => {
   switch (action.type) {
     case WS_CONNECTION_SUCCESS:
       return {
@@ -40,10 +43,10 @@ export function wsReducer(state = initialState, action: TWsActions) {
     case WS_GET_ORDERS:
       return {
         ...state,
-        orders: {...action.payload},
+        orders: { ...action.payload },
       };
 
     default:
       return state;
   }
-}
+};

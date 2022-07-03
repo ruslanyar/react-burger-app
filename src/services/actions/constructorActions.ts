@@ -4,15 +4,17 @@ import {
   DELETE_INGREDIENT,
   SORT_INGREDIENTS,
 } from '../action-types';
+import { TConstructorIngredientsState } from '../reducers/constructorReducer';
+import { IIngredient } from '../types/data';
 
 export interface IAddIngredientAction {
   readonly type: typeof ADD_INGREDIENT;
-  readonly payload: string;
+  readonly payload: TConstructorIngredientsState;
 }
 
 export interface IDeleteIngredientAction {
   readonly type: typeof DELETE_INGREDIENT;
-  readonly payload: number;
+  readonly payload: Array<IIngredient>;
 }
 
 export interface ISortIngredientsAction {
@@ -30,12 +32,14 @@ export type TConstructorActions =
   | ISortIngredientsAction
   | IClearConstructorAction;
 
-export const addIngredientAction = (payload: string): IAddIngredientAction => {
+export const addIngredientAction = (
+  payload: TConstructorIngredientsState
+): IAddIngredientAction => {
   return { type: ADD_INGREDIENT, payload };
 };
 
 export const deleteIngredientAction = (
-  payload: number
+  payload: Array<IIngredient>
 ): IDeleteIngredientAction => {
   return { type: DELETE_INGREDIENT, payload };
 };

@@ -16,7 +16,7 @@ export interface IIngredient {
 
 export type TIngredientsResponse = {
   readonly success: boolean;
-  readonly data: IIngredient[];
+  readonly data: Array<IIngredient>;
 }
 
 type TOrderStatus = 'created' | 'pending' | 'done';

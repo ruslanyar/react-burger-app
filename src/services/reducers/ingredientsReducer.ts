@@ -7,7 +7,7 @@ import { TIngredientsActions } from '../actions';
 import { IIngredient } from '../types/data';
 
 type TIngredientsState = {
-  ingredients: Array<IIngredient>;
+  ingredients: IIngredient[];
   request: boolean;
   failed: boolean;
 };
@@ -21,7 +21,7 @@ const initialState: TIngredientsState = {
 export const ingredientsReducer = (
   state = initialState,
   action: TIngredientsActions
-) => {
+): TIngredientsState => {
   switch (action.type) {
     case GET_INGREDIENTS_REQUEST:
       return {

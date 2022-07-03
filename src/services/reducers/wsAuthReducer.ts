@@ -17,7 +17,10 @@ const initialState: TWsAuthState = {
   orders: {},
 };
 
-export function wsAuthReducer(state = initialState, action: TWsAuthActions) {
+export const wsAuthReducer = (
+  state = initialState,
+  action: TWsAuthActions
+): TWsAuthState => {
   switch (action.type) {
     case WS_AUTH_CONNECTION_SUCCESS:
       return {
@@ -46,4 +49,4 @@ export function wsAuthReducer(state = initialState, action: TWsAuthActions) {
     default:
       return state;
   }
-}
+};

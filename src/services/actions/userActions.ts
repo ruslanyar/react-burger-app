@@ -7,7 +7,7 @@ import {
   USER_UPDATE_REQUEST,
   USER_UPDATE_SUCCESS,
 } from '../action-types';
-import { IAuthResponse } from '../types/data';
+import { IUser } from '../types/data';
 
 export interface IGetUserRequestAction {
   readonly type: typeof USER_GET_USER_REQUEST;
@@ -15,12 +15,12 @@ export interface IGetUserRequestAction {
 
 export interface IGetUserSuccessAction {
   readonly type: typeof USER_GET_USER_SUCCESS;
-  readonly payload: IAuthResponse;
+  readonly payload: IUser;
 }
 
 export interface ISignInUserAction {
   readonly type: typeof USER_SIGN_IN;
-  readonly payload: IAuthResponse;
+  readonly payload: IUser;
 }
 
 export interface ISignOutAction {
@@ -29,7 +29,7 @@ export interface ISignOutAction {
 
 export interface IRegistrationUserAction {
   readonly type: typeof USER_REGISTRATION;
-  readonly payload: IAuthResponse;
+  readonly payload: IUser;
 }
 
 export interface IUserUpdateRequestAction {
@@ -38,7 +38,7 @@ export interface IUserUpdateRequestAction {
 
 export interface IUserUpdateSuccessAction {
   readonly type: typeof USER_UPDATE_SUCCESS;
-  readonly payload: IAuthResponse;
+  readonly payload: IUser;
 }
 
 export type TUserActions =
@@ -56,16 +56,14 @@ export const getUserRequestAction = (): IGetUserRequestAction => {
   };
 };
 
-export const getUserSuccessAction = (
-  payload: IAuthResponse
-): IGetUserSuccessAction => {
+export const getUserSuccessAction = (payload: IUser): IGetUserSuccessAction => {
   return {
     type: USER_GET_USER_SUCCESS,
     payload,
   };
 };
 
-export const signInUserAction = (payload: IAuthResponse): ISignInUserAction => {
+export const signInUserAction = (payload: IUser): ISignInUserAction => {
   return {
     type: USER_SIGN_IN,
     payload,
@@ -79,7 +77,7 @@ export const signOutUserAction = (): ISignOutAction => {
 };
 
 export const registrationUserAction = (
-  payload: IAuthResponse
+  payload: IUser
 ): IRegistrationUserAction => {
   return {
     type: USER_REGISTRATION,
@@ -94,7 +92,7 @@ export const userUpdateRequestAction = (): IUserUpdateRequestAction => {
 };
 
 export const userUpdateSuccessAction = (
-  payload: IAuthResponse
+  payload: IUser
 ): IUserUpdateSuccessAction => {
   return {
     type: USER_UPDATE_SUCCESS,
