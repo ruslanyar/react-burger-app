@@ -1,4 +1,4 @@
-import { compose, applyMiddleware, createStore } from 'redux';
+import { compose, applyMiddleware, legacy_createStore as createStore } from 'redux';
 import thunk from 'redux-thunk';
 
 import { socketMiddleware } from './middleware';
