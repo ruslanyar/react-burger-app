@@ -1,21 +1,22 @@
+import { ITokenResponse } from '../services/types/data';
 import { MSEC_IN_DAY } from './constants';
 
-export function throttle(callee, timeout) {
-  let timer = null;
+export function throttle(callee: (...args: any[]) => any, timeout: number) {
+  let timer: NodeJS.Timeout | undefined = undefined;
 
-  return function perform(...args) {
+  return function perform(...args: any[]) {
     if (timer) return;
 
     timer = setTimeout(() => {
       callee(...args);
 
       clearTimeout(timer);
-      timer = null;
+      timer = undefined;
     }, timeout);
   }
 }
 
-export function setCookie(name, value, options = {}) {
+export function setCookie(name: string, value: string, options: any = {expires: 0}) {
   let { expires } = options;
 
   if (typeof expires === 'number' && expires) {
@@ -43,14 +44,15 @@ export function setCookie(name, value, options = {}) {
   document.cookie = updatedCookie;
 }
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   let matches = document.cookie.match(new RegExp(
+    // eslint-disable-next-line no-useless-escape
     "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
   ));
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function saveTokens(data) {
+export function saveTokens(data: ITokenResponse) {
   localStorage.setItem('refreshToken', data.refreshToken);
   const accessToken = data.accessToken.split('Bearer ')[1];
   if (accessToken) {
@@ -58,11 +60,11 @@ export function saveTokens(data) {
   }
 }
 
-export const formatOrderNumber = (n) => {
+export const formatOrderNumber = (n: number) => {
   return n.toString().padStart(6, '0');
 };
 
-export const getOrderStatus = (status) => {
+export const getOrderStatus = (status: string) => {
   switch (status) {
     case 'created':
       return 'Создан';
@@ -78,7 +80,7 @@ export const getOrderStatus = (status) => {
   }
 };
 
-const getDaysDiff = (orderDateISOString) => {
+const getDaysDiff = (orderDateISOString: string) => {
   const today = new Date();
   const todayISOstring = today.toISOString();
   const slicedTodayISOString = todayISOstring.slice(0, 10);
@@ -91,13 +93,13 @@ const getDaysDiff = (orderDateISOString) => {
   return daysDiff;
 }
 
-const formatDaysDiff = (num) => {
+const formatDaysDiff = (num: number) => {
   if (num === 0) return 'Сегодня';
   if (num === 1) return 'Вчера';
   return num <= 4 ? `${num} дня назад` : `${num} дней назад`;
 }
 
-export const getTimeStampString = (orderDateISOString) => {
+export const getTimeStampString = (orderDateISOString: string) => {
   const date = new Date(orderDateISOString);
   const daysDiff = getDaysDiff(orderDateISOString);
   const formatedDaysDiff = formatDaysDiff(daysDiff);

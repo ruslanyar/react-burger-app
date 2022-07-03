@@ -7,14 +7,14 @@ import {
 
 import { saveTokens } from './utils';
 
-export async function checkResponse(res) {
+export async function checkResponse(res: any) {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(await res.json());
 }
 
-export function orderFetch(ids, token) {
+export function orderFetch(ids: string[], token: string) {
   return fetch(`${BASE_URL}${ORDERS_ENDPOINT}`, {
     method: 'POST',
     headers: {
@@ -27,7 +27,7 @@ export function orderFetch(ids, token) {
   }).then(checkResponse);
 }
 
-export function fetchAuth(endpoint, body) {
+export function fetchAuth(endpoint: string, body: object) {
   return fetch(`${BASE_URL}${endpoint}`, {
     method: 'POST',
     headers: {
@@ -52,11 +52,11 @@ function updateTokens() {
     .catch(err => console.log(err));
 }
 
-export async function fetchWithRefresh(url, options) {
+export async function fetchWithRefresh(url: string, options: any) {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
-  } catch (err) {
+  } catch (err: any) {
     console.log(err.message);
     if (err.message === ERR_MESSAGE) {
       const refreshData = await updateTokens();
