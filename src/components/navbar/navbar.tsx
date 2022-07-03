@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import clsx from 'clsx';
+
+import { useAppDispatch } from '../../services/hooks/hooks';
 
 import { signOutUserThunk } from '../../services/thunks';
 
@@ -9,7 +10,7 @@ import styles from './navbar.module.css';
 
 function Navbar(): JSX.Element {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const onClickHandler = useCallback(() => {
     dispatch(signOutUserThunk());

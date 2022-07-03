@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
 
 import {
   Layout,
@@ -34,7 +35,7 @@ import { ingredientsSelector } from '../../services/selectors';
 import { TCloseModalCallback, TLocationState } from './app.types';
 
 function App(): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation() as TLocationState;
   const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ function App(): JSX.Element {
     }
   }, [background]);
 
-  const { request, failed }: { request: boolean; failed: boolean } = useSelector(ingredientsSelector);
+  const { request, failed }: { request: boolean; failed: boolean } = useAppSelector(ingredientsSelector);
 
   const closeModalHandler = useCallback<TCloseModalCallback>(() => {
     navigate(-1);

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
+
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
 
 import OrdersList from '../orders-list/orders-list';
 import Loader from '../../ui/loader/Loader';
@@ -17,8 +18,8 @@ const formatCount = (n: number): string => {
 };
 
 function BurgerFeed(): JSX.Element {
-  const dispatch = useDispatch();
-  const { orders, total, totalToday } = useSelector(getOrders);
+  const dispatch = useAppDispatch();
+  const { orders, total, totalToday } = useAppSelector(getOrders);
 
   const doneOrdersNumbers = useMemo<number[] | null>(() => {
     return orders

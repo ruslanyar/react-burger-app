@@ -1,7 +1,8 @@
 import React, { FC, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppSelector } from '../../services/hooks/hooks';
 
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
@@ -14,7 +15,7 @@ import { IIngredient } from '../../services/types/data';
 import styles from './card-order.module.css';
 
 const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { ingredients } = useAppSelector(ingredientsSelector);
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
   const orderStatus = getOrderStatus(status);
 

@@ -1,12 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 import {
   Counter,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppSelector } from '../../services/hooks/hooks';
 
 import { constructorIngredients } from '../../services/selectors';
 import { IBurgerIngredientsProps } from './burger-ingredients-item.types';
@@ -17,7 +18,7 @@ import styles from './burger-ingredients-item.module.css';
 const BurgerIngredientsItem: FC<IBurgerIngredientsProps> = ({ ingredient }) => {
   const location = useLocation();
 
-  const { bun, topings } = useSelector(constructorIngredients);
+  const { bun, topings } = useAppSelector(constructorIngredients);
 
   const [{ isDragging }, dragRef] = useDrag(
     {

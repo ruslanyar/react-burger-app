@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -8,6 +7,8 @@ import {
   Button,
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
@@ -21,9 +22,9 @@ import { ICollect, IDragObj } from './burger-constructor.types';
 import styles from './burger-constructor.module.css';
 
 function BurgerConstructor(): JSX.Element {
-  const { bun, topings } = useSelector(constructorIngredients);
-  const { isAuth } = useSelector(userSelector);
-  const dispatch = useDispatch();
+  const { bun, topings } = useAppSelector(constructorIngredients);
+  const { isAuth } = useAppSelector(userSelector);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 

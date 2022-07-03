@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppSelector } from '../../services/hooks/hooks';
 
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 
@@ -16,7 +17,7 @@ const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
 function BurgerIngredients(): JSX.Element {
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { ingredients } = useAppSelector(ingredientsSelector);
 
   const [current, setCurrent] = useState(BUN);
 

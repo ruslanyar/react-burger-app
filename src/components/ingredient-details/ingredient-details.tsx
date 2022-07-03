@@ -1,7 +1,8 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
+
+import { useAppSelector } from '../../services/hooks/hooks';
 
 import Loader from '../../ui/loader/Loader';
 import { ingredientsSelector } from '../../services/selectors';
@@ -13,7 +14,7 @@ import styles from './ingredient-details.module.css';
 const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => {
   const { id } = useParams();
 
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { ingredients } = useAppSelector(ingredientsSelector);
 
   if (Array.isArray(ingredients) && ingredients.length === 0) {
     return <Loader />;

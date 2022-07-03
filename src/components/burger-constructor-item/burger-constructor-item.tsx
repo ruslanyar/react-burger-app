@@ -1,11 +1,12 @@
 import React, { FC, useCallback, useRef } from 'react';
-import { useDispatch } from 'react-redux';
 import { useDrag, useDrop } from 'react-dnd';
 import clsx from 'clsx';
 import {
   ConstructorElement,
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppDispatch } from '../../services/hooks/hooks';
 
 import {
   deleteIngredientThunk,
@@ -16,7 +17,7 @@ import { IBurgerConstructorItem } from './burger-constructor-item.types';
 import styles from './burger-constructor-item.module.css';
 
 const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const constructorElementRef = useRef<HTMLDivElement>(null);
 
   const [, dropRef] = useDrop<{id: number; index: number}, void, any>({
