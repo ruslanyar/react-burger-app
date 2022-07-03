@@ -1,6 +1,7 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppSelector } from '../../services/hooks/hooks';
 
 import Loader from '../../ui/loader/Loader';
 
@@ -9,8 +10,11 @@ import { orderDetailsSelector } from '../../services/selectors';
 import styles from './order-details.module.css'
 
 function OrderDetails(): JSX.Element {
-  const { order, request, failed, isEmpty } = useSelector(orderDetailsSelector);
-  const number = order.order?.number;
+  const { order, request, failed, isEmpty } = useAppSelector(orderDetailsSelector);
+  let number;
+  if (order) {
+    number = order.number;
+  }
 
   return (
     <div className={styles.order}>

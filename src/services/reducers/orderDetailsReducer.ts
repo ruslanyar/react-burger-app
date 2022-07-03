@@ -9,14 +9,14 @@ import { TOrderActions } from '../actions';
 import { IOrder } from '../types/data';
 
 type TOrderDetailsState = {
-  order: IOrder | {};
+  order: IOrder | null;
   request: boolean;
   failed: boolean;
   isEmpty: boolean;
 };
 
 const initialState: TOrderDetailsState = {
-  order: {},
+  order: null,
   request: false,
   failed: false,
   isEmpty: true,
@@ -46,7 +46,7 @@ export const orderDetailsReducer = (
     case SEND_ORDER_FAILED:
       return {
         ...state,
-        order: {},
+        order: null,
         failed: true,
         request: false,
       };
@@ -60,7 +60,7 @@ export const orderDetailsReducer = (
     case CLOSE_ORDER_DETAILS:
       return {
         ...state,
-        order: {},
+        order: null,
         isEmpty: true,
       };
 

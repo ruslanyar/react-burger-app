@@ -1,8 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { useMatch, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
 
 import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
@@ -17,12 +18,12 @@ import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
 import styles from './order-info.module.css';
 
 const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const match = useMatch(`/feed/${id}`);
   const selector = match ? getOrders : getUserOrders;
-  const { orders } = useSelector(selector);
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { orders } = useAppSelector(selector);
+  const { ingredients } = useAppSelector(ingredientsSelector);
 
   useEffect(() => {
     if (match) {
@@ -42,13 +43,13 @@ const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
 
   if (!orders) return <Loader />;
 
-  const order: IOrder = orders.find((order: IOrder) => order._id === id);
+  const order: IOrder = orders.find((order: IOrder) => order._id === id)!;
   const { name, number, status, ingredients: ingredIds, createdAt } = order;
   const orderNumber = `#${formatOrderNumber(number)}`;
   const orderStatus = getOrderStatus(status);
 
   const orderIngredients = ingredIds.reduce<{[k: string]: IIngredientWithCount}>((acc, current) => {
-    const ingredient: IIngredient = ingredients.find((item: IIngredient) => item._id === current);
+    const ingredient: IIngredient = ingredients.find((item: IIngredient) => item._id === current)!;
     if (!acc[current]) {
       ingredient.type === BUN
         ? acc[current] = { ...ingredient, count: 2 }

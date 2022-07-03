@@ -9,12 +9,16 @@ import { IOrdersResponse } from '../types/data';
 
 type TWsAuthState = {
   wsAuthConnected: boolean;
-  orders: IOrdersResponse | {};
+  orders: IOrdersResponse;
 };
 
 const initialState: TWsAuthState = {
   wsAuthConnected: false,
-  orders: {},
+  orders:  {
+    orders: [],
+    total: 0,
+    totalToday: 0,
+  },
 };
 
 export const wsAuthReducer = (

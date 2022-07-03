@@ -32,7 +32,7 @@ export interface IOrder {
 }
 
 export interface IOrdersResponse {
-  readonly orders: ReadonlyArray<IOrder>;
+  readonly orders: Array<IOrder>;
   readonly total: number;
   readonly totalToday: number;
 }

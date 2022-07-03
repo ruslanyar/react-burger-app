@@ -9,12 +9,16 @@ import { IOrdersResponse } from '../types/data';
 
 type TWsState = {
   wsConnected: boolean;
-  orders: IOrdersResponse | {};
+  orders: IOrdersResponse;
 };
 
 const initialState: TWsState = {
   wsConnected: false,
-  orders: {},
+  orders: {
+    orders: [],
+    total: 0,
+    totalToday: 0,
+  },
 };
 
 export const wsReducer = (

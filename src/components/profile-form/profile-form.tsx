@@ -5,22 +5,29 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Button,
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+
 import { PASSWORD, TEXT } from '../../utils/constants';
 import { updateUserInfoThunk } from '../../services/thunks/user';
 import { getUserInfo } from '../../services/thunks';
-import { userInfo } from '../../services/selectors';
+import { userSelector } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
 
 function ProfileForm(): JSX.Element {
-  const { name, email } = useSelector(userInfo);
-  const dispatch = useDispatch();
+  const { user } = useAppSelector(userSelector);
+  let name = '';
+  let email = '';
+  if (user) {
+    name = user.name;
+    email = user.email;
+  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getUserInfo());
