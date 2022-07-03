@@ -1,3 +1,3 @@
-import { RootState } from '../types';
+import { TRootState } from '../types';
 
-export const getUserOrders = (store: RootState) => store.wsAuth.orders;
+export const getUserOrders = (store: TRootState) => store.wsAuth.orders;

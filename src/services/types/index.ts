@@ -11,9 +11,9 @@ import {
   TWsAuthActions,
 } from '../actions';
 
-export type RootState = ReturnType<typeof store.getState>;
+export type TRootState = ReturnType<typeof store.getState>;
 
-type TApplicationActions =
+export type TApplicationActions =
   | TConstructorActions
   | TIngredientsActions
   | TOrderActions
@@ -22,7 +22,7 @@ type TApplicationActions =
   | TWsAuthActions;
 
 export type AppThunk<TReturn = void> = ActionCreator<
-  ThunkAction<TReturn, RootState, undefined, TApplicationActions>
+  ThunkAction<TReturn, TRootState, undefined, TApplicationActions>
 >;
 
 export type AppDispatch = typeof store.dispatch;

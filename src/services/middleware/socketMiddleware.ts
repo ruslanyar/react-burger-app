@@ -1,20 +1,23 @@
+import { Middleware } from 'redux';
+import { IWsAuthOptions, IWsOptions } from '../actions';
+import { TApplicationActions } from '../types';
 import { getCookie } from '../../utils/utils';
 
-export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
-  return (store) => {
-    let socket = null;
+type TWsOptions = IWsOptions | IWsAuthOptions;
 
-    return (next) => (action) => {
+export const socketMiddleware = (
+  wsUrl: string,
+  wsOptions: TWsOptions,
+  isAuth: boolean = false
+): Middleware => {
+  return (store) => {
+    let socket: WebSocket | null = null;
+
+    return (next) => (action: TApplicationActions) => {
       const { dispatch } = store;
       const { type } = action;
-      const {
-        wsInit,
-        onOpen,
-        onClose,
-        onError,
-        onMessage,
-        wsClose,
-      } = wsActions;
+      const { wsInit, onOpen, onClose, onError, onMessage, wsClose } =
+        wsOptions;
 
       if (type === wsInit) {
         if (!isAuth) {
@@ -22,8 +25,8 @@ export const socketMiddleware = (wsUrl, wsActions, isAuth = false) => {
         } else {
           const accessToken = getCookie('token');
           socket = new WebSocket(`${wsUrl}?token=${accessToken}`);
-        };
-      };
+        }
+      }
 
       if (socket) {
         socket.onopen = (event) => {

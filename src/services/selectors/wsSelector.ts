@@ -1,4 +1,4 @@
-import { RootState } from '../types';
+import { TRootState } from '../types';
 
-export const wsSelector = (store: RootState) => store.ws;
-export const getOrders = (store: RootState) => store.ws.orders;
+export const wsSelector = (store: TRootState) => store.ws;
+export const getOrders = (store: TRootState) => store.ws.orders;

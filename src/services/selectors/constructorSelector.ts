@@ -1,3 +1,3 @@
-import { RootState } from '../types';
+import { TRootState } from '../types';
 
-export const constructorIngredients = (store: RootState) => store.burger.ingredients;
+export const constructorIngredients = (store: TRootState) => store.burger.ingredients;
