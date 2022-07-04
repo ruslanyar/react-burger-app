@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./react-burger-app/static/css/main.4d6abcbe.css",
-    "main.js": "./react-burger-app/static/js/main.c2f889c6.js",
+    "main.js": "./react-burger-app/static/js/main.743dd803.js",
     "static/media/areyoulost.jpg": "./react-burger-app/static/media/areyoulost.612fcdb1117e409899e9.jpg",
     "static/media/JetBrainsMono-Bold.woff": "./react-burger-app/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "./react-burger-app/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -12,10 +12,10 @@
     "static/media/done.svg": "./react-burger-app/static/media/done.be1bb49a602daf5f6d74.svg",
     "index.html": "./react-burger-app/index.html",
     "main.4d6abcbe.css.map": "./react-burger-app/static/css/main.4d6abcbe.css.map",
-    "main.c2f889c6.js.map": "./react-burger-app/static/js/main.c2f889c6.js.map"
+    "main.743dd803.js.map": "./react-burger-app/static/js/main.743dd803.js.map"
   },
   "entrypoints": [
     "static/css/main.4d6abcbe.css",
-    "static/js/main.c2f889c6.js"
+    "static/js/main.743dd803.js"
   ]
 }
