@@ -7,9 +7,7 @@ import {
 
 import { saveTokens } from './utils';
 
-export async function checkResponse(res: {[k: string]: any}) {
-  console.log(res);
-  
+export async function checkResponse(res: Response) {
   if (res.ok) {
     return res.json();
   }
