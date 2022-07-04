@@ -2,6 +2,7 @@ import { ThunkAction } from 'redux-thunk';
 import { ActionCreator } from 'redux';
 
 import { store } from '../store';
+import { rootReducer } from '../reducers';
 import {
   TConstructorActions,
   TIngredientsActions,
@@ -11,7 +12,7 @@ import {
   TWsAuthActions,
 } from '../actions';
 
-export type TRootState = ReturnType<typeof store.getState>;
+export type TRootState = ReturnType<typeof rootReducer>;
 
 export type TApplicationActions =
   | TConstructorActions

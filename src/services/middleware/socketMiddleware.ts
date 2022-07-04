@@ -1,6 +1,6 @@
 import { Middleware } from 'redux';
 import { IWsAuthOptions, IWsOptions } from '../actions';
-import { TApplicationActions } from '../types';
+import { TApplicationActions, TRootState } from '../types';
 import { getCookie } from '../../utils/utils';
 
 type TWsOptions = IWsOptions | IWsAuthOptions;
@@ -9,7 +9,7 @@ export const socketMiddleware = (
   wsUrl: string,
   wsOptions: TWsOptions,
   isAuth: boolean = false
-): Middleware => {
+): Middleware<{}, TRootState> => {
   return (store) => {
     let socket: WebSocket | null = null;
 
