@@ -29,16 +29,16 @@ export const socketMiddleware = (
       }
 
       if (socket) {
-        socket.onopen = (event) => {
-          dispatch({ type: onOpen, payload: event });
+        socket.onopen = () => {
+          dispatch({ type: onOpen });
         };
 
-        socket.onclose = (event) => {
-          dispatch({ type: onClose, payload: event });
+        socket.onclose = () => {
+          dispatch({ type: onClose });
         };
 
-        socket.onerror = (event) => {
-          dispatch({ type: onError, payload: event });
+        socket.onerror = () => {
+          dispatch({ type: onError });
         };
 
         socket.onmessage = (event) => {

@@ -7,7 +7,9 @@ import {
 
 import { saveTokens } from './utils';
 
-export async function checkResponse(res: any) {
+export async function checkResponse(res: {[k: string]: any}) {
+  console.log(res);
+  
   if (res.ok) {
     return res.json();
   }
@@ -52,7 +54,7 @@ function updateTokens() {
     .catch(err => console.log(err));
 }
 
-export async function fetchWithRefresh(url: string, options: any) {
+export async function fetchWithRefresh(url: string, options: {[k: string]: any}) {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
