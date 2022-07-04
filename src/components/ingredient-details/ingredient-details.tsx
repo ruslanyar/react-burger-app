@@ -11,7 +11,9 @@ import { IIngredientDetailsProps } from './ingredient-details.types';
 
 import styles from './ingredient-details.module.css';
 
-const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => {
+const IngredientDetails: FC<IIngredientDetailsProps> = ({
+  isModal = false,
+}) => {
   const { id } = useParams();
 
   const { ingredients } = useAppSelector(ingredientsSelector);
@@ -26,7 +28,13 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => 
 
   return (
     <div className={styles.details}>
-      <h2 className={clsx(isModal && styles.title, 'text', 'text_type_main-large')}>
+      <h2
+        className={clsx(
+          isModal && styles.title,
+          'text',
+          'text_type_main-large'
+        )}
+      >
         Детали ингредиента
       </h2>
       <img
@@ -35,30 +43,36 @@ const IngredientDetails: FC<IIngredientDetailsProps> = ({ isModal = false }) => 
         className="mb-4"
       />
       <span className="text text_type_main-medium mb-8">{ingredient.name}</span>
-      <table width="516" align="center">
-        <tbody>
-          <tr
-            align="center"
-            className="text text_type_main-default text_color_inactive"
-          >
-            <td>Калории, ккал</td>
-            <td>Белки, г</td>
-            <td>Жиры, г</td>
-            <td>Углеводы, г</td>
-          </tr>
-          <tr
-            align="center"
-            className="text text_type_digits-default text_color_inactive"
-          >
-            <td>{ingredient.calories}</td>
-            <td>{ingredient.proteins}</td>
-            <td>{ingredient.fat}</td>
-            <td>{ingredient.carbohydrates}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div className={styles.nutritions}>
+        <div
+          className={clsx(
+            styles['nutritions__values'],
+            'text',
+            'text_type_main-default',
+            'text_color_inactive'
+          )}
+        >
+          <span>Калории,ккал</span>
+          <span>Белки, г</span>
+          <span>Жиры, г</span>
+          <span>Углеводы, г</span>
+        </div>
+        <div
+          className={clsx(
+            styles['nutritions__values'],
+            'text',
+            'text_type_digits-default',
+            'text_color_inactive'
+          )}
+        >
+          <span>{ingredient.calories}</span>
+          <span>{ingredient.proteins}</span>
+          <span>{ingredient.fat}</span>
+          <span>{ingredient.carbohydrates}</span>
+        </div>
+      </div>
     </div>
   );
-}
+};
 
 export default IngredientDetails;
