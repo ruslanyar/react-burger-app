@@ -1,13 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import FormInput from '../components/form-input/form-input';
-import Form from '../components/form/form';
+import FormInput from '../../components/form-input/form-input';
+import Form from '../../components/form/form';
 
-import { PASSWORD, RESET_PASSWORD_ENDPOINT, TEXT } from '../utils/constants';
-import { fetchAuth } from '../utils/api';
-import { TOnSubmitHandler } from '../components/form/form.types';
-import { TLocationState } from '../components/protected-route/protected-route.types';
+import { PASSWORD, RESET_PASSWORD_ENDPOINT, TEXT } from '../../utils/constants';
+import { fetchAuth } from '../../utils/api';
+import { TOnSubmitHandler } from '../../components/form/form.types';
+import { TLocationState } from '../../components/protected-route/protected-route.types';
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();

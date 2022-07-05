@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import OrdersHistory from '../components/orders-history/orders-history';
+import OrdersHistory from '../../components/orders-history/orders-history';
 
 export const OrdersHistoryPage: FC = () => {
   return (

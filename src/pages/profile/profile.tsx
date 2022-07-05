@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import clsx from 'clsx';
 
-import Navbar from '../components/navbar/navbar';
+import Navbar from '../../components/navbar/navbar';
 
 import styles from './profile.module.css';
 

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import IngredientDetails from '../components/ingredient-details/ingredient-details';
+import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 
 export const Ingredient: FC = () =>{
   return (

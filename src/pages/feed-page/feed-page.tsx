@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 
-import BurgerFeed from '../components/burger-feed/burger-feed';
+import BurgerFeed from '../../components/burger-feed/burger-feed';
 
 import styles from './feed-page.module.css';
 

@@ -1,12 +1,12 @@
 import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import Form from '../components/form/form';
-import FormInput from '../components/form-input/form-input';
+import Form from '../../components/form/form';
+import FormInput from '../../components/form-input/form-input';
 
-import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
-import { registerUser } from '../services/thunks';
-import { TOnSubmitHandler } from '../components/form/form.types';
+import { EMAIL, PASSWORD, TEXT } from '../../utils/constants';
+import { registerUser } from '../../services/thunks';
+import { TOnSubmitHandler } from '../../components/form/form.types';
 
 export const Register: FC = () => {
   const [nameValue, setNameValue] = useState('');
