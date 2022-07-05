@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAppSelector } from '../../services/hooks/hooks';
@@ -9,7 +9,7 @@ import { orderDetailsSelector } from '../../services/selectors';
 
 import styles from './order-details.module.css'
 
-function OrderDetails(): JSX.Element {
+const OrderDetails: FC = () => {
   const { order, request, failed, isEmpty } = useAppSelector(orderDetailsSelector);
   let number;
   if (order) {

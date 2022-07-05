@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
@@ -8,7 +8,7 @@ import { EMAIL, PASSWORD, TEXT } from '../utils/constants';
 import { registerUser } from '../services/thunks';
 import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function Register(): JSX.Element {
+export const Register: FC = () => {
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');

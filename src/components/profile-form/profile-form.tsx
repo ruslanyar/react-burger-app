@@ -1,4 +1,5 @@
 import React, {
+  FC,
   useCallback,
   useEffect,
   useMemo,
@@ -19,7 +20,7 @@ import { userSelector } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
 
-function ProfileForm(): JSX.Element {
+const ProfileForm: FC = () => {
   const { user } = useAppSelector(userSelector);
   let name = '';
   let email = '';

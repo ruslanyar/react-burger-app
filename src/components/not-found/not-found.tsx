@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import styles from './not-found.module.css';
 
-function NotFound(): JSX.Element {
+const NotFound: FC = () => {
   return (
     <div className={styles.container}>
       <div className={styles['text-container']}>

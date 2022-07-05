@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -21,7 +21,7 @@ import { ICollect, IDragObj } from './burger-constructor.types';
 
 import styles from './burger-constructor.module.css';
 
-function BurgerConstructor(): JSX.Element {
+const BurgerConstructor: FC = () => {
   const { bun, topings } = useAppSelector(constructorIngredients);
   const { isAuth } = useAppSelector(userSelector);
   const dispatch = useAppDispatch();

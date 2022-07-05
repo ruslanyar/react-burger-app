@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -16,7 +16,7 @@ import styles from './burger-ingredients.module.css';
 const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
-function BurgerIngredients(): JSX.Element {
+const BurgerIngredients: FC = () => {
   const { ingredients } = useAppSelector(ingredientsSelector);
 
   const [current, setCurrent] = useState(BUN);

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import clsx from 'clsx';
 
 import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
@@ -17,7 +17,7 @@ const formatCount = (n: number): string => {
   return n.toLocaleString();
 };
 
-function BurgerFeed(): JSX.Element {
+const BurgerFeed: FC = () => {
   const dispatch = useAppDispatch();
   const { orders, total, totalToday } = useAppSelector(getOrders);
 

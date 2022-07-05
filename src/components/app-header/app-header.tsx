@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import clsx from 'clsx';
 import {
@@ -13,7 +13,7 @@ import styles from './app-header.module.css';
 const linkTextClassName: string = 'text text_type_main-default ml-2';
 const listItemClassName: string = clsx(styles['list-item'], 'mt-4', 'mb-4', 'pt-4', 'pb-4', 'pl-5', 'pr-5');
 
-function AppHeader(): JSX.Element {
+const AppHeader: FC = () => {
   return (
     <header className={styles.header}>
       <nav className={styles.menu}>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { FC, useCallback, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import Form from '../components/form/form';
@@ -8,7 +8,7 @@ import { EMAIL, PASSWORD } from '../utils/constants';
 import { signInUserThunk } from '../services/thunks';
 import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function Login(): JSX.Element {
+export const Login: FC = () => {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const dispatch = useDispatch();

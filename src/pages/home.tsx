@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
@@ -7,7 +7,7 @@ import BurgerIngredients from '../components/burger-ingredients/burger-ingredien
 
 import styles from './home.module.css';
 
-export function Home(): JSX.Element {
+export const Home: FC = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles['constructor-container']}>

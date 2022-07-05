@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
@@ -8,7 +8,7 @@ import { signOutUserThunk } from '../../services/thunks';
 
 import styles from './navbar.module.css';
 
-function Navbar(): JSX.Element {
+const Navbar: FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
 

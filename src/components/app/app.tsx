@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { FC, useCallback, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
@@ -34,7 +34,7 @@ import { ingredientsSelector } from '../../services/selectors';
 
 import { TCloseModalCallback, TLocationState } from './app.types';
 
-function App(): JSX.Element {
+const App: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation() as TLocationState;
   const navigate = useNavigate();

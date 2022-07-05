@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/form-input/form-input';
@@ -8,7 +8,7 @@ import { EMAIL, FORGOT_PASSWORD_ENDPOINT } from '../utils/constants';
 import { fetchAuth } from '../utils/api';
 import { TOnSubmitHandler } from '../components/form/form.types';
 
-export function ForgotPassword(): JSX.Element {
+export const ForgotPassword: FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   

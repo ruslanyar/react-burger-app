@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormInput from '../components/form-input/form-input';
@@ -9,7 +9,7 @@ import { fetchAuth } from '../utils/api';
 import { TOnSubmitHandler } from '../components/form/form.types';
 import { TLocationState } from '../components/protected-route/protected-route.types';
 
-export function ResetPassword(): JSX.Element {
+export const ResetPassword: FC = () => {
   const navigate = useNavigate();
   const location = useLocation() as TLocationState;
   
