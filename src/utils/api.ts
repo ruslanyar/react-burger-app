@@ -1,3 +1,4 @@
+import { ITokenResponse } from '../services/types/data';
 import {
   BASE_URL,
   ERR_MESSAGE,
@@ -37,7 +38,7 @@ export function fetchAuth(endpoint: string, body: object) {
   }).then(checkResponse);
 }
 
-function updateTokens() {
+function updateTokens(): Promise<ITokenResponse> {
   const refreshToken = localStorage.getItem('refreshToken');
   return fetchAuth(REFRESH_TOKEN_ENDPOINT, {
     token: refreshToken,
@@ -52,7 +53,7 @@ function updateTokens() {
     .catch(err => console.log(err));
 }
 
-export async function fetchWithRefresh(url: string, options: {[k: string]: any}) {
+export async function fetchWithRefresh(url: string, options: RequestInit) {
   try {
     const res = await fetch(url, options);
     return await checkResponse(res);
@@ -60,8 +61,10 @@ export async function fetchWithRefresh(url: string, options: {[k: string]: any})
     console.log(err.message);
     if (err.message === ERR_MESSAGE) {
       const refreshData = await updateTokens();
-      options.headers.Authorization = refreshData.accessToken;
-
+      options.headers = {
+        ...options.headers,
+        authorization: refreshData.accessToken,
+      }
       const res = await fetch(url, options);
       return await checkResponse(res);
     } else {
