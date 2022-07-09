@@ -19,7 +19,7 @@ export function throttle(callee: (...args: any[]) => any, timeout: number) {
 export function setCookie(
   name: string,
   value: string,
-  options: {[key: string]: number | Date | string | true} | undefined
+  options: Record<string, string | Date | boolean | number> | undefined
 ) {
   let expires = options?.expires;
 
