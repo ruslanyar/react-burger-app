@@ -9,3 +9,15 @@
 .title {
   align-self: start;
 }
+
+.nutritions {
+  display: grid;
+  row-gap: 8px;
+}
+
+.nutritions__values {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  justify-items: center;
+  column-gap: 20px;
+}
