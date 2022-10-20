@@ -1,4 +1,7 @@
-import { fetchAuth, fetchWithRefresh } from '../../utils/api';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import React from 'react';
+
+import { checkResponse, fetchAuth, fetchWithRefresh } from '../../utils/api';
 import {
   BASE_URL,
   LOGIN_ENDPOINT,
@@ -8,99 +11,97 @@ import {
 } from '../../utils/constants';
 import { getCookie, saveTokens } from '../../utils/utils';
 import {
-  getUserRequestAction,
-  getUserSuccessAction,
-  registrationUserAction,
-  signInUserAction,
-  signOutUserAction,
-  userUpdateRequestAction,
-  userUpdateSuccessAction,
-} from '../actions';
-import { AppDispatch, AppThunk } from '../types';
+  IAuthResponse,
+  ILogOut,
+  IUser,
+} from '../types/data';
 
-export const registerUser: AppThunk = (body) => {
-  return function (dispatch: AppDispatch) {
-    fetchAuth(REGISTRATION_ENDPOINT, body)
-      .then((data) => {
-        if (data.success) {
-          dispatch(registrationUserAction(data.user));
-        }
-        return data;
-      })
-      .then(saveTokens)
-      .catch((err) => console.log(err));
-  };
-}
+export const registerUser = createAsyncThunk<
+  IUser,
+  any,
+  { rejectValue: string }
+>('user/registerUser', async (body, { rejectWithValue }) => {
+  try {
+    const response = await fetchAuth(REGISTRATION_ENDPOINT, body);
+    const data: IAuthResponse = await checkResponse(response);
+    const {user, accessToken, refreshToken} = data;
+    saveTokens({ accessToken, refreshToken });
+    return user;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
 
-export const signInUserThunk: AppThunk = (body) => {
-  return function (dispatch: AppDispatch) {
-    fetchAuth(LOGIN_ENDPOINT, body)
-      .then((data) => {
-        if (data.success) {
-          dispatch(signInUserAction(data.user));
-        }
-        return data;
-      })
-      .then(saveTokens)
-      .catch((err) => console.log(err));
-  };
-}
+export const logInUser = createAsyncThunk<
+  IUser,
+  any,
+  { rejectValue: string }
+>('user/logInUser', async (body, { rejectWithValue }) => {
+  try {
+    const response = await fetchAuth(LOGIN_ENDPOINT, body);
+    const data: IAuthResponse = await checkResponse(response);
+    const {user, accessToken, refreshToken} = data;
+    saveTokens({ accessToken, refreshToken });
+    return user;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
 
-export const signOutUserThunk: AppThunk = () => {
-  const refreshToken = localStorage.getItem('refreshToken');
-  return function (dispatch: AppDispatch) {
-    fetchAuth(LOGOUT_ENDPOINT, { token: refreshToken })
-      .then((data) => {
-        if (data.success) {
-          dispatch(signOutUserAction());
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-}
+export const logOutUser = createAsyncThunk<
+  ILogOut,
+  void,
+  { rejectValue: string }
+>('user/logOutUser', async (_, { rejectWithValue }) => {
+  try {
+    const token = localStorage.getItem('refreshToken');
+    const response = await fetchAuth(LOGOUT_ENDPOINT, { token });
+    const data = await checkResponse(response);
+    return data;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
 
-export const getUserInfo: AppThunk = () => {
-  const accessToken = getCookie('token');
-  return function (dispatch: AppDispatch) {
-    dispatch(getUserRequestAction());
-    fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
+export const getUserInfo = createAsyncThunk<
+  IUser,
+  void,
+  { rejectValue: string }
+>('user/getUserInfo', async (_, { rejectWithValue }) => {
+  try {
+    const accessToken = getCookie('token');
+    const response = await fetchWithRefresh(`${BASE_URL}/${USER_ENDPOINT}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
-    })
-      .then((data) => {
-        if (data.success) {
-          dispatch(getUserSuccessAction(data.user));
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-}
+    });
+    const data = await checkResponse(response);
+    return data.user;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});
 
-export const updateUserInfoThunk: AppThunk = (body, setFn) => {
-  const accessToken = getCookie('token');
-  return function (dispatch: AppDispatch) {
-    dispatch(userUpdateRequestAction());
-    fetchWithRefresh(`${BASE_URL}${USER_ENDPOINT}`, {
+export const updateUserInfo = createAsyncThunk<
+  IUser,
+  { body: object; setFn: React.Dispatch<React.SetStateAction<boolean>> },
+  { rejectValue: string }
+>('user/updateUserInfo', async ({ body, setFn }, { rejectWithValue }) => {
+  try {
+    const accessToken = getCookie('token');
+    const response = await fetchWithRefresh(`${BASE_URL}/${USER_ENDPOINT}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(body),
-    })
-      .then((data) => {
-        if (data.success) {
-          dispatch(userUpdateSuccessAction(data.user));
-        }
-      })
-      .then(() => setFn(false))
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-}
+    });
+    const data = await checkResponse(response);
+    return data.user;
+  } catch (error: any) {
+    return rejectWithValue(error.message);
+  }
+});

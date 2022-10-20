@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -12,7 +12,7 @@ import styles from './modal.module.css';
 
 const Modal: FC<IModalProps> = ({ children, close }) => {
   const handleEscClose = useCallback(
-    (evt) => {
+    (evt: KeyboardEvent) => {
       if (evt.key === ESC_KEY) {
         close();
       }

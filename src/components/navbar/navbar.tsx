@@ -2,9 +2,8 @@ import React, { FC, useCallback } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { useAppDispatch } from '../../services/hooks/hooks';
-
-import { signOutUserThunk } from '../../services/thunks';
+import { useAppDispatch } from '../../services/hooks';
+import { logOutUser } from '../../services/thunks/user';
 
 import styles from './navbar.module.css';
 
@@ -13,7 +12,7 @@ const Navbar: FC = () => {
   const dispatch = useAppDispatch();
 
   const onClickHandler = useCallback(() => {
-    dispatch(signOutUserThunk());
+    dispatch(logOutUser());
   }, [dispatch]);
   
   return (

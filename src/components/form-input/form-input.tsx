@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { Input } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { PASSWORD, SHOW_ICON, HIDE_ICON, TEXT } from '../../utils/constants';

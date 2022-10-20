@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-import { useAppSelector } from '../../services/hooks/hooks';
+import { useAppSelector } from '../../services/hooks';
+import { selectUser } from '../../services/slices/userSlice';
 
-import { userSelector } from '../../services/selectors';
 import { IProtectedRoutProps, TLocationState } from './protected-route.types';
 
 const ProtectedRoute: FC<IProtectedRoutProps> = ({ children, anonymous = false }) => {
-  const { isAuth } = useAppSelector(userSelector);
+  const { isAuth } = useAppSelector(selectUser);
   const location = useLocation() as TLocationState;
 
   const from = location.state?.from?.pathname || '/';

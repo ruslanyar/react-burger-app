@@ -61,9 +61,10 @@ export function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function saveTokens(data: ITokenResponse) {
+export function saveTokens(data: Omit<ITokenResponse, 'success'>) {
   localStorage.setItem('refreshToken', data.refreshToken);
   const accessToken = data.accessToken.split('Bearer ')[1];
+
   if (accessToken) {
     setCookie('token', accessToken, { path: '/' });
   }

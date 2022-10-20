@@ -1,21 +1,21 @@
-import React, { FC, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppSelector } from '../../services/hooks/hooks';
+import { useAppSelector } from '../../services/hooks';
 
 import IngredientIcon from '../ingredient-icon/ingredient-icon';
 
 import { BUN } from '../../utils/constants';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
-import { ingredientsSelector } from '../../services/selectors';
 import { ICardOrderProps } from './card-order.types';
 import { IIngredient } from '../../services/types/data';
 
 import styles from './card-order.module.css';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 
 const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
-  const { ingredients } = useAppSelector(ingredientsSelector);
+  const { list } = useAppSelector(selectIngredients);
   const { name, number, ingredients: ingredIds, createdAt, status } = order;
   const orderStatus = getOrderStatus(status);
 
@@ -28,7 +28,7 @@ const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
     let price = 0;
 
     ingredIds.forEach((id) => {
-      const ingredient = ingredients.find((item: IIngredient) => item._id === id);
+      const ingredient = list.find((item: IIngredient) => item._id === id);
       if (ingredient) {
         if (urls.length < 6) {
           urls.push(ingredient.image_mobile);
@@ -46,7 +46,7 @@ const CardOrder: FC<ICardOrderProps> = ({ order, isUser }) => {
       imageUrls: urls,
       totalPrice: price,
     };
-  }, [ingredients, ingredIds]);
+  }, [list, ingredIds]);
 
   const count = useMemo(() => {
     return ingredIds.length - 6;

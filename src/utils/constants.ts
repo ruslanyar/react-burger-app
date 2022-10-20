@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://norma.nomoreparties.space/api/';
+export const BASE_URL = 'https://norma.nomoreparties.space/api';
 export const REGISTRATION_ENDPOINT = 'auth/register';
 export const LOGIN_ENDPOINT = 'auth/login';
 export const LOGOUT_ENDPOINT = 'auth/logout';
@@ -16,6 +16,7 @@ export const ESC_KEY = 'Escape';
 export const BUN = 'bun';
 export const MAIN = 'main';
 export const SAUCE = 'sauce';
+export const TOPINGS = 'topings';
 export const PASSWORD = 'password';
 export const TEXT = 'text';
 export const EMAIL = 'email';

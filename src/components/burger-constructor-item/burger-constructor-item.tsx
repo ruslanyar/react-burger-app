@@ -6,21 +6,24 @@ import {
   DragIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppDispatch } from '../../services/hooks/hooks';
+import { useAppDispatch } from '../../services/hooks';
 
-import {
-  deleteIngredientThunk,
-  sortIngredientsThunk,
-} from '../../services/thunks';
 import { IBurgerConstructorItem } from './burger-constructor-item.types';
+import {
+  deleteIngredientFromConstructor,
+  sortIngredientsInConstructor,
+} from '../../services/thunks/constructor';
 
 import styles from './burger-constructor-item.module.css';
 
-const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }) => {
+const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({
+  ingredient,
+  index,
+}) => {
   const dispatch = useAppDispatch();
   const constructorElementRef = useRef<HTMLDivElement>(null);
 
-  const [, dropRef] = useDrop<{id: number; index: number}, void, any>({
+  const [, dropRef] = useDrop<{ id: number; index: number }, void, any>({
     accept: 'constructor',
     hover(item, monitor) {
       if (!constructorElementRef.current) return;
@@ -43,7 +46,7 @@ const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }
         return;
       }
 
-      dispatch(sortIngredientsThunk(dragIndex, hoverIndex));
+      dispatch(sortIngredientsInConstructor(dragIndex, hoverIndex));
       item.index = hoverIndex;
     },
   });
@@ -62,8 +65,8 @@ const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }
   dropRef(dragRef(constructorElementRef));
 
   const handleClose = useCallback(
-    (keyId) => {
-      dispatch(deleteIngredientThunk(keyId));
+    (keyId: string) => {
+      dispatch(deleteIngredientFromConstructor(keyId));
     },
     [dispatch]
   );
@@ -74,15 +77,15 @@ const BurgerConstructorItem: FC<IBurgerConstructorItem> = ({ ingredient, index }
       className={clsx(styles['constructor__item'], 'mb-4')}
       ref={constructorElementRef}
     >
-      <DragIcon type='primary' />
+      <DragIcon type="primary" />
       <ConstructorElement
         text={ingredient.name}
         price={ingredient.price}
         thumbnail={ingredient.image}
-        handleClose={() => handleClose(ingredient.keyId)}
+        handleClose={() => handleClose(ingredient.keyId!)}
       />
     </div>
   );
-}
+};
 
 export default BurgerConstructorItem;

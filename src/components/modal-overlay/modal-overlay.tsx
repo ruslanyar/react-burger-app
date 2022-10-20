@@ -1,15 +1,15 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC } from 'react';
 
 import { IModalOverlayProps } from './modal-overlay.types';
 
 import styles from './modal-overlay.module.css';
 
 const ModalOverlay: FC<IModalOverlayProps> = ({ children, close }) => {
-  const closeHandler = useCallback((e) => {
+  const closeHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       close();
     }
-  }, [close]);
+  };
 
   return (
     <div

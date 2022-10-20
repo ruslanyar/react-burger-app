@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -31,7 +31,7 @@ const Form: FC<IFormProps> = ({
       <form className={styles.form} onSubmit={(e) => onSubmit(e, body)}>
         {children}
         <div className={clsx(styles['form__button'], 'mb-20')}>
-          <Button type="primary" size="medium">
+          <Button htmlType='submit' type="primary" size="medium">
             {buttonText}
           </Button>
         </div>

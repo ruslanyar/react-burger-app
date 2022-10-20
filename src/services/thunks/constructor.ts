@@ -1,43 +1,60 @@
-import { v4 as uuidv4 } from 'uuid';
-import { BUN } from '../../utils/constants';
-import { addIngredientAction, deleteIngredientAction, sortIngredientsAction } from '../actions';
-import { AppDispatch, AppThunk } from '../types';
-import { IIngredient } from '../types/data';
+import { v4 as uuid } from 'uuid';
 
-export const addIngredientThunk: AppThunk = (itemId) => {
-  return (dispatch: AppDispatch, getState) => {
-    const constructorIngredients = getState().burger.ingredients;
-    const item = {
-      ...getState().ingredients.ingredients.find((i: IIngredient) => i._id === itemId),
-      keyId: uuidv4(),
-    };
-    const payload = {
-      ...constructorIngredients,
-      [item.type === BUN ? item.type : 'topings']: item.type === BUN
-        ? [item]
-        : [
-            ...constructorIngredients.topings,
-            item,
-          ]
-    };
-    
-    dispatch(addIngredientAction(payload));
-  }
-};
+import { AppThunk } from '../store';
+import {
+  addIngredient,
+  deleteIngredient,
+  selectBurgerIngredients,
+  sortIngredients,
+} from '../slices/constructorSlice';
+import { selectIngredients } from '../slices/ingredientsSlice';
+import { BUN, TOPINGS } from '../../utils/constants';
 
-export const deleteIngredientThunk: AppThunk = (itemId) => {
-  return (dispatch: AppDispatch, getState) => {
-    const list = getState().burger.ingredients.topings
-      .filter((i: IIngredient) => i.keyId !== itemId);
+export const addIngredientToConstructor =
+  (id: string): AppThunk =>
+  (dispatch, getState) => {
+    const burgerIngredients = selectBurgerIngredients(getState());
+    const ingredientsList = selectIngredients(getState()).list;
+    const ingredient = ingredientsList.find((i) => i._id === id);
 
-    dispatch(deleteIngredientAction(list));
-  }
-};
+    if (ingredient) {
+      // ingredient.keyId = uuid();
+      const ingredientWithKeyId = { ...ingredient, keyId: uuid() }
+      const isBun = ingredientWithKeyId.type === BUN;
 
-export const sortIngredientsThunk: AppThunk = (dragIndex, dropIndex) => {
-  return (dispatch: AppDispatch, getState) => {
-    const sortableIngredients = getState().burger.ingredients.topings;
-    sortableIngredients.splice(dropIndex, 0, ...sortableIngredients.splice(dragIndex, 1));
-    dispatch(sortIngredientsAction(sortableIngredients));
-  }
-};
+      const newBurgerIngredients = {
+        ...burgerIngredients,
+        [isBun ? BUN : TOPINGS]: isBun
+          ? [ingredientWithKeyId]
+          : [...burgerIngredients.topings, ingredientWithKeyId],
+      };
+
+      dispatch(addIngredient(newBurgerIngredients));
+    } else {
+      console.log('Wrong ingredient id');
+    }
+  };
+
+export const deleteIngredientFromConstructor =
+  (id: string): AppThunk =>
+  (dispatch, getState) => {
+    const topingsList = selectBurgerIngredients(getState()).topings;
+    const newTopingsList = topingsList.filter((i) => i._id !== id);
+    const isEmpty = newTopingsList.length === 0;
+
+    dispatch(deleteIngredient({ newTopingsList, isEmpty }));
+  };
+
+export const sortIngredientsInConstructor =
+  (dragIndex: number, dropIndex: number): AppThunk =>
+  (dispatch, getState) => {
+    const topingsList = [...selectBurgerIngredients(getState()).topings];
+    const [dragedIngredient] = topingsList.splice(dragIndex, 1);
+    topingsList.splice(
+      dropIndex,
+      0,
+      dragedIngredient
+    );
+
+    dispatch(sortIngredients(topingsList));
+  };

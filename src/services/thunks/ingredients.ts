@@ -1,21 +1,18 @@
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import { BASE_URL, INGREDIENTS_ENDPOINT } from '../../utils/constants';
-import { checkResponse } from '../../utils/api';
-import {
-  getIngredientsFailedAction,
-  getIngredientsRequestAction,
-  getIngredientsSuccessAction,
-} from '../actions';
-import { AppDispatch, AppThunk } from '../types';
 
-export const getIngredients: AppThunk = () => {
-  return function (dispatch: AppDispatch) {
-    dispatch(getIngredientsRequestAction());
-    fetch(`${BASE_URL}${INGREDIENTS_ENDPOINT}`)
-      .then(checkResponse)
-      .then((json) => dispatch(getIngredientsSuccessAction(json.data)))
-      .catch((err) => {
-        console.log(err);
-        dispatch(getIngredientsFailedAction());
-      });
-  };
-}
+import { IIngredient, TIngredientsResponse } from '../types/data';
+
+export const getIngredients = createAsyncThunk<IIngredient[], void, { rejectValue: string }>(
+  'ingredients/getIngredients',
+  async (_, { rejectWithValue }) => {
+    const response = await fetch(`${BASE_URL}/${INGREDIENTS_ENDPOINT}`);
+    const jsonData: TIngredientsResponse = await response.json();
+
+    if (!jsonData.success) {
+      return rejectWithValue('Server Error!');
+    }
+
+    return jsonData.data;
+  }
+);

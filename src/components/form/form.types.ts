@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import { FormEvent, ReactNode } from 'react';
 
 type TFormTitle = 'Регистрация' | 'Вход' | 'Восстановление пароля' | 'Восстановление пароля';
 type TFormBodyKey = 'name' | 'password' | 'email' | 'token';
@@ -17,4 +17,5 @@ export interface IFormProps {
   link: '/login' | '/register';
   linkText: 'Войти' | 'Зарегистрироваться';
   isLoginPage?: boolean;
+  children: ReactNode;
 }

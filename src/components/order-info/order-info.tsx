@@ -1,19 +1,20 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useMatch, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 
 import OrderInfoItem from '../order-info-item/order-info-item';
 import Loader from '../../ui/loader/Loader';
 
-import { getOrders, getUserOrders, ingredientsSelector } from '../../services/selectors';
-import { wsAuthCloseAction, wsAuthConnectionStartAction, wsCloseAction, wsConnectionStartAction } from '../../services/actions';
+import { selectWsOrders, wsClose, wsStart } from '../../services/slices/wsSlice';
+import { selectWsAuthOrders, wsAuthClose, wsAuthStart } from '../../services/slices/wsAuthSlice';
 import { formatOrderNumber, getOrderStatus, getTimeStampString } from '../../utils/utils';
 import { BUN } from '../../utils/constants';
 import { IIngredient, IOrder } from '../../services/types/data';
 import { IIngredientWithCount, IOrderInfoProps } from './order-info.types';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 
 import styles from './order-info.module.css';
 
@@ -21,22 +22,22 @@ const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
   const dispatch = useAppDispatch();
   const { id } = useParams();
   const match = useMatch(`/feed/${id}`);
-  const selector = match ? getOrders : getUserOrders;
+  const selector = match ? selectWsOrders : selectWsAuthOrders;
   const { orders } = useAppSelector(selector);
-  const { ingredients } = useAppSelector(ingredientsSelector);
+  const { list } = useAppSelector(selectIngredients);
 
   useEffect(() => {
     if (match) {
-      dispatch(wsConnectionStartAction());
+      dispatch(wsStart());
     } else {
-      dispatch(wsAuthConnectionStartAction());
+      dispatch(wsAuthStart());
     }
 
     return () => {
       if (match) {
-        dispatch(wsCloseAction());
+        dispatch(wsClose());
       } else {
-        dispatch(wsAuthCloseAction());
+        dispatch(wsAuthClose());
       }
     };
   }, [dispatch, match]);
@@ -49,7 +50,7 @@ const OrderInfo: FC<IOrderInfoProps> = ({ isModal = false }) => {
   const orderStatus = getOrderStatus(status);
 
   const orderIngredients = ingredIds.reduce<{[k: string]: IIngredientWithCount}>((acc, current) => {
-    const ingredient: IIngredient = ingredients.find((item: IIngredient) => item._id === current)!;
+    const ingredient: IIngredient = list.find((item: IIngredient) => item._id === current)!;
     if (!acc[current]) {
       ingredient.type === BUN
         ? acc[current] = { ...ingredient, count: 2 }
