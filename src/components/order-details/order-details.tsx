@@ -1,16 +1,16 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { CheckMarkIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppSelector } from '../../services/hooks/hooks';
+import { useAppSelector } from '../../services/hooks';
 
 import Loader from '../../ui/loader/Loader';
 
-import { orderDetailsSelector } from '../../services/selectors';
+import { selectOrder } from '../../services/slices/orderSlice';
 
 import styles from './order-details.module.css'
 
 const OrderDetails: FC = () => {
-  const { order, request, failed, isEmpty } = useAppSelector(orderDetailsSelector);
+  const { order, request, failed, isEmpty } = useAppSelector(selectOrder);
   let number;
   if (order) {
     number = order.number;
@@ -18,7 +18,7 @@ const OrderDetails: FC = () => {
 
   return (
     <div className={styles.order}>
-      {isEmpty && (
+      {isEmpty && !request && (
         <p className='text text_type_main-default'>
           Для заказа необходимо выбрать ингредиенты
         </p>

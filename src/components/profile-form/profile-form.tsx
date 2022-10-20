@@ -11,17 +11,16 @@ import {
   Input,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 
 import { PASSWORD, TEXT } from '../../utils/constants';
-import { updateUserInfoThunk } from '../../services/thunks/user';
-import { getUserInfo } from '../../services/thunks';
-import { userSelector } from '../../services/selectors';
 
 import styles from './profile-form.module.css';
+import { selectUser } from '../../services/slices/userSlice';
+import { getUserInfo, updateUserInfo } from '../../services/thunks/user';
 
 const ProfileForm: FC = () => {
-  const { user } = useAppSelector(userSelector);
+  const { user } = useAppSelector(selectUser);
   let name = '';
   let email = '';
   if (user) {
@@ -56,22 +55,32 @@ const ProfileForm: FC = () => {
   const loginInputRef = useRef(null);
   const passInputRef = useRef(null);
 
-  const onChangeHandler = useCallback((e, setFn) => {
-    setFn(e.target.value);
-    setIsChange(true);
-  }, []);
+  const onChangeHandler = useCallback(
+    (
+      e: React.ChangeEvent<HTMLInputElement>,
+      setFn: React.Dispatch<React.SetStateAction<string>>
+    ) => {
+      setFn(e.target.value);
+      setIsChange(true);
+    },
+    []
+  );
 
-  const onBlurHandler = useCallback((e) => {
+  const onBlurHandler = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
     e.target.disabled = true;
   }, []);
 
-  const onIconClickHandler = useCallback((ref) => {
-    ref.current.disabled = false;
-    ref.current.focus();
-  }, []);
+  const onIconClickHandler = useCallback(
+    (ref: React.MutableRefObject<HTMLInputElement> | React.MutableRefObject<null>) => {
+      if (!ref.current) return;
+      ref.current.disabled = false;
+      ref.current.focus();
+    },
+    []
+  );
 
   const passOnIconClickHandler = useCallback(
-    (ref) => {
+    (ref: React.MutableRefObject<HTMLInputElement> | React.MutableRefObject<null>) => {
       onIconClickHandler(ref);
       setPassInputType(TEXT);
     },
@@ -79,7 +88,7 @@ const ProfileForm: FC = () => {
   );
 
   const passOnBlurHandler = useCallback(
-    (e) => {
+    (e: React.FocusEvent<HTMLInputElement>) => {
       onBlurHandler(e);
       setPassInputType(PASSWORD);
     },
@@ -87,15 +96,15 @@ const ProfileForm: FC = () => {
   );
 
   const submitHandler = useCallback(
-    (e) => {
+    (e: React.FormEvent) => {
       e.preventDefault();
-      dispatch(updateUserInfoThunk(body, setIsChange));
+      dispatch(updateUserInfo({ body, setFn: setIsChange }));
     },
     [dispatch, body]
   );
 
   const cancelHandler = useCallback(
-    (e) => {
+    (e: React.SyntheticEvent<Element, Event>) => {
       e.preventDefault();
       setNameValue(name);
       setLoginValue(email);
@@ -117,7 +126,7 @@ const ProfileForm: FC = () => {
           value={nameValue}
           onChange={(e) => onChangeHandler(e, setNameValue)}
           onIconClick={() => onIconClickHandler(nameInputRef)}
-          onBlur={(e) => onBlurHandler(e)}
+          onBlur={(e) => onBlurHandler(e!)}
           disabled
         />
       </div>
@@ -131,7 +140,7 @@ const ProfileForm: FC = () => {
           value={loginValue}
           onChange={(e) => onChangeHandler(e, setLoginValue)}
           onIconClick={() => onIconClickHandler(loginInputRef)}
-          onBlur={(e) => onBlurHandler(e)}
+          onBlur={(e) => onBlurHandler(e!)}
           disabled
         />
       </div>
@@ -145,20 +154,20 @@ const ProfileForm: FC = () => {
           value={passwordValue}
           onChange={(e) => onChangeHandler(e, setPasswordValue)}
           onIconClick={() => passOnIconClickHandler(passInputRef)}
-          onBlur={(e) => passOnBlurHandler(e)}
+          onBlur={(e) => passOnBlurHandler(e!)}
           disabled
         />
       </div>
       {isChange && (
         <div className={styles['button-container']}>
-          <Button type="secondary" onClick={(e) => cancelHandler(e)}>
+          <Button htmlType='button' type="secondary" onClick={(e) => cancelHandler(e)}>
             Отмена
           </Button>
-          <Button type="primary">Сохранить</Button>
+          <Button htmlType='submit' type="primary">Сохранить</Button>
         </div>
       )}
     </form>
   );
-}
+};
 
 export default ProfileForm;

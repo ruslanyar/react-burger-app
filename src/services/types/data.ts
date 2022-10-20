@@ -11,7 +11,7 @@ export interface IIngredient {
   readonly image_mobile: string;
   readonly image_large: string;
   readonly __v: number;
-  keyId?: number;
+  keyId?: string;
 }
 
 export type TIngredientsResponse = {
@@ -44,6 +44,10 @@ interface ISuccess {
 export interface IUser {
   readonly name: string;
   readonly email: string;
+}
+
+export interface IUserInfoResponse extends ISuccess {
+  readonly user: IUser;
 }
 
 export interface ITokenResponse extends ISuccess {

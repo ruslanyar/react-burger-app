@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import FormInput from '../../components/form-input/form-input';
@@ -28,6 +28,7 @@ export const ResetPassword: FC = () => {
     e.preventDefault();
 
     fetchAuth(RESET_PASSWORD_ENDPOINT, body)
+      .then(res => res.json())
       .then((data) => {
         if (data.success) {
           navigate('/login', { replace: true });

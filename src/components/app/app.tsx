@@ -1,7 +1,7 @@
-import React, { FC, useCallback, useEffect } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 
 import {
   Layout,
@@ -26,13 +26,12 @@ import OrderDetails from '../order-details/order-details';
 import OrderInfo from '../order-info/order-info';
 import NotFound from '../not-found/not-found';
 
-import { closeOrderDetailsAction } from '../../services/actions';
-import { clearConstructorAction } from '../../services/actions';
-import { getUserInfo } from '../../services/thunks';
-import { getIngredients } from '../../services/thunks';
-import { ingredientsSelector } from '../../services/selectors';
-
 import { TCloseModalCallback, TLocationState } from './app.types';
+import { getIngredients } from '../../services/thunks/ingredients';
+import { getUserInfo } from '../../services/thunks/user';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
+import { clearConstructor } from '../../services/slices/constructorSlice';
+import { clearOrderDetails } from '../../services/slices/orderSlice';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
@@ -52,7 +51,7 @@ const App: FC = () => {
     }
   }, [background]);
 
-  const { request, failed }: { request: boolean; failed: boolean } = useAppSelector(ingredientsSelector);
+  const { request, failed }: { request: boolean; failed: boolean } = useAppSelector(selectIngredients);
 
   const closeModalHandler = useCallback<TCloseModalCallback>(() => {
     navigate(-1);
@@ -60,8 +59,8 @@ const App: FC = () => {
 
   const closeOrderHandler = useCallback<TCloseModalCallback>(() => {
     closeModalHandler();
-    dispatch(closeOrderDetailsAction());
-    dispatch(clearConstructorAction());
+    dispatch(clearOrderDetails());
+    dispatch(clearConstructor());
   }, [dispatch, closeModalHandler]);
 
   if (request) return <Loader />;

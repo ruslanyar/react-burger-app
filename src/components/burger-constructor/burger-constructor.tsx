@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useDrop } from 'react-dnd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
@@ -8,22 +8,24 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 
 import BurgerConstructorItem from '../burger-constructor-item/burger-constructor-item';
 
-import { sendOrder } from '../../services/thunks';
 import { getCookie } from '../../utils/utils';
-import { addIngredientThunk } from '../../services/thunks';
-import { constructorIngredients, userSelector } from '../../services/selectors';
 import { IIngredient } from '../../services/types/data';
 import { ICollect, IDragObj } from './burger-constructor.types';
+import { selectBurgerIngredients } from '../../services/slices/constructorSlice';
+import { selectUser } from '../../services/slices/userSlice';
+import { addIngredientToConstructor } from '../../services/thunks/constructor';
+import { sendOrderAsyncThunk } from '../../services/thunks/order';
+import { emptyOrder } from '../../services/slices/orderSlice';
 
 import styles from './burger-constructor.module.css';
 
 const BurgerConstructor: FC = () => {
-  const { bun, topings } = useAppSelector(constructorIngredients);
-  const { isAuth } = useAppSelector(userSelector);
+  const { bun, topings } = useAppSelector(selectBurgerIngredients);
+  const { isAuth } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,7 +37,7 @@ const BurgerConstructor: FC = () => {
   >({
     accept: 'ingredient',
     drop({ id }) {
-      dispatch(addIngredientThunk(id));
+      dispatch(addIngredientToConstructor(id));
     },
     collect: (monitor) => ({
       isHover: monitor.isOver(),
@@ -59,11 +61,15 @@ const BurgerConstructor: FC = () => {
         ...bun.map((item: IIngredient) => item._id),
         ...topings.map((item: IIngredient) => item._id),
       ];
-      dispatch(sendOrder(ids, accessToken));
+      if (!ids.length) {
+        dispatch(emptyOrder());
+      } else {
+        dispatch(sendOrderAsyncThunk({ ids, accessToken }));
+      }
     } else {
       navigate('/login');
     }
-  }, [bun, topings, dispatch, isAuth, navigate]);
+  }, [isAuth, bun, topings, dispatch, navigate]);
 
   const isActive = canDrop && isHover;
   const dropStyle = isActive ? styles.isActive : canDrop ? styles.canDrop : '';
@@ -122,7 +128,7 @@ const BurgerConstructor: FC = () => {
           state={{ background: location }}
           onClick={onClickHandler}
         >
-          <Button type="primary" size="large">
+          <Button htmlType='button' type="primary" size="large">
             Оформить заказ
           </Button>
         </Link>

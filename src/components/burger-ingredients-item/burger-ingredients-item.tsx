@@ -7,18 +7,18 @@ import {
   CurrencyIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppSelector } from '../../services/hooks/hooks';
+import { useAppSelector } from '../../services/hooks';
 
-import { constructorIngredients } from '../../services/selectors';
 import { IBurgerIngredientsProps } from './burger-ingredients-item.types';
 import { IIngredient } from '../../services/types/data';
+import { selectBurgerIngredients } from '../../services/slices/constructorSlice';
 
 import styles from './burger-ingredients-item.module.css';
 
 const BurgerIngredientsItem: FC<IBurgerIngredientsProps> = ({ ingredient }) => {
   const location = useLocation();
 
-  const { bun, topings } = useAppSelector(constructorIngredients);
+  const { bun, topings } = useAppSelector(selectBurgerIngredients);
 
   const [{ isDragging }, dragRef] = useDrag(
     {

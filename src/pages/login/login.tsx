@@ -1,17 +1,17 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC, useCallback, useMemo, useState } from 'react';
 
 import Form from '../../components/form/form';
 import FormInput from '../../components/form-input/form-input';
 
 import { EMAIL, PASSWORD } from '../../utils/constants';
-import { signInUserThunk } from '../../services/thunks';
 import { TOnSubmitHandler } from '../../components/form/form.types';
+import { logInUser } from '../../services/thunks/user';
+import { useAppDispatch } from '../../services/hooks';
 
 export const Login: FC = () => {
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const body = useMemo(() => ({
     email: emailValue,
@@ -20,7 +20,7 @@ export const Login: FC = () => {
 
   const onSubmitHandler: TOnSubmitHandler = useCallback((e, body) => {
     e.preventDefault();
-    dispatch(signInUserThunk(body));
+    dispatch(logInUser(body));
   }, [dispatch]);
 
   return (

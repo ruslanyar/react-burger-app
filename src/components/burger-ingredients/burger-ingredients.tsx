@@ -1,15 +1,15 @@
-import React, { FC, useCallback, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import { useAppSelector } from '../../services/hooks/hooks';
+import { useAppSelector } from '../../services/hooks';
 
 import BurgerIngredientsItem from '../burger-ingredients-item/burger-ingredients-item';
 
 import { throttle } from '../../utils/utils';
 import { BUN, MAIN, SAUCE } from '../../utils/constants';
-import { ingredientsSelector } from '../../services/selectors';
 import { IIngredient } from '../../services/types/data';
+import { selectIngredients } from '../../services/slices/ingredientsSlice';
 
 import styles from './burger-ingredients.module.css';
 
@@ -17,7 +17,7 @@ const listStyle = clsx(styles.list, 'pl-4', 'pr-4');
 const titleStyle = clsx('text', 'text_type_main-medium', 'mb-6');
 
 const BurgerIngredients: FC = () => {
-  const { ingredients } = useAppSelector(ingredientsSelector);
+  const { list } = useAppSelector(selectIngredients);
 
   const [current, setCurrent] = useState(BUN);
 
@@ -52,23 +52,24 @@ const BurgerIngredients: FC = () => {
   const throttledOnScrollHandler = throttle(onScrollHandler, 50);
 
   const buns = useMemo(
-    () => ingredients.filter((item: IIngredient) => item.type === BUN),
-    [ingredients]
+    () => list.filter((item: IIngredient) => item.type === BUN),
+    [list]
   );
 
   const sauces = useMemo(
-    () => ingredients.filter((item: IIngredient) => item.type === SAUCE),
-    [ingredients]
+    () => list.filter((item: IIngredient) => item.type === SAUCE),
+    [list]
   );
 
   const main = useMemo(
-    () => ingredients.filter((item: IIngredient) => item.type === MAIN),
-    [ingredients]
+    () => list.filter((item: IIngredient) => item.type === MAIN),
+    [list]
   );
 
-  const scrollIntoView = useCallback((element) => {
+  const scrollIntoView = (element: HTMLHeadElement | null) => {
+    if (!element) return;
     element.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  };
 
   return (
     <section className="mb-10 pt-10">

@@ -1,13 +1,12 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import clsx from 'clsx';
 
-import { useAppDispatch, useAppSelector } from '../../services/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../services/hooks';
 
 import OrdersList from '../orders-list/orders-list';
 import Loader from '../../ui/loader/Loader';
 
-import { getOrders } from '../../services/selectors';
-import { wsCloseAction, wsConnectionStartAction } from '../../services/actions';
+import { selectWsOrders, wsClose, wsStart } from '../../services/slices/wsSlice';
 import { formatOrderNumber } from '../../utils/utils';
 import { IOrder } from '../../services/types/data';
 
@@ -19,7 +18,7 @@ const formatCount = (n: number): string => {
 
 const BurgerFeed: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, total, totalToday } = useAppSelector(getOrders);
+  const { orders, total, totalToday } = useAppSelector(selectWsOrders);
 
   const doneOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
@@ -32,21 +31,21 @@ const BurgerFeed: FC = () => {
 
   const inWorkOrdersNumbers = useMemo<number[] | null>(() => {
     return orders
-      ? orders
-          .filter((order: IOrder) => order.status !== 'done')
-          .map((order: IOrder) => order.number)
-          .slice(0, 10)
-      : null;
+    ? orders
+    .filter((order: IOrder) => order.status !== 'done')
+    .map((order: IOrder) => order.number)
+    .slice(0, 10)
+    : null;
   }, [orders]);
-
+  
   useEffect(() => {
-    dispatch(wsConnectionStartAction());
-
+    dispatch(wsStart());
+    
     return () => {
-      dispatch(wsCloseAction());
+      dispatch(wsClose());
     };
   }, [dispatch]);
-
+  
   if (!orders) return <Loader />;
 
   return (

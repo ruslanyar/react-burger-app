@@ -1,18 +1,18 @@
-import React, { FC, useCallback, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { FC, useCallback, useMemo, useState } from 'react';
 
 import Form from '../../components/form/form';
 import FormInput from '../../components/form-input/form-input';
 
 import { EMAIL, PASSWORD, TEXT } from '../../utils/constants';
-import { registerUser } from '../../services/thunks';
 import { TOnSubmitHandler } from '../../components/form/form.types';
+import { registerUser } from '../../services/thunks/user';
+import { useAppDispatch } from '../../services/hooks';
 
 export const Register: FC = () => {
   const [nameValue, setNameValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const body = useMemo(() => ({
     email: emailValue,
