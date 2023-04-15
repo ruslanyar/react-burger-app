@@ -18,8 +18,7 @@ export const addIngredientToConstructor =
     const ingredient = ingredientsList.find((i) => i._id === id);
 
     if (ingredient) {
-      // ingredient.keyId = uuid();
-      const ingredientWithKeyId = { ...ingredient, keyId: uuid() }
+      const ingredientWithKeyId = { ...ingredient, keyId: uuid() };
       const isBun = ingredientWithKeyId.type === BUN;
 
       const newBurgerIngredients = {
@@ -39,7 +38,7 @@ export const deleteIngredientFromConstructor =
   (id: string): AppThunk =>
   (dispatch, getState) => {
     const topingsList = selectBurgerIngredients(getState()).topings;
-    const newTopingsList = topingsList.filter((i) => i._id !== id);
+    const newTopingsList = topingsList.filter((i) => i.keyId !== id);
     const isEmpty = newTopingsList.length === 0;
 
     dispatch(deleteIngredient({ newTopingsList, isEmpty }));
@@ -50,11 +49,7 @@ export const sortIngredientsInConstructor =
   (dispatch, getState) => {
     const topingsList = [...selectBurgerIngredients(getState()).topings];
     const [dragedIngredient] = topingsList.splice(dragIndex, 1);
-    topingsList.splice(
-      dropIndex,
-      0,
-      dragedIngredient
-    );
+    topingsList.splice(dropIndex, 0, dragedIngredient);
 
     dispatch(sortIngredients(topingsList));
   };
