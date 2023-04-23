@@ -19,7 +19,7 @@ export function orderFetch(ids: string[], token: string) {
   return fetch(`${BASE_URL}/${ORDERS_ENDPOINT}`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json;charset=utf-8',
       Authorization: token,
     },
     body: JSON.stringify({
@@ -43,15 +43,15 @@ function updateTokens(): Promise<ITokenResponse> {
   return fetchAuth(REFRESH_TOKEN_ENDPOINT, {
     token: refreshToken,
   })
-    .then(res => res.json())
-    .then(data => {
+    .then((res) => res.json())
+    .then((data) => {
       if (!data.success) {
         return Promise.reject(data);
       }
       saveTokens(data);
       return data;
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 }
 
 export async function fetchWithRefresh(url: string, options: RequestInit) {
@@ -59,18 +59,18 @@ export async function fetchWithRefresh(url: string, options: RequestInit) {
     const res = await fetch(url, options);
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err.message)
+      throw new Error(err.message);
     }
     return res;
   } catch (err: any) {
     console.log(err.message);
     if (err.message === ERR_MESSAGE) {
-    console.log('2');
-    const refreshData = await updateTokens();
+      console.log('2');
+      const refreshData = await updateTokens();
       options.headers = {
         ...options.headers,
         authorization: refreshData.accessToken,
-      }
+      };
       const res = await fetch(url, options);
       return res;
     } else {

@@ -42,4 +42,4 @@
 - <img src="https://img.shields.io/badge/React Router-403A3A?style=plastic&logo=react router"/>
 ---
 
-[Страница](https://ruslanyar.github.io/react-burger-app/#/) на GitHub Pages
+[Ссылка](https://react-burger-ruslanyar.vercel.app) на проект
